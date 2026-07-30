@@ -6,5 +6,7 @@ namespace DataManagement.Application.Interfaces
     {
         Task<IEnumerable<AddObjectOfSaleInPurchasePayment>> AddObjectOfSaleInPurchasePaymentAsync();
         Task<IEnumerable<AddObjectOfSaleInContract>> AddObjectOfSaleInContractAsync();
+        Task<IEnumerable<AddObjectOfSaleInPurchaseInvoice>> AddObjectOfSaleInPurchaseInvoiceAsync();
+
     }
 }

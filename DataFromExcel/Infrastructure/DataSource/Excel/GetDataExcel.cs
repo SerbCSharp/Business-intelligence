@@ -45,7 +45,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                 DocumentId = row.Field<string>("DocumentId"),
                 ContractId = row.Field<string>("ContractId"),
                 Property = row.Field<string>("Property"),
-                CostItem = row.Field<string>("CostItem"),
+                CostItem = row.Field<string>("CostItem")
             });
         }
 
@@ -58,7 +58,10 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
 
             for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
             {
-                dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
+                if (sheet.Cells[1, i].Value.ToString() == "Amount")
+                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                else
+                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
             }
 
             for (int i = 2; i <= sheet.Dimension.End.Row; i++)
@@ -76,6 +79,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                 ContractId = row.Field<string>("ContractId"),
                 Property = row.Field<string>("Property"),
                 CostItem = row.Field<string>("CostItem"),
+                Amount = row.Field<decimal>("Amount")
             });
         }
     }
