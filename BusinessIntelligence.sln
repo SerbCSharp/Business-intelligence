@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagement", "DataManagement\DataManagement.csproj", "{384B55EE-6793-4FF5-BB92-67BB5A097067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostVsValueReport", "CostVsValueReport\CostVsValueReport.csproj", "{6F78158E-5253-4432-9913-0B251704E6CA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +35,6 @@ Global
 		{384B55EE-6793-4FF5-BB92-67BB5A097067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{384B55EE-6793-4FF5-BB92-67BB5A097067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{384B55EE-6793-4FF5-BB92-67BB5A097067}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F78158E-5253-4432-9913-0B251704E6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F78158E-5253-4432-9913-0B251704E6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F78158E-5253-4432-9913-0B251704E6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F78158E-5253-4432-9913-0B251704E6CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
