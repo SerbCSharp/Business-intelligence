@@ -11,7 +11,7 @@ builder.Services.AddTransient<IDbConnection>((provider) => new SqlConnection(bui
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGetData, MSSqlRepository>();
-builder.Services.AddScoped<ProcurementPriceService>();
+builder.Services.AddScoped<ReportsService>();
 builder.Services.AddScoped<ExportingReportsToExcel>();
 var app = builder.Build();
 

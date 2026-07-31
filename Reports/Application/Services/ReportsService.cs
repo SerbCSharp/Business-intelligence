@@ -3,7 +3,7 @@ using Reports.Domain;
 
 namespace Reports.Application.Services
 {
-    public class ProcurementPriceService(IGetData getData)
+    public class ReportsService(IGetData getData)
     {
         private readonly IGetData _getData = getData;
 
