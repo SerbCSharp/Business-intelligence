@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProcurementPriceDynamics.Application.Services;
-using ProcurementPriceDynamics.Presentation.ReportsToExcel;
+using Reports.Application.Services;
+using Reports.Presentation.ReportsToExcel;
 
-namespace ProcurementPriceDynamics.Presentation.Controllers
+namespace Reports.Presentation.Controllers
 {
 
     [ApiController]

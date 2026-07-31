@@ -1,4 +1,4 @@
-﻿namespace ProcurementPriceDynamics.Domain
+﻿namespace Reports.Domain
 {
     public class ProcurementPrice
     {

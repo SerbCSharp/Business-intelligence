@@ -2,7 +2,7 @@
 using OfficeOpenXml.Style;
 using System.Reflection;
 
-namespace ProcurementPriceDynamics.Presentation.ReportsToExcel
+namespace Reports.Presentation.ReportsToExcel
 {
     public class ExportingReportsToExcel
     {

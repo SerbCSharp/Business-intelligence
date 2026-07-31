@@ -1,9 +1,9 @@
 ﻿using Dapper;
-using ProcurementPriceDynamics.Application.Interfaces;
-using ProcurementPriceDynamics.Domain;
+using Reports.Application.Interfaces;
+using Reports.Domain;
 using System.Data;
 
-namespace ProcurementPriceDynamics.Infrastructure.Repositories.MSSql
+namespace Reports.Infrastructure.Repositories.MSSql
 {
     public class MSSqlRepository(IDbConnection dbConnection) : IGetData
     {

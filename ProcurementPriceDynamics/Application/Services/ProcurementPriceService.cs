@@ -1,7 +1,7 @@
-﻿using ProcurementPriceDynamics.Application.Interfaces;
-using ProcurementPriceDynamics.Domain;
+﻿using Reports.Application.Interfaces;
+using Reports.Domain;
 
-namespace ProcurementPriceDynamics.Application.Services
+namespace Reports.Application.Services
 {
     public class ProcurementPriceService(IGetData getData)
     {

@@ -1,6 +1,6 @@
-﻿using ProcurementPriceDynamics.Domain;
+﻿using Reports.Domain;
 
-namespace ProcurementPriceDynamics.Application.Interfaces
+namespace Reports.Application.Interfaces
 {
     public interface IGetData
     {

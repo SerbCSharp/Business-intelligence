@@ -1,8 +1,8 @@
 using Microsoft.Data.SqlClient;
-using ProcurementPriceDynamics.Application.Interfaces;
-using ProcurementPriceDynamics.Application.Services;
-using ProcurementPriceDynamics.Infrastructure.Repositories.MSSql;
-using ProcurementPriceDynamics.Presentation.ReportsToExcel;
+using Reports.Application.Interfaces;
+using Reports.Application.Services;
+using Reports.Infrastructure.Repositories.MSSql;
+using Reports.Presentation.ReportsToExcel;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
