@@ -8,17 +8,24 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
     {
         private readonly ObjectOfSaleContext _dataContext = dataContext;
 
-        public async Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayments)
+        public async Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ObjectOfSaleInPurchasePayments");
-            await _dataContext.ObjectOfSaleInPurchasePayments.AddRangeAsync(objectOfSaleInPurchasePayments);
+            await _dataContext.ObjectOfSaleInPurchasePayments.AddRangeAsync(objectOfSaleInPurchasePayment);
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContracts)
+        public async Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ObjectOfSaleInContracts");
-            await _dataContext.ObjectOfSaleInContracts.AddRangeAsync(objectOfSaleInContracts);
+            await _dataContext.ObjectOfSaleInContracts.AddRangeAsync(objectOfSaleInContract);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task ObjectOfSaleInPurchaseInvoiceAsync(IEnumerable<ObjectOfSaleInPurchaseInvoice> оbjectOfSaleInPurchaseInvoice)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ObjectOfSaleInPurchaseInvoices");
+            await _dataContext.ObjectOfSaleInPurchaseInvoices.AddRangeAsync(оbjectOfSaleInPurchaseInvoice);
             await _dataContext.SaveChangesAsync();
         }
     }

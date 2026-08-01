@@ -4,7 +4,8 @@ namespace DataFromExcel.Application.Interfaces
 {
     public interface ISaveData
     {
-        Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayments);
-        Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContracts);
+        Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment);
+        Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract);
+        Task ObjectOfSaleInPurchaseInvoiceAsync(IEnumerable<ObjectOfSaleInPurchaseInvoice> objectOfSaleInPurchaseInvoice);
     }
 }

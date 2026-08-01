@@ -7,5 +7,6 @@ namespace DataFromExcel.Infrastructure.Repositories
     {
         public DbSet<ObjectOfSaleInPurchasePayment> ObjectOfSaleInPurchasePayments { get; set; }
         public DbSet<ObjectOfSaleInContract> ObjectOfSaleInContracts { get; set; }
+        public DbSet<ObjectOfSaleInPurchaseInvoice> ObjectOfSaleInPurchaseInvoices { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using DataFromExcel.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(ObjectOfSaleContext))]
-    partial class ObjectOfSaleContextModelSnapshot : ModelSnapshot
+    [Migration("20260731101558_AddObjectOfSaleInPurchaseInvoices")]
+    partial class AddObjectOfSaleInPurchaseInvoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +48,6 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("DocumentId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ComplexProperty")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ContractId")
                         .HasColumnType("nvarchar(max)");
 
@@ -66,9 +66,6 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                 {
                     b.Property<string>("DocumentId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ComplexProperty")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContractId")
                         .HasColumnType("nvarchar(max)");

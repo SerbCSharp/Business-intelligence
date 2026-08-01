@@ -18,5 +18,11 @@ namespace DataFromExcel.Application.Services
             var getObjectOfSaleInContract = _getData.ObjectOfSaleInContract();
             await _saveData.ObjectOfSaleInContractAsync(getObjectOfSaleInContract);
         }
+
+        public async Task ObjectOfSaleInPurchaseInvoiceAsync()
+        {
+            var getObjectOfSaleInPurchaseInvoice = _getData.ObjectOfSaleInPurchaseInvoice();
+            await _saveData.ObjectOfSaleInPurchaseInvoiceAsync(getObjectOfSaleInPurchaseInvoice);
+        }
     }
 }

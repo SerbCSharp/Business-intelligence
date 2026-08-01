@@ -13,6 +13,7 @@ namespace DataFromExcel.Presentation.Controllers
         {
             await _updateDataService.ObjectOfSaleInPurchasePaymentAsync();
             await _updateDataService.ObjectOfSaleInContractAsync();
+            await _updateDataService.ObjectOfSaleInPurchaseInvoiceAsync();
             return NoContent();
         }
     }

@@ -5,5 +5,6 @@ namespace Reports.Application.Interfaces
     public interface IGetData
     {
         Task<IEnumerable<ProcurementPrice>> ProcurementPriceAsync();
+        Task<IEnumerable<CostVsValue>> CostVsValueAsync();
     }
 }

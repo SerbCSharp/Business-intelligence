@@ -60,7 +60,8 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                             "LEFT JOIN Warehouses ON PurchaseInvoices.WarehouseId = Warehouses.WarehouseId " +
                             "LEFT JOIN ObjectOfSaleInContracts ON PurchaseInvoices.ContractId = ObjectOfSaleInContracts.ContractId " +
                             "LEFT JOIN ObjectOfSaleInPurchasePayments ON PurchaseInvoices.ContractId = ObjectOfSaleInPurchasePayments.ContractId) " +
-                         "SELECT* FROM AllProperty WHERE RowNum = 1";
+                         "SELECT* FROM AllProperty WHERE RowNum = 1 AND " +
+                         "NOT EXISTS ( SELECT * FROM ObjectOfSaleInPurchaseInvoices WHERE ObjectOfSaleInPurchaseInvoices.DocumentId = AllProperty.DocumentId)";
 
             return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchaseInvoice>(sql);
         }
