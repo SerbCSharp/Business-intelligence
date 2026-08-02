@@ -21,5 +21,10 @@ namespace Reports.Application.Services
         {
             return await _getData.ConstructionCostAsync();
         }
+
+        public async Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync()
+        {
+            return await _getData.CostPerSquareMeterAsync();
+        }
     }
 }

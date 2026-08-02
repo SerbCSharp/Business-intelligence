@@ -24,5 +24,11 @@ namespace DataFromExcel.Application.Services
             var getObjectOfSaleInPurchaseInvoice = _getData.ObjectOfSaleInPurchaseInvoice();
             await _saveData.ObjectOfSaleInPurchaseInvoiceAsync(getObjectOfSaleInPurchaseInvoice);
         }
+
+        public async Task TotalFloorAreaAsync()
+        {
+            var getTotalFloorArea = _getData.TotalFloorArea();
+            await _saveData.TotalFloorAreaAsync(getTotalFloorArea);
+        }
     }
 }

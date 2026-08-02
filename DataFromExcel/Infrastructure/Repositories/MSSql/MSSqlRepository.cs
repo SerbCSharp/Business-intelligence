@@ -28,5 +28,12 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
             await _dataContext.ObjectOfSaleInPurchaseInvoices.AddRangeAsync(оbjectOfSaleInPurchaseInvoice);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorAreas)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE TotalFloorAreas");
+            await _dataContext.TotalFloorAreas.AddRangeAsync(totalFloorAreas);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

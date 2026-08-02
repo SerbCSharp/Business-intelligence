@@ -80,5 +80,17 @@ namespace Reports.Infrastructure.Repositories.MSSql
 
             return contractor.Concat(supplier);
         }
+
+        public async Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync()
+        {
+            string sql = "WITH CostPerSquareMeter AS (SELECT SUM(Amount) AS Amount, Property " +
+                            "FROM PurchasePayments " +
+                            "INNER JOIN ObjectOfSaleInPurchasePayments ON PurchasePayments.DocumentId = ObjectOfSaleInPurchasePayments.DocumentId " +
+                            "GROUP BY Property) " +
+                         "SELECT Amount, CostPerSquareMeter.Property, TotalArea " +
+                            "FROM CostPerSquareMeter " +
+                            "LEFT JOIN TotalFloorAreas ON CostPerSquareMeter.Property = TotalFloorAreas.Property";
+            return await _dbConnection.QueryAsync<CostPerSquareMeter>(sql);
+        }
     }
 }
