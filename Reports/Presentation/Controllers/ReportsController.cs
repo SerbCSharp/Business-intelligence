@@ -33,5 +33,16 @@ namespace Reports.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("ConstructionCostReport")]
+        public async Task<IActionResult> ConstructionCostReport()
+        {
+            var costVsValue = await _reportsService.ConstructionCostAsync();
+            var fileBytes = _exportingReportsToExcel.Browse(costVsValue);
+            string fileName = "Browse.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }

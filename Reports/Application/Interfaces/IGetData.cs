@@ -6,5 +6,6 @@ namespace Reports.Application.Interfaces
     {
         Task<IEnumerable<ProcurementPrice>> ProcurementPriceAsync();
         Task<IEnumerable<CostVsValue>> CostVsValueAsync();
+        Task<IEnumerable<ConstructionCost>> ConstructionCostAsync();
     }
 }

@@ -16,5 +16,10 @@ namespace Reports.Application.Services
         {
             return await _getData.CostVsValueAsync();
         }
+
+        public async Task<IEnumerable<ConstructionCost>> ConstructionCostAsync()
+        {
+            return await _getData.ConstructionCostAsync();
+        }
     }
 }
