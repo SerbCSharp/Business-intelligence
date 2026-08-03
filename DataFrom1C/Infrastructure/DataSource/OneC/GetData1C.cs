@@ -2,6 +2,7 @@
 using DataFrom1C.Domain;
 using DataFrom1C.Infrastructure.DataSource.Models.AdditionalInformation;
 using DataFrom1C.Infrastructure.DataSource.Models.CashFlowArticles;
+using DataFrom1C.Infrastructure.DataSource.Models.ConstructionOrder;
 using DataFrom1C.Infrastructure.DataSource.Models.ContractCounterparties;
 using DataFrom1C.Infrastructure.DataSource.Models.Counterparty;
 using DataFrom1C.Infrastructure.DataSource.Models.CreditToCurrentAccount;
@@ -355,6 +356,21 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             {
                 CostItemId = x.Ref_Key,
                 Name = x.Description
+            });
+        }
+
+        public async Task<IEnumerable<ConstructionCompletionCertificate>> ConstructionCompletionCertificateAsync() // Акты об окончании СМР
+        {
+            var constructionOrderUrl = ApiUrl + "Document_ИмпЗаказСМР?$format=json"
+                + "&$select=ДатаНачала,ДатаОкончания,ДоговорКонтрагента_Key"
+                + "&$filter=DeletionMark eq false and Posted eq true";
+            using HttpResponseMessage constructionOrderResponse = await httpClient.GetAsync(constructionOrderUrl);
+            var constructionOrder = await constructionOrderResponse.Content.ReadFromJsonAsync<ConstructionOrder>();
+            return constructionOrder.Value.Select(x => new ConstructionCompletionCertificate
+            {
+                ContractId = x.ContractId,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate
             });
         }
     }

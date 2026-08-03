@@ -101,5 +101,11 @@ namespace DataFrom1C.Application.Services
             var getCostItem = await _getData.CostItemAsync();
             await _saveData.CostItemAsync(getCostItem);
         }
+
+        public async Task ConstructionCompletionCertificateAsync()
+        {
+            var getConstructionCompletionCertificate = await _getData.ConstructionCompletionCertificateAsync();
+            await _saveData.ConstructionCompletionCertificateAsync(getConstructionCompletionCertificate);
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace DataFrom1C.Presentation.Controllers
             await _updateDataService.WarehouseAsync();
             await _updateDataService.CashFlowItemAsync();
             await _updateDataService.ProductGroupAsync();
+            await _updateDataService.ConstructionCompletionCertificateAsync();
+
             return NoContent();
         }
     }

@@ -118,5 +118,12 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.CostItems.AddRangeAsync(costItems);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task ConstructionCompletionCertificateAsync(IEnumerable<ConstructionCompletionCertificate> constructionCompletionCertificates)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ConstructionCompletionCertificates");
+            await _dataContext.ConstructionCompletionCertificates.AddRangeAsync(constructionCompletionCertificates);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }
