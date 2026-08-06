@@ -19,7 +19,8 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                             "WHERE MoreInformations.ValueType LIKE N'%СтатьиЗатрат%') " +
 
                          "SELECT PurchasePayments.DocumentId, PurchasePayments.ContractId, PurchasePayments.Date, PurchasePayments.Amount, PaymentPurpose, " +
-                                "CashFlowItems.Name AS CashFlowItem, Property.Name AS Property, CostItem.Name AS CostItem, Contractors.Name AS Contractor " +
+                                "CashFlowItems.Name AS CashFlowItem, Property.Name AS Property, CostItem.Name AS CostItem, Contractors.Name AS Contractor, " +
+                                "PurchasePayments.TypeOperation " +
                             "FROM PurchasePayments " +
                             "LEFT JOIN CashFlowItems ON PurchasePayments.CashFlowItemId = CashFlowItems.CashFlowItemId " +
                             "LEFT JOIN Contracts ON PurchasePayments.ContractId = Contracts.ContractId " +
@@ -28,7 +29,7 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                             "LEFT JOIN CostItem ON PaymentsDetails.InvoiceId = CostItem.ObjectId " +
                             "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
                             "WHERE NOT EXISTS ( SELECT * FROM ObjectOfSaleInPurchasePayments WHERE ObjectOfSaleInPurchasePayments.DocumentId = PurchasePayments.DocumentId) " +
-                            "AND YEAR(PurchasePayments.Date) > 2025 " +
+                            //"AND YEAR(PurchasePayments.Date) > 2025 " +
                             "ORDER BY PurchasePayments.Date";
 
             return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchasePayment>(sql);

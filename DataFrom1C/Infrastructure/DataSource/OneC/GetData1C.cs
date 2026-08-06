@@ -46,7 +46,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         public async Task<IEnumerable<PurchasePayment>> PurchasePaymentAsync() // Списание с расчетного счета
         {
             var debitToCurrentAccountUrl = ApiUrl + "Document_СписаниеСРасчетногоСчета?$format=json"
-                + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key"
+                + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key,ВидОперации"
                 + "&$filter=(DeletionMark eq false) and (Posted eq true)";
             using HttpResponseMessage debitToCurrentAccountResponse = await httpClient.GetAsync(debitToCurrentAccountUrl);
             var debitToCurrentAccount = await debitToCurrentAccountResponse.Content.ReadFromJsonAsync<DebitToCurrentAccount>();
@@ -57,7 +57,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Amount = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
-                CashFlowItemId = x.CashFlowItemId
+                CashFlowItemId = x.CashFlowItemId,
+                TypeOperation = x.TypeOperation
             });
         }
 

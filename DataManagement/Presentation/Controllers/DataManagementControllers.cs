@@ -33,15 +33,15 @@ namespace DataManagement.Presentation.Controllers
             return File(fileBytes, contentType, fileName);
         }
 
-        [HttpGet("AddObjectOfSaleInPurchaseInvoice")]
-        public async Task<IActionResult> AddObjectOfSaleInPurchaseInvoiceAsync()
-        {
-            var addObjectOfSaleInPurchaseInvoice = await _dataManagementService.AddObjectOfSaleInPurchaseInvoiceAsync();
-            var fileBytes = _exportingReportsToExcel.Browse(addObjectOfSaleInPurchaseInvoice);
-            string fileName = "Browse.xlsx";
-            string contentType = "application/octet-stream";
+        //[HttpGet("AddObjectOfSaleInPurchaseInvoice")]
+        //public async Task<IActionResult> AddObjectOfSaleInPurchaseInvoiceAsync()
+        //{
+        //    var addObjectOfSaleInPurchaseInvoice = await _dataManagementService.AddObjectOfSaleInPurchaseInvoiceAsync();
+        //    var fileBytes = _exportingReportsToExcel.Browse(addObjectOfSaleInPurchaseInvoice);
+        //    string fileName = "Browse.xlsx";
+        //    string contentType = "application/octet-stream";
 
-            return File(fileBytes, contentType, fileName);
-        }
+        //    return File(fileBytes, contentType, fileName);
+        //}
     }
 }

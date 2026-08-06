@@ -26,5 +26,10 @@ namespace Reports.Application.Services
         {
             return await _getData.CostPerSquareMeterAsync();
         }
+
+        public async Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync()
+        {
+            return await _getData.NonProductionCostsAsync();
+        }
     }
 }

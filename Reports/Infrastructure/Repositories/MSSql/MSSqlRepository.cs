@@ -92,5 +92,30 @@ namespace Reports.Infrastructure.Repositories.MSSql
                             "LEFT JOIN TotalFloorAreas ON CostPerSquareMeter.Property = TotalFloorAreas.Property";
             return await _dbConnection.QueryAsync<CostPerSquareMeter>(sql);
         }
+
+        public async Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync()
+        {
+            string sql = "WITH NonProductionCosts AS (SELECT SUM(PurchasePayments.Amount) AS Amount, " +
+                                "YEAR(PurchasePayments.Date) AS [Year], MONTH(PurchasePayments.Date) AS [Month] " +
+                            "FROM PurchasePayments " +
+                            "LEFT JOIN ObjectOfSaleInPurchasePayments ON PurchasePayments.DocumentId = ObjectOfSaleInPurchasePayments.DocumentId " +
+                            "WHERE ObjectOfSaleInPurchasePayments.Property IS NULL AND PurchasePayments.CashFlowItemId != '942e3217-065d-11f1-8ad0-345a60ea423c' " +
+                            "AND PurchasePayments.CashFlowItemId != '697d9306-7d1d-11ed-93f4-a85e452bf5ea' AND PurchasePayments.CashFlowItemId != '71512e7f-065a-11f1-8ad0-345a60ea423c' " +
+                            "GROUP BY YEAR(PurchasePayments.Date), MONTH(PurchasePayments.Date)), " +
+                         "ProductionCosts AS (SELECT SUM(PurchasePayments.Amount) AS Amount, YEAR(PurchasePayments.Date) AS [Year], " +
+                                "MONTH(PurchasePayments.Date) AS [Month] " +
+                            "FROM PurchasePayments " +
+                            "LEFT JOIN ObjectOfSaleInPurchasePayments ON PurchasePayments.DocumentId = ObjectOfSaleInPurchasePayments.DocumentId " +
+                            "WHERE ObjectOfSaleInPurchasePayments.Property IS NOT NULL AND PurchasePayments.CashFlowItemId != '71512e7f-065a-11f1-8ad0-345a60ea423c' " +
+                            "GROUP BY YEAR(PurchasePayments.Date), MONTH(PurchasePayments.Date)) " +
+                         
+                         "SELECT NonProductionCosts.Amount AS NonProductionAmount, ProductionCosts.Amount AS ProductionAmount, " +
+                                "NonProductionCosts.[Year], NonProductionCosts.[Month] " +
+                            "FROM NonProductionCosts " +
+                            "INNER JOIN ProductionCosts ON NonProductionCosts.[Year] = ProductionCosts.[Year] " +
+                                "AND NonProductionCosts.[Month] = ProductionCosts.[Month] " +
+                            "ORDER BY NonProductionCosts.[Year], NonProductionCosts.[Month]";
+            return await _dbConnection.QueryAsync<NonProductionCosts>(sql);
+        }
     }
 }

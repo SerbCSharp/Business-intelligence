@@ -8,5 +8,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<CostVsValue>> CostVsValueAsync();
         Task<IEnumerable<ConstructionCost>> ConstructionCostAsync();
         Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync();
+        Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync();
     }
 }

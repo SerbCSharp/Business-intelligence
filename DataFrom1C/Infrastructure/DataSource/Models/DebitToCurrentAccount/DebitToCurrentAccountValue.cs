@@ -22,5 +22,8 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.DebitToCurrentAccount
 
         [JsonPropertyName("РасшифровкаПлатежа")]
         public PaymentExplanation[] PaymentsExplanation { get; set; }
+
+        [JsonPropertyName("ВидОперации")]
+        public string TypeOperation { get; set; }
     }
 }

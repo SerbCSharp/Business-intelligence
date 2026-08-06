@@ -23,16 +23,16 @@ namespace Reports.Presentation.Controllers
             return File(fileBytes, contentType, fileName);
         }
 
-        [HttpGet("CostVsValueReport")]
-        public async Task<IActionResult> CostVsValueReport()
-        {
-            var costVsValue = await _reportsService.CostVsValueAsync();
-            var fileBytes = _exportingReportsToExcel.Browse(costVsValue);
-            string fileName = "Browse.xlsx";
-            string contentType = "application/octet-stream";
+        //[HttpGet("CostVsValueReport")]
+        //public async Task<IActionResult> CostVsValueReport()
+        //{
+        //    var costVsValue = await _reportsService.CostVsValueAsync();
+        //    var fileBytes = _exportingReportsToExcel.Browse(costVsValue);
+        //    string fileName = "Browse.xlsx";
+        //    string contentType = "application/octet-stream";
 
-            return File(fileBytes, contentType, fileName);
-        }
+        //    return File(fileBytes, contentType, fileName);
+        //}
 
         [HttpGet("ConstructionCost")]
         public async Task<IActionResult> ConstructionCost()
@@ -50,6 +50,17 @@ namespace Reports.Presentation.Controllers
         {
             var costPerSquareMeter = await _reportsService.CostPerSquareMeterAsync();
             var fileBytes = _exportingReportsToExcel.Browse(costPerSquareMeter);
+            string fileName = "Browse.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
+
+        [HttpGet("NonProductionCosts")]
+        public async Task<IActionResult> NonProductionCosts()
+        {
+            var nonProductionCosts = await _reportsService.NonProductionCostsAsync();
+            var fileBytes = _exportingReportsToExcel.Browse(nonProductionCosts);
             string fileName = "Browse.xlsx";
             string contentType = "application/octet-stream";
 
