@@ -6,7 +6,6 @@ namespace DataFromExcel.Application.Interfaces
     {
         IEnumerable<ObjectOfSaleInPurchasePayment> ObjectOfSaleInPurchasePayment();
         IEnumerable<ObjectOfSaleInContract> ObjectOfSaleInContract();
-        IEnumerable<ObjectOfSaleInPurchaseInvoice> ObjectOfSaleInPurchaseInvoice();
         IEnumerable<TotalFloorArea> TotalFloorArea();
     }
 }

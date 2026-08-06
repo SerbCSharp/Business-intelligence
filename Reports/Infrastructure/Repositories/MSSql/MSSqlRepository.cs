@@ -26,25 +26,6 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.QueryAsync<ProcurementPrice>(sql);
         }
 
-        public async Task<IEnumerable<CostVsValue>> CostVsValueAsync()
-        {
-            string sql = "WITH Cost AS (SELECT SUM(PurchasePayments.Amount) AS PaymentsAmount, YEAR(PurchasePayments.Date) AS [Year], " +
-                                "MONTH(PurchasePayments.Date) AS [Month], ObjectOfSaleInPurchasePayments.ComplexProperty " +
-                            "FROM PurchasePayments " +
-                            "INNER JOIN ObjectOfSaleInPurchasePayments ON PurchasePayments.DocumentId = ObjectOfSaleInPurchasePayments.DocumentId " +
-                            "GROUP BY ObjectOfSaleInPurchasePayments.ComplexProperty, YEAR(PurchasePayments.Date), MONTH(PurchasePayments.Date)), " +
-                         "[Value] AS (SELECT SUM(PurchaseInvoices.Amount) AS InvoicesAmount, YEAR(PurchaseInvoices.Date) AS [Year], " +
-                            "MONTH(PurchaseInvoices.Date) AS [Month], ObjectOfSaleInPurchaseInvoices.ComplexProperty " +
-                            "FROM PurchaseInvoices " +
-                            "INNER JOIN ObjectOfSaleInPurchaseInvoices ON PurchaseInvoices.DocumentId = ObjectOfSaleInPurchaseInvoices.DocumentId " +
-                            "GROUP BY ObjectOfSaleInPurchaseInvoices.ComplexProperty, YEAR(PurchaseInvoices.Date), MONTH(PurchaseInvoices.Date)) " +
-                
-                         "SELECT Cost.PaymentsAmount, [Value].InvoicesAmount, Cost.[Year], Cost.[Month], Cost.ComplexProperty " +
-                            "FROM Cost " +
-                            "INNER JOIN [Value] ON Cost.ComplexProperty = [Value].ComplexProperty AND Cost.[Year] = [Value].[Year] AND Cost.[Month] = [Value].[Month]";
-            return await _dbConnection.QueryAsync<CostVsValue>(sql);
-        }
-
         public async Task<IEnumerable<ConstructionCost>> ConstructionCostAsync()
         {
             string contractorSql = "WITH Payment AS (SELECT SUM(Amount) AS PaymentAmount, ContractId " +

@@ -29,7 +29,7 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                             "LEFT JOIN CostItem ON PaymentsDetails.InvoiceId = CostItem.ObjectId " +
                             "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
                             "WHERE NOT EXISTS ( SELECT * FROM ObjectOfSaleInPurchasePayments WHERE ObjectOfSaleInPurchasePayments.DocumentId = PurchasePayments.DocumentId) " +
-                            //"AND YEAR(PurchasePayments.Date) > 2025 " +
+                            "AND YEAR(PurchasePayments.Date) > 2025 " +
                             "ORDER BY PurchasePayments.Date";
 
             return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchasePayment>(sql);
@@ -48,23 +48,6 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                          "SELECT * FROM AllProperty WHERE RowNum = 1 AND CAST(RIGHT(CodeContract, 6) AS INT) > 2780";
 
             return await _dbConnection.QueryAsync<AddObjectOfSaleInContract>(sql);
-        }
-
-        public async Task<IEnumerable<AddObjectOfSaleInPurchaseInvoice>> AddObjectOfSaleInPurchaseInvoiceAsync()
-        {
-            string sql = "WITH AllProperty AS(SELECT PurchaseInvoices.DocumentId, PurchaseInvoices.ContractId, ObjectOfSaleInPurchasePayments.Property, " +
-                                "ObjectOfSaleInPurchasePayments.CostItem, ObjectOfSaleInContracts.Property AS ContractProperty, " +
-                                "ObjectOfSaleInContracts.CostItem AS ContractCostItem, Warehouses.Name AS Warehouse, Date, PurchaseInvoices.Amount, " +
-                                "ROW_NUMBER() OVER(PARTITION BY PurchaseInvoices.DocumentId ORDER BY CASE WHEN ObjectOfSaleInPurchasePayments.Property = Warehouses.Name THEN 0 ELSE 1 END) AS RowNum, " +
-                                "COUNT(*) OVER(PARTITION BY PurchaseInvoices.DocumentId) AS TotalObjectOfSaleInPurchasePayments " +
-                            "FROM PurchaseInvoices " +
-                            "LEFT JOIN Warehouses ON PurchaseInvoices.WarehouseId = Warehouses.WarehouseId " +
-                            "LEFT JOIN ObjectOfSaleInContracts ON PurchaseInvoices.ContractId = ObjectOfSaleInContracts.ContractId " +
-                            "LEFT JOIN ObjectOfSaleInPurchasePayments ON PurchaseInvoices.ContractId = ObjectOfSaleInPurchasePayments.ContractId) " +
-                         "SELECT* FROM AllProperty WHERE RowNum = 1 AND " +
-                         "NOT EXISTS ( SELECT * FROM ObjectOfSaleInPurchaseInvoices WHERE ObjectOfSaleInPurchaseInvoices.DocumentId = AllProperty.DocumentId)";
-
-            return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchaseInvoice>(sql);
         }
     }
 }

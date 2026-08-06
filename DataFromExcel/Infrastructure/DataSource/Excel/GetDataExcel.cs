@@ -84,38 +84,6 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
             });
         }
 
-        public IEnumerable<ObjectOfSaleInPurchaseInvoice> ObjectOfSaleInPurchaseInvoice()
-        {
-            FileInfo fileInfo = new(filePath + "\\ObjectOfSaleInPurchaseInvoice.xlsx");
-            using var package = new ExcelPackage(fileInfo);
-            var sheet = package.Workbook.Worksheets[Name: "ObjectOfSaleInPurchaseInvoice"];
-            DataTable dataTable = new();
-
-            for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
-            {
-                dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
-            }
-
-            for (int i = 2; i <= sheet.Dimension.End.Row; i++)
-            {
-                DataRow dataRow = dataTable.NewRow();
-                for (int j = 1; j <= sheet.Dimension.End.Column; j++)
-                {
-                    dataRow[j - 1] = sheet.Cells[i, j].Value;
-                }
-                dataTable.Rows.Add(dataRow);
-            }
-
-            return dataTable.AsEnumerable().Select(row => new ObjectOfSaleInPurchaseInvoice
-            {
-                DocumentId = row.Field<string>("DocumentId"),
-                ContractId = row.Field<string>("ContractId"),
-                Property = row.Field<string>("Property"),
-                CostItem = row.Field<string>("CostItem"),
-                ComplexProperty = row.Field<string>("ComplexProperty")
-            });
-        }
-
         public IEnumerable<TotalFloorArea> TotalFloorArea()
         {
             FileInfo fileInfo = new(filePath + "\\TotalFloorArea.xlsx");
