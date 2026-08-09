@@ -13,7 +13,7 @@ namespace Reports.Presentation.Controllers
         private readonly ExportingReportsToExcel _exportingReportsToExcel = exportingReportsToExcel;
 
         [HttpGet("ProcurementPriceDynamics")]
-        public async Task<IActionResult> ProcurementPriceDynamics()
+        public async Task<IActionResult> ProcurementPriceDynamicsAsync()
         {
             var procurementPrice = await _reportsService.ProcurementPriceAsync();
             var fileBytes = _exportingReportsToExcel.Browse(procurementPrice);
@@ -24,7 +24,7 @@ namespace Reports.Presentation.Controllers
         }
 
         [HttpGet("ConstructionCost")]
-        public async Task<IActionResult> ConstructionCost()
+        public async Task<IActionResult> ConstructionCostAsync()
         {
             var constructionCost = await _reportsService.ConstructionCostAsync();
             var fileBytes = _exportingReportsToExcel.Browse(constructionCost);
@@ -35,7 +35,7 @@ namespace Reports.Presentation.Controllers
         }
 
         [HttpGet("CostPerSquareMeter")]
-        public async Task<IActionResult> CostPerSquareMeter()
+        public async Task<IActionResult> CostPerSquareMeterAsync()
         {
             var costPerSquareMeter = await _reportsService.CostPerSquareMeterAsync();
             var fileBytes = _exportingReportsToExcel.Browse(costPerSquareMeter);
@@ -46,11 +46,25 @@ namespace Reports.Presentation.Controllers
         }
 
         [HttpGet("NonProductionCosts")]
-        public async Task<IActionResult> NonProductionCosts()
+        public async Task<IActionResult> NonProductionCostsAsync()
         {
             var nonProductionCosts = await _reportsService.NonProductionCostsAsync();
-            var fileBytes = _exportingReportsToExcel.Browse(nonProductionCosts);
-            string fileName = "Browse.xlsx";
+            var fileBytes = _exportingReportsToExcel.NonProductionCosts(nonProductionCosts);
+            string fileName = "NonProductionCosts.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
+
+        [HttpGet("ProfitCenters")]
+        public async Task<IActionResult> ProfitCentersAsync(DateTime startDate, DateTime endDate)
+        {
+            var profitCenters = await _reportsService.ProfitCentersAsync(startDate, endDate);
+            var fileBytes = _exportingReportsToExcel.Browse(profitCenters);
+
+
+
+            string fileName = "ProfitCenters.xlsx";
             string contentType = "application/octet-stream";
 
             return File(fileBytes, contentType, fileName);

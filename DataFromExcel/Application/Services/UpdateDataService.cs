@@ -24,5 +24,11 @@ namespace DataFromExcel.Application.Services
             var getTotalFloorArea = _getData.TotalFloorArea();
             await _saveData.TotalFloorAreaAsync(getTotalFloorArea);
         }
+
+        public async Task AreaOfActivityAsync()
+        {
+            var getAreaOfActivity = _getData.AreaOfActivity();
+            await _saveData.AreaOfActivityAsync(getAreaOfActivity);
+        }
     }
 }

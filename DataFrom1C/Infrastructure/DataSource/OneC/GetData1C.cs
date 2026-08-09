@@ -65,7 +65,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         public async Task<IEnumerable<SalesPayment>> SalesPaymentAsync() // Поступление на расчетный счет
         {
             var creditToCurrentAccountUrl = ApiUrl + "Document_ПоступлениеНаРасчетныйСчет?$format=json"
-                + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key"
+                + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key,ВидОперации"
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage creditToCurrentAccountResponse = await httpClient.GetAsync(creditToCurrentAccountUrl);
             var creditToCurrentAccount = await creditToCurrentAccountResponse.Content.ReadFromJsonAsync<CreditToCurrentAccount>();
@@ -76,7 +76,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Amount = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
-                CashFlowItemId = x.CashFlowItemId
+                CashFlowItemId = x.CashFlowItemId,
+                TypeOperation = x.TypeOperation
             });
         }
 

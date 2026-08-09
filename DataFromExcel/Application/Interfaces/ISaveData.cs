@@ -7,5 +7,6 @@ namespace DataFromExcel.Application.Interfaces
         Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment);
         Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract);
         Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorArea);
+        Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity);
     }
 }

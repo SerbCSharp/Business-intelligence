@@ -98,5 +98,22 @@ namespace Reports.Infrastructure.Repositories.MSSql
                             "ORDER BY NonProductionCosts.[Year], NonProductionCosts.[Month]";
             return await _dbConnection.QueryAsync<NonProductionCosts>(sql);
         }
+
+        public async Task<IEnumerable<ProfitCenters>> ProfitCentersAsync(DateTime startDate, DateTime endDate)
+        {
+            string sql = "WITH Payment AS (SELECT *, Amount AS Debit, 0.00 AS Credit " +
+                            "FROM PurchasePayments " +
+                            "UNION ALL " +
+                            "SELECT *, 0.00 AS Debit, Amount AS Credit " +
+                            "FROM SalesPayments) " +
+                         "SELECT Payment.Date, TypeOfActivity, AreaOfActivity, TypeOperation, Debit, Credit, [Percent], DirectOrIndirect, ContractIdIncome, " +
+                                "PaymentPurpose, Contracts.Number, Contractors.Name AS Contractor FROM Payment " +
+                            "LEFT JOIN AreaOfActivityPayments ON Payment.DocumentId = AreaOfActivityPayments.DocumentId " +
+                            "LEFT JOIN Contracts ON Payment.ContractId = Contracts.ContractId " +
+                            "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
+                            "WHERE Payment.Date BETWEEN @StartDate AND @EndDate " +
+                            "ORDER BY Payment.Date";
+            return await _dbConnection.QueryAsync<ProfitCenters>(sql, new { StartDate = startDate, EndDate = endDate });
+        }
     }
 }

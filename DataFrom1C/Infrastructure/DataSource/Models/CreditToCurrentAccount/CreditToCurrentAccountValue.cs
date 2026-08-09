@@ -19,5 +19,8 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.CreditToCurrentAccount
 
         [JsonPropertyName("СтатьяДвиженияДенежныхСредств_Key")]
         public string CashFlowItemId { get; set; }
+
+        [JsonPropertyName("ВидОперации")]
+        public string TypeOperation { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace DataFrom1C.Domain
         public string ContractId { get; set; }
         public string PaymentPurpose { get; set; }
         public string CashFlowItemId { get; set; }
+        public string TypeOperation { get; set; }
     }
 }

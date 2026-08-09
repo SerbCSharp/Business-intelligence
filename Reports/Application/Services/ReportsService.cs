@@ -26,5 +26,10 @@ namespace Reports.Application.Services
         {
             return await _getData.NonProductionCostsAsync();
         }
+
+        public async Task<IEnumerable<ProfitCenters>> ProfitCentersAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _getData.ProfitCentersAsync(startDate, endDate);
+        }
     }
 }
