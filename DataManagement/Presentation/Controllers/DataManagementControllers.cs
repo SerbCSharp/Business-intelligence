@@ -32,5 +32,16 @@ namespace DataManagement.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("AddAreaOfActivity")]
+        public async Task<IActionResult> AddAreaOfActivityAsync()
+        {
+            var addAreaOfActivity = await _dataManagementService.AddAreaOfActivityAsync();
+            var fileBytes = _exportingReportsToExcel.Browse(addAreaOfActivity);
+            string fileName = "Browse.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }

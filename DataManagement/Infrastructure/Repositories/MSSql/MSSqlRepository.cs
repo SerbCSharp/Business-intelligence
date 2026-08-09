@@ -11,28 +11,7 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
 
         public async Task<IEnumerable<AddObjectOfSaleInPurchasePayment>> AddObjectOfSaleInPurchasePaymentAsync()
         {
-            string sql = "WITH Property AS (SELECT ProductGroups.Name, MoreInformations.ObjectId FROM MoreInformations " +
-                            "INNER JOIN ProductGroups ON MoreInformations.ObjectValue = ProductGroups.ProductGroupId " +
-                            "WHERE MoreInformations.ValueType LIKE N'%НоменклатурныеГруппы%'), " +
-                         "CostItem AS (SELECT CostItems.Name, MoreInformations.ObjectId FROM MoreInformations " +
-                            "INNER JOIN CostItems ON MoreInformations.ObjectValue = CostItems.CostItemId " +
-                            "WHERE MoreInformations.ValueType LIKE N'%СтатьиЗатрат%') " +
-
-                         "SELECT PurchasePayments.DocumentId, PurchasePayments.ContractId, PurchasePayments.Date, PurchasePayments.Amount, PaymentPurpose, " +
-                                "CashFlowItems.Name AS CashFlowItem, Property.Name AS Property, CostItem.Name AS CostItem, Contractors.Name AS Contractor, " +
-                                "PurchasePayments.TypeOperation " +
-                            "FROM PurchasePayments " +
-                            "LEFT JOIN CashFlowItems ON PurchasePayments.CashFlowItemId = CashFlowItems.CashFlowItemId " +
-                            "LEFT JOIN Contracts ON PurchasePayments.ContractId = Contracts.ContractId " +
-                            "LEFT JOIN PaymentsDetails ON PurchasePayments.DocumentId = PaymentsDetails.DocumentId " +
-                            "LEFT JOIN Property ON PaymentsDetails.InvoiceId = Property.ObjectId " +
-                            "LEFT JOIN CostItem ON PaymentsDetails.InvoiceId = CostItem.ObjectId " +
-                            "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
-                            "WHERE NOT EXISTS ( SELECT * FROM ObjectOfSaleInPurchasePayments WHERE ObjectOfSaleInPurchasePayments.DocumentId = PurchasePayments.DocumentId) " +
-                            "AND YEAR(PurchasePayments.Date) > 2025 " +
-                            "ORDER BY PurchasePayments.Date";
-
-            return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchasePayment>(sql);
+            return await _dbConnection.QueryAsync<AddObjectOfSaleInPurchasePayment>("AddObjectOfSaleInPurchasePayment");
         }
 
         public async Task<IEnumerable<AddObjectOfSaleInContract>> AddObjectOfSaleInContractAsync()
@@ -48,6 +27,11 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
                          "SELECT * FROM AllProperty WHERE RowNum = 1 AND CAST(RIGHT(CodeContract, 6) AS INT) > 2780";
 
             return await _dbConnection.QueryAsync<AddObjectOfSaleInContract>(sql);
+        }
+
+        public async Task<IEnumerable<AddAreaOfActivity>> AddAreaOfActivityAsync()
+        {
+            return await _dbConnection.QueryAsync<AddAreaOfActivity>("AddAreaOfActivity");
         }
     }
 }
