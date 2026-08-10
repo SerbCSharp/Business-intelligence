@@ -11,28 +11,32 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
         public async Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ObjectOfSaleInPurchasePayments");
-            await _dataContext.ObjectOfSaleInPurchasePayments.AddRangeAsync(objectOfSaleInPurchasePayment);
+            if (objectOfSaleInPurchasePayment != null)
+                await _dataContext.ObjectOfSaleInPurchasePayments.AddRangeAsync(objectOfSaleInPurchasePayment);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ObjectOfSaleInContracts");
-            await _dataContext.ObjectOfSaleInContracts.AddRangeAsync(objectOfSaleInContract);
+            if (objectOfSaleInContract != null)
+                await _dataContext.ObjectOfSaleInContracts.AddRangeAsync(objectOfSaleInContract);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorAreas)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE TotalFloorAreas");
-            await _dataContext.TotalFloorAreas.AddRangeAsync(totalFloorAreas);
+            if (totalFloorAreas != null)
+                await _dataContext.TotalFloorAreas.AddRangeAsync(totalFloorAreas);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE AreaOfActivityPayments");
-            await _dataContext.AreaOfActivityPayments.AddRangeAsync(areaOfActivity);
+            if (areaOfActivity != null)
+                await _dataContext.AreaOfActivityPayments.AddRangeAsync(areaOfActivity);
             await _dataContext.SaveChangesAsync();
         }
     }

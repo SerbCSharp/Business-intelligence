@@ -1,5 +1,6 @@
 ﻿using DataFrom1C.Application.Interfaces;
 using DataFrom1C.Domain;
+using DataFrom1C.Infrastructure.DataSource.Models.AccountingRegisterSelf_accounting;
 using DataFrom1C.Infrastructure.DataSource.Models.AdditionalInformation;
 using DataFrom1C.Infrastructure.DataSource.Models.CashFlowArticles;
 using DataFrom1C.Infrastructure.DataSource.Models.ConstructionOrder;
@@ -373,6 +374,22 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 ContractId = x.ContractId,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate
+            });
+        }
+
+        public async Task<IEnumerable<AccountingEntry>> AccountingEntryAsync() // Проводки по счетам
+        {
+            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json"
+                + "&$select=Period,Содержание,AccountDr_Key,AccountCr_Key,Сумма";
+            using HttpResponseMessage accountingRegisterResponse = await httpClient.GetAsync(accountingRegisterUrl);
+            var accountingRegister = await accountingRegisterResponse.Content.ReadFromJsonAsync<AccountingRegister>();
+            return accountingRegister.Value.First().RecordSet.Select(x => new AccountingEntry
+            {
+                AccountCreditId = x.AccountCreditId,
+                AccountDebitId = x.AccountDebitId,
+                Amount = x.Amount,
+                Date = x.Date,
+                Name = x.Name
             });
         }
     }

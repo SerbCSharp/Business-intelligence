@@ -107,5 +107,11 @@ namespace DataFrom1C.Application.Services
             var getConstructionCompletionCertificate = await _getData.ConstructionCompletionCertificateAsync();
             await _saveData.ConstructionCompletionCertificateAsync(getConstructionCompletionCertificate);
         }
+
+        public async Task AccountingEntryAsync()
+        {
+            var getAccountingEntry = await _getData.AccountingEntryAsync();
+            await _saveData.AccountingEntryAsync(getAccountingEntry);
+        }
     }
 }

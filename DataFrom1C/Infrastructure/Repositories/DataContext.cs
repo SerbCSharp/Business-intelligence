@@ -22,5 +22,6 @@ namespace DataFrom1C.Infrastructure.Repositories
         public DbSet<PaymentDetails> PaymentsDetails { get; set; }
         public DbSet<CostItem> CostItems { get; set; }
         public DbSet<ConstructionCompletionCertificate> ConstructionCompletionCertificates { get; set; }
+        public DbSet<AccountingEntry> AccountingEntries { get; set; }
     }
 }
