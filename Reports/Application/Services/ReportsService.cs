@@ -41,9 +41,9 @@ namespace Reports.Application.Services
                 {
                     TypeOfActivity = x.TypeOfActivity,
                     AreaOfActivity = x.AreaOfActivity,
-                    Debit = x.Debit,
+                    Debit = x.DirectOrIndirect ? x.Debit : 0,
                     Credit = x.Credit,
-                    IndirectCost = x.DirectOrIndirect ? 0 : x.Credit - x.Debit
+                    IndirectCost = x.DirectOrIndirect ? 0 : x.Debit - x.Credit
                 })
                 .GroupBy(g => new { g.TypeOfActivity, g.AreaOfActivity })
                 .Select(z => new ProfitCentersDTO
