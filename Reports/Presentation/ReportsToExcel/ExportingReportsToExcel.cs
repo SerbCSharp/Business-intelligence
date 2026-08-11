@@ -2,6 +2,7 @@
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
+using Reports.Application.DTO;
 using Reports.Domain;
 using System.Reflection;
 
@@ -126,6 +127,17 @@ namespace Reports.Presentation.ReportsToExcel
             chart.XAxis.AddGridlines(addMajor: true, addMinor: false);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle4);
 
+            return package.GetAsByteArray();
+        }
+
+        public ExcelPackage ProfitCentersSource(IEnumerable<ProfitCentersSource> profitCentersSource)
+        {
+            using var package = new ExcelPackage();
+            return package;            
+        }
+
+        public byte[] ProfitCenters(ExcelPackage package, IEnumerable<ProfitCentersDTO> profitCenters, decimal openingBalance, DateTime startDate, DateTime endDate)
+        {
             return package.GetAsByteArray();
         }
     }

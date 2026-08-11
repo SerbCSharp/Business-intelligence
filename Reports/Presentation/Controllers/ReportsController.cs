@@ -60,10 +60,11 @@ namespace Reports.Presentation.Controllers
         public async Task<IActionResult> ProfitCentersAsync(DateTime startDate, DateTime endDate)
         {
             var profitCentersSource = await _reportsService.ProfitCentersSourceAsync(startDate, endDate);
-            var fileBytes = _exportingReportsToExcel.Browse(profitCentersSource);
+            var package = _exportingReportsToExcel.ProfitCentersSource(profitCentersSource);
 
             var openingBalance = await _reportsService.OpeningBalanceAsync(startDate);
-
+            var profitCenters = _reportsService.ProfitCenters(profitCentersSource);
+            var fileBytes = _exportingReportsToExcel.ProfitCenters(package, profitCenters, openingBalance, startDate, endDate);
 
             string fileName = "ProfitCenters.xlsx";
             string contentType = "application/octet-stream";

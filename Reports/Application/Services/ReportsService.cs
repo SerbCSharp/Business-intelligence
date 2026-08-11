@@ -33,8 +33,28 @@ namespace Reports.Application.Services
             return await _getData.ProfitCentersSourceAsync(startDate, endDate);
         }
 
-        public async Task<IEnumerable<ProfitCentersDTO>> ProfitCentersAsync(IEnumerable<ProfitCentersSource> profitCentersSource)
+        public IEnumerable<ProfitCentersDTO> ProfitCenters(IEnumerable<ProfitCentersSource> profitCentersSource)
         {
+            var profitCenters = profitCentersSource
+                .Where(y => y.AreaOfActivity != "ПереводСДругогоСчета" && y.AreaOfActivity != "ПереводНаДругойСчет")
+                .Select(x => new ProfitCentersDTO
+                {
+                    TypeOfActivity = x.TypeOfActivity,
+                    AreaOfActivity = x.AreaOfActivity,
+                    Debit = x.Debit,
+                    Credit = x.Credit,
+                    IndirectCost = x.DirectOrIndirect ? 0 : x.Credit - x.Debit
+                })
+                .GroupBy(g => new { g.TypeOfActivity, g.AreaOfActivity })
+                .Select(z => new ProfitCentersDTO
+                {
+                    TypeOfActivity = z.Key.TypeOfActivity,
+                    AreaOfActivity = z.Key.AreaOfActivity,
+                    Debit = z.Sum(s => s.Debit),
+                    Credit = z.Sum(s => s.Credit),
+                    IndirectCost = z.Sum(s => s.IndirectCost)
+                });
+            return profitCenters;
         }
 
         public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
