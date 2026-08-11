@@ -62,6 +62,7 @@ namespace Reports.Presentation.Controllers
             var profitCenters = await _reportsService.ProfitCentersAsync(startDate, endDate);
             var fileBytes = _exportingReportsToExcel.Browse(profitCenters);
 
+            var openingBalance = await _reportsService.OpeningBalanceAsync(startDate);
 
 
             string fileName = "ProfitCenters.xlsx";

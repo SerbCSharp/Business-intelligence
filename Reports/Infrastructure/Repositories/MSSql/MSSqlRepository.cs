@@ -115,5 +115,11 @@ namespace Reports.Infrastructure.Repositories.MSSql
                             "ORDER BY Payment.Date";
             return await _dbConnection.QueryAsync<ProfitCenters>(sql, new { StartDate = startDate, EndDate = endDate });
         }
+
+        public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
+        {
+            return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
+        }
+
     }
 }

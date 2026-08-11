@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DataFrom1C.Infrastructure.DataSource.Models.AccountingRegisterSelf_accounting
+namespace DataFrom1C.Infrastructure.DataSource.Models.AccountingRegister
 {
     public class AccountingRegisterRecordSet
     {
@@ -18,5 +18,6 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.AccountingRegisterSelf_acc
 
         [JsonPropertyName("Сумма")]
         public decimal Amount { get; set; }
+        public bool Active { get; set; }
     }
 }

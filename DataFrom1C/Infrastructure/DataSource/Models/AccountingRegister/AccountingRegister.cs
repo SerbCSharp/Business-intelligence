@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DataFrom1C.Infrastructure.DataSource.Models.AccountingRegisterSelf_accounting
+namespace DataFrom1C.Infrastructure.DataSource.Models.AccountingRegister
 {
     public class AccountingRegister
     {

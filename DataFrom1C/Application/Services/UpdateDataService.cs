@@ -113,5 +113,11 @@ namespace DataFrom1C.Application.Services
             var getAccountingEntry = await _getData.AccountingEntryAsync();
             await _saveData.AccountingEntryAsync(getAccountingEntry);
         }
+
+        public async Task PlanOfAccountsAsync()
+        {
+            var getPlanOfAccounts = await _getData.PlanOfAccountsAsync();
+            await _saveData.PlanOfAccountsAsync(getPlanOfAccounts);
+        }
     }
 }

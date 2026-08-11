@@ -31,5 +31,10 @@ namespace Reports.Application.Services
         {
             return await _getData.ProfitCentersAsync(startDate, endDate);
         }
+
+        public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
+        {
+            return await _getData.OpeningBalanceAsync(startDate);
+        }
     }
 }

@@ -132,5 +132,12 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.AccountingEntries.AddRangeAsync(accountingEntries);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task PlanOfAccountsAsync(IEnumerable<Account> planOfAccounts)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE PlanOfAccounts");
+            await _dataContext.PlanOfAccounts.AddRangeAsync(planOfAccounts);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

@@ -22,5 +22,6 @@ namespace DataFrom1C.Application.Interfaces
         Task CostItemAsync(IEnumerable<CostItem> costItems);
         Task ConstructionCompletionCertificateAsync(IEnumerable<ConstructionCompletionCertificate> constructionCompletionCertificates);
         Task AccountingEntryAsync(IEnumerable<AccountingEntry> accountingEntries);
+        Task PlanOfAccountsAsync(IEnumerable<Account> planOfAccounts);
     }
 }

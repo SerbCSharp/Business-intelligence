@@ -1,8 +1,9 @@
 ﻿using DataFrom1C.Application.Interfaces;
 using DataFrom1C.Domain;
-using DataFrom1C.Infrastructure.DataSource.Models.AccountingRegisterSelf_accounting;
+using DataFrom1C.Infrastructure.DataSource.Models.AccountingRegister;
 using DataFrom1C.Infrastructure.DataSource.Models.AdditionalInformation;
 using DataFrom1C.Infrastructure.DataSource.Models.CashFlowArticles;
+using DataFrom1C.Infrastructure.DataSource.Models.ChartOfAccounts;
 using DataFrom1C.Infrastructure.DataSource.Models.ConstructionOrder;
 using DataFrom1C.Infrastructure.DataSource.Models.ContractCounterparties;
 using DataFrom1C.Infrastructure.DataSource.Models.Counterparty;
@@ -379,17 +380,31 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
 
         public async Task<IEnumerable<AccountingEntry>> AccountingEntryAsync() // Проводки по счетам
         {
-            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json"
-                + "&$select=Period,Содержание,AccountDr_Key,AccountCr_Key,Сумма";
+            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json";
             using HttpResponseMessage accountingRegisterResponse = await httpClient.GetAsync(accountingRegisterUrl);
             var accountingRegister = await accountingRegisterResponse.Content.ReadFromJsonAsync<AccountingRegister>();
-            return accountingRegister.Value.First().RecordSet.Select(x => new AccountingEntry
+            return accountingRegister.Value.First().RecordSet.Where(y => y.Active == true).Select(x => new AccountingEntry
             {
                 AccountCreditId = x.AccountCreditId,
                 AccountDebitId = x.AccountDebitId,
                 Amount = x.Amount,
                 Date = x.Date,
                 Name = x.Name
+            });
+        }
+
+        public async Task<IEnumerable<Account>> PlanOfAccountsAsync() // План счетов
+        {
+            var chartOfAccountsUrl = ApiUrl + "ChartOfAccounts_Хозрасчетный?$format=json"
+            + "&$select=Ref_Key,Description,Code"
+            + "&$filter=DeletionMark eq false";
+            using HttpResponseMessage chartOfAccountsResponse = await httpClient.GetAsync(chartOfAccountsUrl);
+            var chartOfAccounts = await chartOfAccountsResponse.Content.ReadFromJsonAsync<ChartOfAccounts>();
+            return chartOfAccounts.Value.Select(x => new Account
+            {
+                AccountId = x.Ref_Key,
+                Code = x.Code,
+                Name = x.Description
             });
         }
     }
