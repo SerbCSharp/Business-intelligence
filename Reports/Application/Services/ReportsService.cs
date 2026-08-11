@@ -1,4 +1,5 @@
-﻿using Reports.Application.Interfaces;
+﻿using Reports.Application.DTO;
+using Reports.Application.Interfaces;
 using Reports.Domain;
 
 namespace Reports.Application.Services
@@ -27,9 +28,13 @@ namespace Reports.Application.Services
             return await _getData.NonProductionCostsAsync();
         }
 
-        public async Task<IEnumerable<ProfitCenters>> ProfitCentersAsync(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate)
         {
-            return await _getData.ProfitCentersAsync(startDate, endDate);
+            return await _getData.ProfitCentersSourceAsync(startDate, endDate);
+        }
+
+        public async Task<IEnumerable<ProfitCentersDTO>> ProfitCentersAsync(IEnumerable<ProfitCentersSource> profitCentersSource)
+        {
         }
 
         public async Task<decimal> OpeningBalanceAsync(DateTime startDate)

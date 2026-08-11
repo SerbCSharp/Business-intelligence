@@ -59,8 +59,8 @@ namespace Reports.Presentation.Controllers
         [HttpGet("ProfitCenters")]
         public async Task<IActionResult> ProfitCentersAsync(DateTime startDate, DateTime endDate)
         {
-            var profitCenters = await _reportsService.ProfitCentersAsync(startDate, endDate);
-            var fileBytes = _exportingReportsToExcel.Browse(profitCenters);
+            var profitCentersSource = await _reportsService.ProfitCentersSourceAsync(startDate, endDate);
+            var fileBytes = _exportingReportsToExcel.Browse(profitCentersSource);
 
             var openingBalance = await _reportsService.OpeningBalanceAsync(startDate);
 

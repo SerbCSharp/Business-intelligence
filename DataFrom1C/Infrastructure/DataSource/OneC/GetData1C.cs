@@ -49,7 +49,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         {
             var debitToCurrentAccountUrl = ApiUrl + "Document_СписаниеСРасчетногоСчета?$format=json"
                 + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key,ВидОперации"
-                + "&$filter=(DeletionMark eq false) and (Posted eq true)";
+                + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage debitToCurrentAccountResponse = await httpClient.GetAsync(debitToCurrentAccountUrl);
             var debitToCurrentAccount = await debitToCurrentAccountResponse.Content.ReadFromJsonAsync<DebitToCurrentAccount>();
             return debitToCurrentAccount.Value.Select(x => new PurchasePayment
@@ -380,10 +380,11 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
 
         public async Task<IEnumerable<AccountingEntry>> AccountingEntryAsync() // Проводки по счетам
         {
-            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json";
+            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json"
+            + "&$select=RecordSet/Period,RecordSet/Содержание,RecordSet/AccountDr_Key,RecordSet/AccountCr_Key,RecordSet/Сумма,RecordSet/Active";
             using HttpResponseMessage accountingRegisterResponse = await httpClient.GetAsync(accountingRegisterUrl);
             var accountingRegister = await accountingRegisterResponse.Content.ReadFromJsonAsync<AccountingRegister>();
-            return accountingRegister.Value.First().RecordSet.Where(y => y.Active == true).Select(x => new AccountingEntry
+            return accountingRegister.Value.SelectMany(y => y.RecordSet).Where(y => y.Active == true).Select(x => new AccountingEntry
             {
                 AccountCreditId = x.AccountCreditId,
                 AccountDebitId = x.AccountDebitId,

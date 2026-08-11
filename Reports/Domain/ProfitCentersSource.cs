@@ -1,6 +1,6 @@
 ﻿namespace Reports.Domain
 {
-    public class ProfitCenters
+    public class ProfitCentersSource
     {
         public DateTime Date { get; set; }
         public string TypeOfActivity { get; set; }
