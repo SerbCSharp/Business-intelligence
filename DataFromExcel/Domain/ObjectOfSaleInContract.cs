@@ -9,5 +9,6 @@ namespace DataFromExcel.Domain
         public string Property { get; set; }
         public string CostItem { get; set; }
         public decimal Amount { get; set; }
+        public string ComplexProperty { get; set; }
     }
 }

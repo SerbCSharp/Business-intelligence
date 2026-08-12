@@ -14,5 +14,8 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.DebitToCurrentAccount
 
         [JsonPropertyName("СчетНаОплату_Key")]
         public string InvoiceId { get; set; }
+
+        [JsonPropertyName("СуммаНДС")]
+        public decimal AmountVAT { get; set; }
     }
 }

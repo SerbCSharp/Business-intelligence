@@ -345,7 +345,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     DocumentId = z.Ref_Key,
                     ContractId = z.ContractId,
                     InvoiceId = z.InvoiceId,
-                    Amount = z.Amount
+                    Amount = z.Amount,
+                    AmountVAT = z.AmountVAT
                 });
         }
 

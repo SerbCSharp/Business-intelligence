@@ -19,7 +19,7 @@ namespace Reports.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            var sheet = package.Workbook.Worksheets.Add("Source");
+            var sheet = package.Workbook.Worksheets.Add("Browse");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);
@@ -132,13 +132,127 @@ namespace Reports.Presentation.ReportsToExcel
 
         public ExcelPackage ProfitCentersSource(IEnumerable<ProfitCentersSource> profitCentersSource)
         {
-            using var package = new ExcelPackage();
+            var package = new ExcelPackage();
+
+            var sheetSource = package.Workbook.Worksheets.Add("Source");
+            sheetSource.Cells.Style.Font.Name = "Calibri";
+            sheetSource.Cells.Style.Font.Size = 11;
+            sheetSource.View.FreezePanes(2, 1);
+
+            sheetSource.Cells[1, 1].Value = "Вид деятельности";
+            sheetSource.Cells[1, 2].Value = "Направление";
+            sheetSource.Cells[1, 3].Value = "Тип операции";
+            sheetSource.Cells[1, 4].Value = "Поступления";
+            sheetSource.Cells[1, 5].Value = "Оплаты";
+            sheetSource.Cells[1, 6].Value = "Дата";
+            sheetSource.Cells[1, 7].Value = "Назначение платежа";
+            sheetSource.Cells[1, 8].Value = "Контрагент";
+            sheetSource.Cells[1, 9].Value = "Договор";
+            sheetSource.Cells[1, 1, 1, 9].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 9].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            var row = 2;
+            var column = 0;
+            foreach (var item in profitCentersSource)
+            {
+                sheetSource.Cells[row, column + 1].Value = item.TypeOfActivity;
+                sheetSource.Cells[row, column + 2].Value = item.AreaOfActivity;
+                sheetSource.Cells[row, column + 3].Value = item.TypeOperation;
+                sheetSource.Cells[row, column + 4].Value = item.Credit;
+                sheetSource.Cells[row, column + 5].Value = item.Debit;
+                sheetSource.Cells[row, column + 6].Value = item.Date;
+                sheetSource.Cells[row, column + 7].Value = item.PaymentPurpose;
+                sheetSource.Cells[row, column + 8].Value = item.Contractor;
+                sheetSource.Cells[row, column + 9].Value = item.Number;
+                row++;
+            }
+            sheetSource.Cells[1, 1, row, 9].AutoFitColumns();
+            sheetSource.Cells[2, 6, row, 6].Style.Numberformat.Format = "dd.mm.yyyy";
+            sheetSource.Cells[2, 4, row, 5].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Column(1).Width = 30;
+            sheetSource.Column(7).Width = 50;
+            sheetSource.Column(8).Width = 30;
+            sheetSource.Column(9).Width = 30;
+
+            var range = sheetSource.Cells[1, 1, row - 1, 9];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
             return package;            
         }
 
         public byte[] ProfitCenters(ExcelPackage package, IEnumerable<ProfitCentersDTO> profitCenters, decimal openingBalance, DateTime startDate, DateTime endDate)
         {
-            return package.GetAsByteArray();
+            var sheet = package.Workbook.Worksheets.Add("Profit Centers");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1, 1, 5].Merge = true;
+            sheet.Cells[1, 1].Value = "ДДС по направлениям";
+            sheet.Cells[1, 1].Style.Font.Size = 20;
+            sheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            sheet.Cells[2, 4, 2, 5].Merge = true;
+            sheet.Cells[2, 4].Value = $"с {DateOnly.FromDateTime(startDate)} по {DateOnly.FromDateTime(endDate)}";
+            sheet.Cells[2, 4].Style.Font.Size = 16;
+            sheet.Cells[2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            sheet.Cells[4, 1, 6, 5].Style.Font.Bold = true;
+            sheet.Cells[4, 4].Value = "Остаток на начало:";
+            sheet.Cells[4, 2, 4, 4].Style.Font.Size = 12;
+            sheet.Cells[4, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[4, 5].Value = openingBalance;
+            sheet.Cells[4, 5].Style.Numberformat.Format = "### ### ### ##0.00";
+
+            sheet.Cells[6, 1].Value = "Направления";
+            sheet.Cells[6, 2].Value = "Поступления";
+            sheet.Cells[6, 3].Value = "Выплаты (прямые расходы)";
+            sheet.Cells[6, 4].Value = "Выплаты (косвенные расходы)";
+            sheet.Cells[6, 5].Value = "Сальдо";
+            sheet.Cells[6, 1, 6, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            var row = 7;
+            var column = 0;
+            foreach (var item in profitCenters)
+            {
+                sheet.Cells[row, column + 1].Value = item.AreaOfActivity;
+                sheet.Cells[row, column + 2].Value = item.Credit;
+                sheet.Cells[row, column + 3].Value = item.Debit;
+                sheet.Cells[row, column + 4].Value = item.IndirectCost;
+                sheet.Cells[row, column + 5].Formula = $"B{row}-C{row}-D{row}";
+                row++;
+            }
+            sheet.Cells[row, column + 2].Formula = $"=SUBTOTAL(9,B6:B{row - 1})";
+            sheet.Cells[row, column + 3].Formula = $"=SUBTOTAL(9,C6:C{row - 1})";
+            sheet.Cells[row, column + 4].Formula = $"=SUBTOTAL(9,D6:D{row - 1})";
+            sheet.Cells[row, column + 5].Formula = $"=SUBTOTAL(9,E6:E{row - 1})";
+            sheet.Cells[row, 2, row, 5].Style.Font.Bold = true;
+
+            sheet.Cells[1, 1, row, 5].AutoFitColumns();
+            sheet.Cells[7, 2, row, 5].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheet.Column(5).Width = 15;
+
+            var range = sheet.Cells[6, 1, row - 1, 5];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            sheet.Cells[row + 2, 1, row + 2, 5].Style.Font.Bold = true;
+            sheet.Cells[row + 2, 4].Value = "Остаток на конец:";
+            sheet.Cells[row + 2, 2, row + 2, 4].Style.Font.Size = 12;
+            sheet.Cells[row + 2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[row + 2, 5].Formula = $"=SUBTOTAL(9,E7:E{row - 1})+E4";
+            sheet.Cells[row + 2, 5].Style.Numberformat.Format = "### ### ### ##0.00";
+
+            var byteArray = package.GetAsByteArray();
+            package.Dispose();
+
+            return byteArray;
         }
     }
 }

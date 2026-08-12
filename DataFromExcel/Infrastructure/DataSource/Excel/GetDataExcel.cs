@@ -86,7 +86,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     ContractId = row.Field<string>("ContractId"),
                     Property = row.Field<string>("Property"),
                     CostItem = row.Field<string>("CostItem"),
-                    Amount = row.Field<decimal>("Amount")
+                    Amount = row.Field<decimal>("Amount"),
+                    ComplexProperty = row.Field<string>("ComplexProperty")
                 });
             }
             else return null;

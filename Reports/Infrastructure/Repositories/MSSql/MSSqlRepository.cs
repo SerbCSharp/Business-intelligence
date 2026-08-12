@@ -28,36 +28,8 @@ namespace Reports.Infrastructure.Repositories.MSSql
 
         public async Task<IEnumerable<ConstructionCost>> ConstructionCostAsync()
         {
-            string contractorSql = "WITH Payment AS (SELECT SUM(Amount) AS PaymentAmount, ContractId " +
-                                        "FROM PurchasePayments " +
-                                        "GROUP BY ContractId), " +
-                                   "Invoice AS (SELECT SUM(Amount) AS InvoiceAmount, ContractId " +
-                                        "FROM PurchaseInvoices " +
-                                        "GROUP BY ContractId) " +
-                                   
-                                   "SELECT Contractors.Name AS Contractor, Number, Date, ObjectOfSaleInContracts.Amount AS ContractAmount, " +
-                                            "Payment.PaymentAmount, Invoice.InvoiceAmount, " +
-                                            "ObjectOfSaleInContracts.Property, ObjectOfSaleInContracts.CostItem " +
-                                        "FROM Contracts " +
-                                        "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
-                                        "INNER JOIN ObjectOfSaleInContracts ON Contracts.ContractId = ObjectOfSaleInContracts.ContractId " +
-                                        "LEFT JOIN Payment ON Contracts.ContractId = Payment.ContractId " +
-                                        "LEFT JOIN Invoice ON Contracts.ContractId = Invoice.ContractId ";
-            string supplierSql = "WITH Payment AS (SELECT SUM(PurchasePayments.Amount) AS PaymentAmount, PurchasePayments.ContractId," +
-                                        "ObjectOfSaleInPurchasePayments.Property, ObjectOfSaleInPurchasePayments.CostItem " +
-                                    "FROM PurchasePayments " +
-                                    "LEFT JOIN ObjectOfSaleInPurchasePayments ON PurchasePayments.DocumentId = ObjectOfSaleInPurchasePayments.DocumentId " +
-                                    "GROUP BY PurchasePayments.ContractId, ObjectOfSaleInPurchasePayments.Property, ObjectOfSaleInPurchasePayments.CostItem), " +
-                                 "Supplier AS (SELECT Contractors.Name AS Contractor, Number, Date, Payment.PaymentAmount, Payment.Property, Payment.CostItem " +
-                                    "FROM Contracts " +
-                                    "LEFT JOIN Contractors ON Contracts.ContractorId = Contractors.ContractorId " +
-                                    "LEFT JOIN ObjectOfSaleInContracts ON Contracts.ContractId = ObjectOfSaleInContracts.ContractId " +
-                                    "LEFT JOIN Payment ON Contracts.ContractId = Payment.ContractId " +
-                                    "WHERE ObjectOfSaleInContracts.Amount IS NULL) " +
-                                 
-                                 "SELECT * FROM Supplier WHERE Property IS NOT NULL";
-            var contractor = await _dbConnection.QueryAsync<ConstructionCost>(contractorSql);
-            var supplier = await _dbConnection.QueryAsync<ConstructionCost>(supplierSql);
+            var contractor = await _dbConnection.QueryAsync<ConstructionCost>("ConstructionCostContractor");
+            var supplier = await _dbConnection.QueryAsync<ConstructionCost>("ConstructionCostSupplier");
 
             return contractor.Concat(supplier);
         }

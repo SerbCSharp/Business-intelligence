@@ -36,13 +36,13 @@ namespace Reports.Application.Services
         public IEnumerable<ProfitCentersDTO> ProfitCenters(IEnumerable<ProfitCentersSource> profitCentersSource)
         {
             var profitCenters = profitCentersSource
-                .Where(y => y.AreaOfActivity != "ПереводСДругогоСчета" && y.AreaOfActivity != "ПереводНаДругойСчет")
+                .Where(y => y.TypeOperation != "ПереводСДругогоСчета" && y.TypeOperation != "ПереводНаДругойСчет")
                 .Select(x => new ProfitCentersDTO
                 {
                     TypeOfActivity = x.TypeOfActivity,
-                    AreaOfActivity = x.AreaOfActivity,
+                    AreaOfActivity = string.IsNullOrEmpty(x.AreaOfActivity) ? x.TypeOperation : x.AreaOfActivity,
                     Debit = x.DirectOrIndirect ? x.Debit : 0,
-                    Credit = x.Credit,
+                    Credit = x.DirectOrIndirect ? x.Credit : 0,
                     IndirectCost = x.DirectOrIndirect ? 0 : x.Debit - x.Credit
                 })
                 .GroupBy(g => new { g.TypeOfActivity, g.AreaOfActivity })

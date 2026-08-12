@@ -5,6 +5,7 @@
         public string Contractor { get; set; }
         public string Number { get; set; }
         public DateTime Date { get; set; }
+        public bool Closed { get; set; }
         public decimal ContractAmount { get; set; }
         public decimal PaymentAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
