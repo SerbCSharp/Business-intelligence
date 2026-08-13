@@ -67,6 +67,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                 {
                     if (sheet.Cells[1, i].Value.ToString() == "Amount")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "GeneralContractorMarkup")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
                 }
@@ -87,7 +89,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     Property = row.Field<string>("Property"),
                     CostItem = row.Field<string>("CostItem"),
                     Amount = row.Field<decimal>("Amount"),
-                    ComplexProperty = row.Field<string>("ComplexProperty")
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    GeneralContractorMarkup = row.Field<decimal>("GeneralContractorMarkup")
                 });
             }
             else return null;

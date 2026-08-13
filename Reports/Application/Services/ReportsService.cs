@@ -13,9 +13,10 @@ namespace Reports.Application.Services
             return await _getData.ProcurementPriceAsync();
         }
 
-        public async Task<IEnumerable<ConstructionCost>> ConstructionCostAsync()
+        public async Task<IEnumerable<ConstructionCostDTO>> ConstructionCostAsync()
         {
-            return await _getData.ConstructionCostAsync();
+            var constructionCost = (await _getData.ConstructionCostAsync()).ToList();
+            return constructionCost.Select(x => EstimatingLogic(x));
         }
 
         public async Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync()
@@ -60,6 +61,28 @@ namespace Reports.Application.Services
         public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
         {
             return await _getData.OpeningBalanceAsync(startDate);
+        }
+
+        public ConstructionCostDTO EstimatingLogic(ConstructionCost item)
+        {
+            var contractAmount = item.ContractAmount - item.ContractAmount * item.GeneralContractorMarkup;
+            var invoiceAmount = item.InvoiceAmount - item.InvoiceAmount * item.GeneralContractorMarkup;
+            var maxAmount = item.Closed ? Math.Max(item.PaymentAmount, invoiceAmount) :
+                Math.Max(item.PaymentAmount, Math.Max(contractAmount, invoiceAmount));
+
+            return new ConstructionCostDTO
+            {
+                ConstructionCost = maxAmount,
+                ConstructionCostPlusVATDifference = maxAmount * (1.22M - item.VATRate),
+                ContractAmount = item.ContractAmount,
+                InvoiceAmount = item.InvoiceAmount,
+                PaymentAmount = item.PaymentAmount,
+                Contractor = item.Contractor,
+                Number = item.Number,
+                Date = item.Date,
+                Property = item.Property,
+                CostItem = item.CostItem,
+            };
         }
     }
 }

@@ -27,8 +27,8 @@ namespace Reports.Presentation.Controllers
         public async Task<IActionResult> ConstructionCostAsync()
         {
             var constructionCost = await _reportsService.ConstructionCostAsync();
-            var fileBytes = _exportingReportsToExcel.Browse(constructionCost);
-            string fileName = "Browse.xlsx";
+            var fileBytes = _exportingReportsToExcel.ConstructionCost(constructionCost);
+            string fileName = "ConstructionCost.xlsx";
             string contentType = "application/octet-stream";
 
             return File(fileBytes, contentType, fileName);

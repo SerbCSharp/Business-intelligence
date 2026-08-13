@@ -10,5 +10,6 @@ namespace DataFromExcel.Domain
         public string CostItem { get; set; }
         public decimal Amount { get; set; }
         public string ComplexProperty { get; set; }
+        public decimal GeneralContractorMarkup { get; set; }
     }
 }

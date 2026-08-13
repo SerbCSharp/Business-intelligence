@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Infrastructure\Repositories\MSSql\Migrations\" />
+	  <Folder Include="Infrastructure\Repositories\MSSql\StoredProcedures\" />
 	</ItemGroup>
 
 </Project>
