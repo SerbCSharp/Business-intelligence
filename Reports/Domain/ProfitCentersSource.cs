@@ -10,7 +10,6 @@
         public decimal Credit { get; set; }
         public decimal Percent { get; set; }
         public bool DirectOrIndirect { get; set; }
-        public string ContractIdIncome { get; set; }
         public string PaymentPurpose { get; set; }
         public string Number { get; set; }
         public string Contractor { get; set; }

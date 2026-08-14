@@ -128,7 +128,6 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     TotalArea = row.Field<decimal>("TotalArea"),
                     ApartmentArea = row.Field<decimal>("ApartmentArea"),
                     Property = row.Field<string>("Property"),
-                    СommercialArea = row.Field<decimal>("СommercialArea")
                 });
             }
             else return null;
@@ -170,7 +169,6 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     TypeOfActivity = row.Field<string>("TypeOfActivity"),
                     AreaOfActivity = row.Field<string>("AreaOfActivity"),
                     DirectOrIndirect = row.Field<bool>("DirectOrIndirect"),
-                    ContractIdIncome = row.Field<string>("ContractIdIncome")
                 });
             }
             else return null;

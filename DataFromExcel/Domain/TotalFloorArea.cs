@@ -8,7 +8,6 @@ namespace DataFromExcel.Domain
         public Guid RowId { get; set; }
         public decimal TotalArea { get; set; }
         public decimal ApartmentArea { get; set; }
-        public decimal СommercialArea { get; set; }
         public string Property { get; set; }
     }
 }

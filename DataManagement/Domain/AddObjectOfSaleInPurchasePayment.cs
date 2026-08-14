@@ -7,6 +7,7 @@
         public string Property { get; set; }
         public string CostItem { get; set; }
         public string CashFlowItem { get; set; }
+        public string ContractProperty { get; set; }
         public string Contractor { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
