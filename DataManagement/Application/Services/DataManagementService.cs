@@ -21,5 +21,10 @@ namespace DataManagement.Application.Services
         {
             return await _getData.AddAreaOfActivityAsync();
         }
+
+        public async Task<IEnumerable<dynamic>> ExportAnyDataToExcelAsync()
+        {
+            return await _getData.ExportAnyDataToExcelAsync();
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace DataManagement.Application.Interfaces
         Task<IEnumerable<AddObjectOfSaleInPurchasePayment>> AddObjectOfSaleInPurchasePaymentAsync();
         Task<IEnumerable<AddObjectOfSaleInContract>> AddObjectOfSaleInContractAsync();
         Task<IEnumerable<AddAreaOfActivity>> AddAreaOfActivityAsync();
+        Task<IEnumerable<dynamic>> ExportAnyDataToExcelAsync();
     }
 }

@@ -23,6 +23,11 @@ namespace DataManagement.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryAsync<AddAreaOfActivity>("AddAreaOfActivity");
         }
+
+        public async Task<IEnumerable<dynamic>> ExportAnyDataToExcelAsync()
+        {
+            return await _dbConnection.QueryAsync<dynamic>("ExportAnyDataToExcel");
+        }
     }
 }
 

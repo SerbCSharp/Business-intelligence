@@ -24,7 +24,6 @@ namespace DataManagement.Presentation.ReportsToExcel
             var fields = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
             var countFields = fields.Length;
 
-            // Шапка
             for (int i = 0; i < countFields; i++)
             {
                 sheet.Cells[1, i + 1].Value = fields[i].Name;
@@ -59,6 +58,31 @@ namespace DataManagement.Presentation.ReportsToExcel
             sheet.Cells[1, 1, row, countFields].AutoFitColumns();
 
             var range = sheet.Cells[1, 1, row - 1, countFields];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            return package.GetAsByteArray();
+        }
+
+        public byte[] ExportAnyData(IEnumerable<dynamic> data)
+        {
+            using var package = new ExcelPackage();
+
+            var sheet = package.Workbook.Worksheets.Add("Browse");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+            sheet.View.FreezePanes(2, 1);
+
+            var dict = data.Select(x => (IDictionary<string, object>)x);
+            sheet.Cells["A1"].LoadFromDictionaries(dict, c => c.PrintHeaders = true);
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;

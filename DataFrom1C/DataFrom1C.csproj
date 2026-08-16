@@ -7,6 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Infrastructure\Repositories\MSSql\StoredProcedures\**" />
+	  <Content Remove="Infrastructure\Repositories\MSSql\StoredProcedures\**" />
+	  <EmbeddedResource Remove="Infrastructure\Repositories\MSSql\StoredProcedures\**" />
+	  <None Remove="Infrastructure\Repositories\MSSql\StoredProcedures\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
@@ -18,7 +25,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Infrastructure\Repositories\MSSql\Migrations\" />
-	  <Folder Include="Infrastructure\Repositories\MSSql\StoredProcedures\" />
 	</ItemGroup>
 
 </Project>

@@ -43,5 +43,16 @@ namespace DataManagement.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("ExportAnyDataToExcel")]
+        public async Task<IActionResult> ExportAnyDataToExcelAsync()
+        {
+            var exportAnyDataToExcel = await _dataManagementService.ExportAnyDataToExcelAsync();
+            var fileBytes = _exportingReportsToExcel.ExportAnyData(exportAnyDataToExcel);
+            string fileName = "Browse.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }
