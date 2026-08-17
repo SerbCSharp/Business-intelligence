@@ -11,7 +11,6 @@ namespace DataFrom1C.Domain
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public string ContractorId { get; set; }
-        public string ProductGroupId { get; set; }
         public string CodeContract { get; set; }
     }
 }

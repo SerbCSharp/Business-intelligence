@@ -122,7 +122,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
         public async Task ConstructionCompletionCertificateAsync(IEnumerable<ConstructionCompletionCertificate> constructionCompletionCertificates)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE ConstructionCompletionCertificates");
-            await _dataContext.ConstructionCompletionCertificates.AddRangeAsync(constructionCompletionCertificates);
+            if (constructionCompletionCertificates != null) await _dataContext.ConstructionCompletionCertificates.AddRangeAsync(constructionCompletionCertificates);
             await _dataContext.SaveChangesAsync();
         }
 

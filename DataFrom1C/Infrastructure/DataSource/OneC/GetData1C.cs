@@ -137,7 +137,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage implementationConstructionWorksResponse = await httpClient.GetAsync(implementationConstructionWorksUrl);
             var implementationConstructionWorks = await implementationConstructionWorksResponse.Content.ReadFromJsonAsync<ImplementationConstructionWorks>();
-            var SalesImplementationConstructionWorks = implementationConstructionWorks.Value.Select(x => new SalesInvoice
+            var SalesImplementationConstructionWorks = implementationConstructionWorks.Value?.Select(x => new SalesInvoice
             {
                 DocumentId = x.DocumentId,
                 Date = x.Date,
@@ -145,7 +145,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 ContractId = x.ContractId
             });
 
-            return SalesGoodsServices.Concat(SalesImplementationConstructionWorks);
+            return SalesImplementationConstructionWorks != null ? SalesGoodsServices.Concat(SalesImplementationConstructionWorks)
+                                                                : SalesGoodsServices;
         }
 
         public async Task<IEnumerable<PurchaseGoodAndService>> PurchaseGoodAndServiceAsync()
@@ -184,7 +185,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         public async Task<IEnumerable<Contract>> ContractAsync() // Договоры контрагентов
         {
             var contractCounterpartiesUrl = ApiUrl + "Catalog_ДоговорыКонтрагентов?$format=json"
-                + "&$select=Ref_Key,Номер,Description,Дата,Сумма,Owner_Key,НоменклатурнаяГруппа_Key,Code"
+                + "&$select=Ref_Key,Номер,Description,Дата,Сумма,Owner_Key,Code"
                 + "&$filter=DeletionMark eq false";
             using HttpResponseMessage contractCounterpartiesResponse = await httpClient.GetAsync(contractCounterpartiesUrl);
             var contractCounterparties = await contractCounterpartiesResponse.Content.ReadFromJsonAsync<ContractCounterparties>();
@@ -196,7 +197,6 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Number = x.Number,
                 Name = x.Name,
                 ContractorId = x.ContractorId,
-                ProductGroupId = x.ProductGroupId,
                 CodeContract = x.Code
             });
         }
@@ -371,7 +371,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage constructionOrderResponse = await httpClient.GetAsync(constructionOrderUrl);
             var constructionOrder = await constructionOrderResponse.Content.ReadFromJsonAsync<ConstructionOrder>();
-            return constructionOrder.Value.Select(x => new ConstructionCompletionCertificate
+            return constructionOrder.Value?.Select(x => new ConstructionCompletionCertificate
             {
                 ContractId = x.ContractId,
                 StartDate = x.StartDate,

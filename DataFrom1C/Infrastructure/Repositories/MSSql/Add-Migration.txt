@@ -1,2 +1,2 @@
-﻿﻿Add-Migration Init -OutputDir Infrastructure/Repositories/MSSql/Migrations
+﻿﻿Add-Migration DeleteProductGroupIdInContract -OutputDir Infrastructure/Repositories/MSSql/Migrations
 Update-Database
