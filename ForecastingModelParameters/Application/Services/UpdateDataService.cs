@@ -1,16 +1,19 @@
 ﻿using ForecastingModelParameters.Application.Interfaces;
+using ForecastingModelParameters.Domain;
 
 namespace ForecastingModelParameters.Application.Services
 {
-    public class UpdateDataService(ISaveData saveData)
+    public class UpdateDataService(IGetData getData, ISaveData saveData)
     {
-        //private readonly IGetData _getData = getData;
+        private readonly IGetData _getData = getData;
         private readonly ISaveData _saveData = saveData;
 
-        public async Task ConstructionCostByPropertyAsync()
+        public async Task<IEnumerable<ConstructionCostByProperty>> GetConstructionCostByPropertyAsync(string complexProperty, int property)
         {
-            //var getConstructionCostByProperty = await _getData.ConstructionCostByPropertyAsync();
-            //await _saveData.ConstructionCostByPropertyAsync(getConstructionCostByProperty);
+            var getConstructionCostByProperty = await _getData.GetConstructionCostByPropertyAsync(complexProperty);
+            if (getConstructionCostByProperty.Count() == 0)
+            { }
+            return getConstructionCostByProperty;
         }
     }
 }

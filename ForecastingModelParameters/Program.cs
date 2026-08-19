@@ -2,6 +2,7 @@ using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Application.Services;
 using ForecastingModelParameters.Infrastructure.Repositories;
 using ForecastingModelParameters.Infrastructure.Repositories.MSSql;
+using ForecastingModelParameters.Presentation.ReportsToExcel;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,11 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(build
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpClient();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<FilePathConfiguration>(builder.Configuration.GetSection(FilePathConfiguration.Section));
 builder.Services.AddScoped<ISaveData, MSSqlRepository>();
+builder.Services.AddScoped<IGetData, MSSqlRepository>();
 builder.Services.AddScoped<UpdateDataService>();
+builder.Services.AddScoped<ExportingReportsToExcel>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

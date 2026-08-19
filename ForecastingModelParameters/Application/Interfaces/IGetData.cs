@@ -4,6 +4,6 @@ namespace ForecastingModelParameters.Application.Interfaces
 {
     public interface IGetData
     {
-        Task<IEnumerable<ConstructionCostByProperty>> ConstructionCostByPropertyAsync();
+        Task<IEnumerable<ConstructionCostByProperty>> GetConstructionCostByPropertyAsync(string complexProperty);
     }
 }

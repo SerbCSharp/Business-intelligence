@@ -1,15 +1,20 @@
 ﻿using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
 {
-    public class MSSqlRepository(DataContext dataContext) : ISaveData
+    public class MSSqlRepository(DataContext dataContext) : ISaveData, IGetData
     {
         private readonly DataContext _dataContext = dataContext;
 
-        public async Task ConstructionCostByPropertyAsync(IEnumerable<ConstructionCostByProperty> constructionCostByProperty)
+        public async Task<IEnumerable<ConstructionCostByProperty>> GetConstructionCostByPropertyAsync(string complexProperty)
         {
-            _dataContext.ConstructionCostByProperties.UpdateRange(constructionCostByProperty);
+            return await _dataContext.ConstructionCostByProperties.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+        }
+
+        public async Task SaveConstructionCostByPropertyAsync(IEnumerable<ConstructionCostByProperty> constructionCostByProperty)
+        {
             await _dataContext.SaveChangesAsync();
         }
     }
