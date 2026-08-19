@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataFrom1C.Presentation.Controllers
 {
-
     [ApiController]
     public class UpdateDataController(UpdateDataService updateDataService) : ControllerBase
     {
