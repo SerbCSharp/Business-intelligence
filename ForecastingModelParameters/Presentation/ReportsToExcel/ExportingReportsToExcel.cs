@@ -55,6 +55,43 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             package.SaveAs(fileInfo);
         }
 
+        public void SalesValueByCategory(IEnumerable<SalesValueByCategory> salesValueByCategory, string complexProperty)
+        {
+            using var package = new ExcelPackage();
+
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
+            var sheetSource = package.Workbook.Worksheets.Add("SalesValueByCategory");
+            sheetSource.Cells.Style.Font.Name = "Calibri";
+            sheetSource.Cells.Style.Font.Size = 11;
+
+            sheetSource.Cells[1, 1].Value = "ComplexProperty";
+            sheetSource.Cells[1, 2].Value = "Category";
+            sheetSource.Cells[1, 3].Value = "SalesValue";
+            sheetSource.Cells[1, 4].Value = "Sold";
+            sheetSource.Cells[1, 1, 1, 4].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            var row = 2;
+            var column = 0;
+            foreach (var item in salesValueByCategory)
+            {
+                sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
+                sheetSource.Cells[row, column + 2].Value = item.Category;
+                sheetSource.Cells[row, column + 3].Value = item.SalesValue;
+                sheetSource.Cells[row, column + 4].Value = item.Sold;
+                row++;
+            }
+            sheetSource.Cells[1, 1, row, 4].AutoFitColumns();
+            sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.00";
+            var range = sheetSource.Cells[1, 1, row - 1, 4];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+            package.SaveAs(fileInfo);
+        }
+
         public void ConstructionCostByPeriod(IEnumerable<ConstructionCostByPeriod> constructionCostByPeriod, string complexProperty)
         {
             using var package = new ExcelPackage();
@@ -89,6 +126,46 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.00";
             sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
             var range = sheetSource.Cells[1, 1, row - 1, 6];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+            package.SaveAs(fileInfo);
+        }
+
+        public void SalesValueByPeriod(IEnumerable<SalesValueByPeriod> salesValueByPeriod, string complexProperty)
+        {
+            using var package = new ExcelPackage();
+
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
+            var sheetSource = package.Workbook.Worksheets.Add("SalesValueByPeriod");
+            sheetSource.Cells.Style.Font.Name = "Calibri";
+            sheetSource.Cells.Style.Font.Size = 11;
+
+            sheetSource.Cells[1, 1].Value = "ComplexProperty";
+            sheetSource.Cells[1, 2].Value = "Category";
+            sheetSource.Cells[1, 3].Value = "SalesValue";
+            sheetSource.Cells[1, 4].Value = "Quarter";
+            sheetSource.Cells[1, 5].Value = "Year";
+            sheetSource.Cells[1, 1, 1, 5].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            var row = 2;
+            var column = 0;
+            foreach (var item in salesValueByPeriod)
+            {
+                sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
+                sheetSource.Cells[row, column + 2].Value = item.Category;
+                sheetSource.Cells[row, column + 3].Value = item.SalesValue;
+                sheetSource.Cells[row, column + 4].Value = item.Quarter;
+                sheetSource.Cells[row, column + 5].Value = item.Year;
+                row++;
+            }
+            sheetSource.Cells[1, 1, row, 5].AutoFitColumns();
+            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["D:E"].Style.Numberformat.Format = "###0";
+            var range = sheetSource.Cells[1, 1, row - 1, 5];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;

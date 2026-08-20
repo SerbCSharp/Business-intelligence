@@ -32,5 +32,11 @@ namespace ForecastingModelParameters.Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("RequestOtherCosts")]
+        public async Task<IActionResult> RequestOtherCostsAsync([Required] string complexProperty)
+        {
+            return NoContent();
+        }
     }
 }
