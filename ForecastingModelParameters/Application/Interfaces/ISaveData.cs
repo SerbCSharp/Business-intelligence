@@ -4,6 +4,6 @@ namespace ForecastingModelParameters.Application.Interfaces
 {
     public interface ISaveData
     {
-        Task SaveConstructionCostByPropertyAsync(IEnumerable<ConstructionCostByProperty> constructionCostByProperty);
+        Task SaveConstructionCostByPropertyAsync(IEnumerable<ConstructionCostByProperty> constructionCostByProperty, string complexProperty);
     }
 }

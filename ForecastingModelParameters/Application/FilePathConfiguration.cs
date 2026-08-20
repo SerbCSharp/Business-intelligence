@@ -1,4 +1,4 @@
-﻿namespace ForecastingModelParameters.Presentation.ReportsToExcel
+﻿namespace ForecastingModelParameters.Application
 {
     public class FilePathConfiguration
     {
