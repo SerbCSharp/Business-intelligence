@@ -27,13 +27,57 @@ namespace ForecastingModelParameters.Application.Services
             return salesValueByCategory;
         }
 
-        public async Task<IEnumerable<ConstructionCostByPeriod>> RequestByPeriodsConstructionAsync(string complexProperty, int period)
+        public async Task<IEnumerable<OtherCost>> RequestOtherCostAsync(string complexProperty)
+        {
+            return await _getDataRepository.GetOtherCostAsync(complexProperty);
+        }
+
+        public async Task<IEnumerable<OtherCostByPeriod>> RequestOtherCostByPeriodAsync(string complexProperty)
+        {
+            return await _getDataRepository.GetOtherCostByPeriodAsync(complexProperty);
+        }
+
+        public async Task SaveConstructionCostByPropertyAsync(string complexProperty)
         {
             var getExcelConstructionCostByProperty = _getDataSource.GetConstructionCostByProperty(complexProperty);
             await _saveData.SaveConstructionCostByPropertyAsync(getExcelConstructionCostByProperty, complexProperty);
+        }
+
+        public async Task SaveSalesValueByCategoryAsync(string complexProperty)
+        {
+            var getExcelSalesValueByCategory = _getDataSource.GetSalesValueByCategory(complexProperty);
+            await _saveData.SaveSalesValueByCategoryAsync(getExcelSalesValueByCategory, complexProperty);
+        }
+
+        public async Task SaveConstructionCostByPeriodAsync(string complexProperty)
+        {
+            var getExcelConstructionCostByPeriod = _getDataSource.GetConstructionCostByPeriod(complexProperty);
+            await _saveData.SaveConstructionCostByPeriodAsync(getExcelConstructionCostByPeriod, complexProperty);
+        }
+
+        public async Task SaveSalesValueByPeriodAsync(string complexProperty)
+        {
+            var getExcelSalesValueByPeriod = _getDataSource.GetSalesValueByPeriod(complexProperty);
+            await _saveData.SaveSalesValueByPeriodAsync(getExcelSalesValueByPeriod, complexProperty);
+        }
+
+        public async Task SaveOtherCostAsync(string complexProperty)
+        {
+            var getExcelOtherCost = _getDataSource.GetOtherCost(complexProperty);
+            await _saveData.SaveOtherCostAsync(getExcelOtherCost, complexProperty);
+        }
+
+        public async Task SaveOtherCostByPeriodAsync(string complexProperty)
+        {
+            var getExcelOtherCostByPeriod = _getDataSource.GetOtherCostByPeriod(complexProperty);
+            await _saveData.SaveOtherCostByPeriodAsync(getExcelOtherCostByPeriod, complexProperty);
+        }
+
+        public async Task<IEnumerable<ConstructionCostByPeriod>> RequestByPeriodsConstructionAsync(string complexProperty, int period)
+        {
+            await SaveConstructionCostByPropertyAsync(complexProperty);
 
             var getDBConstructionCostByProperty = await _getDataRepository.GetConstructionCostByPropertyAsync(complexProperty);
-
             var constructionCostByPeriod = await _getDataRepository.GetConstructionCostByPeriodAsync(complexProperty);
             if (constructionCostByPeriod.Count == 0)
             {
@@ -57,8 +101,7 @@ namespace ForecastingModelParameters.Application.Services
 
         public async Task<IEnumerable<SalesValueByPeriod>> RequestBySalesPeriodsAsync(string complexProperty, int period)
         {
-            var getExcelSalesValueByCategory = _getDataSource.GetSalesValueByCategory(complexProperty);
-            await _saveData.SaveSalesValueByCategoryAsync(getExcelSalesValueByCategory, complexProperty);
+            await SaveSalesValueByCategoryAsync(complexProperty);
 
             var getDBSalesValueByCategory = await _getDataRepository.GetSalesValueByCategoryAsync(complexProperty);
 
@@ -82,6 +125,16 @@ namespace ForecastingModelParameters.Application.Services
             }
 
             return salesValueByPeriod;
+        }
+
+        public async Task SaveAllProjectCostingDataAsync(string complexProperty)
+        {
+            await SaveConstructionCostByPropertyAsync(complexProperty);
+            await SaveConstructionCostByPeriodAsync(complexProperty);
+            await SaveOtherCostAsync(complexProperty);
+            await SaveOtherCostByPeriodAsync(complexProperty);
+            await SaveSalesValueByCategoryAsync(complexProperty);
+            await SaveSalesValueByPeriodAsync(complexProperty);
         }
     }
 }

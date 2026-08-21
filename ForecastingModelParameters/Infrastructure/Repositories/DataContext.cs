@@ -9,5 +9,7 @@ namespace ForecastingModelParameters.Infrastructure.Repositories
         public DbSet<ConstructionCostByPeriod> ConstructionCostByPeriods { get; set; }
         public DbSet<SalesValueByCategory> SalesValueByCategories { get; set; }
         public DbSet<SalesValueByPeriod> SalesValueByPeriods { get; set; }
+        public DbSet<OtherCost> OtherCosts { get; set; }
+        public DbSet<OtherCostByPeriod> OtherCostByPeriods { get; set; }
     }
 }

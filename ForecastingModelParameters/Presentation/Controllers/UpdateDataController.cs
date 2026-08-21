@@ -18,6 +18,8 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.ConstructionCostByProperty(constructionCostByProperty, complexProperty);
             var salesValueByCategory = await _updateDataService.RequestCategoriesAsync(complexProperty, category);
             _exportingReportsToExcel.SalesValueByCategory(salesValueByCategory, complexProperty);
+            var otherCost = await _updateDataService.RequestOtherCostAsync(complexProperty);
+            _exportingReportsToExcel.OtherCost(otherCost, complexProperty);
 
             return NoContent();
         }
@@ -29,13 +31,17 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod, complexProperty);
             var salesValueByPeriod = await _updateDataService.RequestBySalesPeriodsAsync(complexProperty, period);
             _exportingReportsToExcel.SalesValueByPeriod(salesValueByPeriod, complexProperty);
+            var otherCostByPeriod = await _updateDataService.RequestOtherCostByPeriodAsync(complexProperty);
+            _exportingReportsToExcel.OtherCostByPeriod(otherCostByPeriod, complexProperty);
 
             return NoContent();
         }
 
-        [HttpGet("RequestOtherCosts")]
-        public async Task<IActionResult> RequestOtherCostsAsync([Required] string complexProperty)
+        [HttpGet("SaveAllProjectCostingData")]
+        public async Task<IActionResult> SaveAllProjectCostingDataAsync([Required] string complexProperty)
         {
+            await _updateDataService.SaveAllProjectCostingDataAsync(complexProperty);
+
             return NoContent();
         }
     }

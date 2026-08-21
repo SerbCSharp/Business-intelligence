@@ -19,6 +19,49 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
             ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
         }
 
+        public IEnumerable<ConstructionCostByPeriod> GetConstructionCostByPeriod(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByPeriod({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "ConstructionCostByPeriod"];
+                DataTable dataTable = new();
+
+                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
+                {
+                    if (sheet.Cells[1, i].Value.ToString() == "ConstructionCost")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Year")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
+                }
+
+                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                    {
+                        dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                return dataTable.AsEnumerable().Select(row => new ConstructionCostByPeriod
+                {
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    Property = row.Field<string>("Property"),
+                    ConstructionCost = row.Field<decimal>("ConstructionCost"),
+                    Quarter = row.Field<int>("Quarter"),
+                    Year = row.Field<int>("Year")
+                });
+            }
+            else return null;
+        }
+
         public IEnumerable<ConstructionCostByProperty> GetConstructionCostByProperty(string complexProperty)
         {
             FileInfo fileInfo = new(filePath + $"\\ConstructionCostByProperty({complexProperty}).xlsx");
@@ -59,6 +102,94 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
             else return null;
         }
 
+        public IEnumerable<OtherCost> GetOtherCost(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "OtherCost"];
+                DataTable dataTable = new();
+
+                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
+                {
+                    if (sheet.Cells[1, i].Value.ToString() == "MoneyIn")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "MoneyOut")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
+                }
+
+                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                    {
+                        dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                return dataTable.AsEnumerable().Select(row => new OtherCost
+                {
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    Name = row.Field<string>("Name"),
+                    MoneyIn = row.Field<decimal>("MoneyIn"),
+                    MoneyOut = row.Field<decimal>("MoneyOut"),
+                    Sheet = row.Field<string>("Sheet")
+                });
+            }
+            else return null;
+        }
+
+        public IEnumerable<OtherCostByPeriod> GetOtherCostByPeriod(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "OtherCostByPeriod"];
+                DataTable dataTable = new();
+
+                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
+                {
+                    if (sheet.Cells[1, i].Value.ToString() == "MoneyOut")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "MoneyIn")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Year")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
+                }
+
+                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                    {
+                        dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                return dataTable.AsEnumerable().Select(row => new OtherCostByPeriod
+                {
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    Name = row.Field<string>("Name"),
+                    MoneyOut = row.Field<decimal>("MoneyOut"),
+                    MoneyIn = row.Field<decimal>("MoneyIn"),
+                    Quarter = row.Field<int>("Quarter"),
+                    Year = row.Field<int>("Year"),
+                    Sheet = row.Field<string>("Sheet")
+                });
+            }
+            else return null;
+        }
+
         public IEnumerable<SalesValueByCategory> GetSalesValueByCategory(string complexProperty)
         {
             FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
@@ -94,6 +225,49 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                     Category = row.Field<string>("Category"),
                     SalesValue = row.Field<decimal>("SalesValue"),
                     Sold = row.Field<decimal>("Sold")
+                });
+            }
+            else return null;
+        }
+
+        public IEnumerable<SalesValueByPeriod> GetSalesValueByPeriod(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "SalesValueByPeriod"];
+                DataTable dataTable = new();
+
+                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
+                {
+                    if (sheet.Cells[1, i].Value.ToString() == "SalesValue")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Year")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
+                    else
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
+                }
+
+                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                    {
+                        dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                return dataTable.AsEnumerable().Select(row => new SalesValueByPeriod
+                {
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    Category = row.Field<string>("Category"),
+                    SalesValue = row.Field<decimal>("SalesValue"),
+                    Quarter = row.Field<int>("Quarter"),
+                    Year = row.Field<int>("Year")
                 });
             }
             else return null;

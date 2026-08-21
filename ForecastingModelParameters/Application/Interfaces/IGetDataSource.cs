@@ -6,5 +6,9 @@ namespace ForecastingModelParameters.Application.Interfaces
     {
         IEnumerable<ConstructionCostByProperty> GetConstructionCostByProperty(string complexProperty);
         IEnumerable<SalesValueByCategory> GetSalesValueByCategory(string complexProperty);
+        IEnumerable<ConstructionCostByPeriod> GetConstructionCostByPeriod(string complexProperty);
+        IEnumerable<SalesValueByPeriod> GetSalesValueByPeriod(string complexProperty);
+        IEnumerable<OtherCost> GetOtherCost(string complexProperty);
+        IEnumerable<OtherCostByPeriod> GetOtherCostByPeriod(string complexProperty);
     }
 }

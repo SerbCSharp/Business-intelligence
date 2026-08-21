@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260821044146_AddOtherCost")]
+    partial class AddOtherCost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +35,9 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ConstructionCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PercentageOfCosts")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Property")
@@ -89,8 +95,8 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sheet")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PercentageOfMoneyOut")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("RowId");
 
@@ -117,9 +123,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
 
                     b.Property<int>("Quarter")
                         .HasColumnType("int");
-
-                    b.Property<string>("Sheet")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
