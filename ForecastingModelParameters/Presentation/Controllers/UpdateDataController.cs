@@ -18,8 +18,8 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.ConstructionCostByProperty(constructionCostByProperty, complexProperty);
             var salesValueByCategory = await _updateDataService.RequestCategoriesAsync(complexProperty, category);
             _exportingReportsToExcel.SalesValueByCategory(salesValueByCategory, complexProperty);
-            var otherCost = await _updateDataService.RequestOtherCostAsync(complexProperty);
-            _exportingReportsToExcel.OtherCost(otherCost, complexProperty);
+            //var otherCost = await _updateDataService.RequestOtherCostAsync(complexProperty);
+            //_exportingReportsToExcel.OtherCost(otherCost, complexProperty);
 
             return NoContent();
         }

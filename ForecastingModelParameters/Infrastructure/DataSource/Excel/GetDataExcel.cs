@@ -182,6 +182,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                     Name = row.Field<string>("Name"),
                     MoneyOut = row.Field<decimal>("MoneyOut"),
                     MoneyIn = row.Field<decimal>("MoneyIn"),
+                    IncurredCosts = row.Field<decimal>("IncurredCosts"),
                     Quarter = row.Field<int>("Quarter"),
                     Year = row.Field<int>("Year"),
                     Sheet = row.Field<string>("Sheet")

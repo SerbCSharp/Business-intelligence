@@ -13,6 +13,7 @@ namespace ForecastingModelParameters.Domain
         public string Sheet { get; set; }
         public decimal MoneyOut { get; set; }
         public decimal MoneyIn { get; set; }
+        public decimal IncurredCosts { get; set; }
         public int Quarter { get; set; }
         public int Year { get; set; }
     }

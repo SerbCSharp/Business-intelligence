@@ -116,7 +116,6 @@ namespace ForecastingModelParameters.Application.Services
                         {
                             ComplexProperty = complexProperty,
                             Category = category.Category,
-                            SalesValue = category.SalesValue,
                             Quarter = (DateTime.Now.AddMonths(i * 3).Month - 1) / 3 + 1,
                             Year = DateTime.Now.AddMonths(i * 3).Year
                         });

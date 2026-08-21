@@ -121,8 +121,8 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
                 row++;
             }
             sheetSource.Cells[1, 1, row, 5].AutoFitColumns();
-            sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
+            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["D:E"].Style.Numberformat.Format = "###0";
             var range = sheetSource.Cells[1, 1, row - 1, 5];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
@@ -225,10 +225,11 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             sheetSource.Cells[1, 3].Value = "Sheet";
             sheetSource.Cells[1, 4].Value = "MoneyOut";
             sheetSource.Cells[1, 5].Value = "MoneyIn";
-            sheetSource.Cells[1, 6].Value = "Quarter";
-            sheetSource.Cells[1, 7].Value = "Year";
-            sheetSource.Cells[1, 1, 1, 7].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheetSource.Cells[1, 6].Value = "IncurredCosts";
+            sheetSource.Cells[1, 7].Value = "Quarter";
+            sheetSource.Cells[1, 8].Value = "Year";
+            sheetSource.Cells[1, 1, 1, 8].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -239,14 +240,15 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
                 sheetSource.Cells[row, column + 3].Value = item.Sheet;
                 sheetSource.Cells[row, column + 4].Value = item.MoneyOut;
                 sheetSource.Cells[row, column + 5].Value = item.MoneyIn;
-                sheetSource.Cells[row, column + 6].Value = item.Quarter;
-                sheetSource.Cells[row, column + 7].Value = item.Year;
+                sheetSource.Cells[row, column + 6].Value = item.IncurredCosts;
+                sheetSource.Cells[row, column + 7].Value = item.Quarter;
+                sheetSource.Cells[row, column + 8].Value = item.Year;
                 row++;
             }
-            sheetSource.Cells[1, 1, row, 7].AutoFitColumns();
-            sheetSource.Cells["D:E"].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheetSource.Cells["F:G"].Style.Numberformat.Format = "###0";
-            var range = sheetSource.Cells[1, 1, row - 1, 7];
+            sheetSource.Cells[1, 1, row, 8].AutoFitColumns();
+            sheetSource.Cells["D:F"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["G:H"].Style.Numberformat.Format = "###0";
+            var range = sheetSource.Cells[1, 1, row - 1, 8];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
