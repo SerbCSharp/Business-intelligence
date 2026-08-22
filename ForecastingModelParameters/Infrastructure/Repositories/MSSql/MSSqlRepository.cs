@@ -38,6 +38,11 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
             return await _dataContext.SalesValueByPeriods.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
         }
 
+        public async Task<List<ReportField>> GetReportFieldAsync(string complexProperty)
+        {
+            return await _dataContext.ReportFields.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+        }
+
         public async Task SaveConstructionCostByPeriodAsync(IEnumerable<ConstructionCostByPeriod> constructionCostByPeriod, string complexProperty)
         {
             await _dataContext.ConstructionCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();

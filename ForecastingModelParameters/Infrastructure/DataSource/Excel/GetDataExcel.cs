@@ -21,7 +21,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<ConstructionCostByPeriod> GetConstructionCostByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -31,6 +31,8 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
                     if (sheet.Cells[1, i].Value.ToString() == "ConstructionCost")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "PercentageOfCosts")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
@@ -55,6 +57,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Property = row.Field<string>("Property"),
                     ConstructionCost = row.Field<decimal>("ConstructionCost"),
+                    PercentageOfCosts = row.Field<decimal>("PercentageOfCosts"),
                     Quarter = row.Field<int>("Quarter"),
                     Year = row.Field<int>("Year")
                 });
@@ -64,7 +67,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<ConstructionCostByProperty> GetConstructionCostByProperty(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByProperty({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByProperty({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -104,7 +107,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<OtherCost> GetOtherCost(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCost({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -113,9 +116,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    if (sheet.Cells[1, i].Value.ToString() == "MoneyIn")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                    else if (sheet.Cells[1, i].Value.ToString() == "MoneyOut")
+                    if (sheet.Cells[1, i].Value.ToString() == "IncurredCosts")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
@@ -135,9 +136,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 {
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Name = row.Field<string>("Name"),
-                    MoneyIn = row.Field<decimal>("MoneyIn"),
-                    MoneyOut = row.Field<decimal>("MoneyOut"),
-                    Sheet = row.Field<string>("Sheet")
+                    IncurredCosts = row.Field<decimal>("IncurredCosts")                     
                 });
             }
             else return null;
@@ -145,7 +144,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<OtherCostByPeriod> GetOtherCostByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCostByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -154,9 +153,9 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    if (sheet.Cells[1, i].Value.ToString() == "MoneyOut")
+                    if (sheet.Cells[1, i].Value.ToString() == "Amount")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                    else if (sheet.Cells[1, i].Value.ToString() == "MoneyIn")
+                    else if (sheet.Cells[1, i].Value.ToString() == "PercentageOfCosts")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
@@ -180,12 +179,10 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 {
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Name = row.Field<string>("Name"),
-                    MoneyOut = row.Field<decimal>("MoneyOut"),
-                    MoneyIn = row.Field<decimal>("MoneyIn"),
-                    IncurredCosts = row.Field<decimal>("IncurredCosts"),
+                    Amount = row.Field<decimal>("Amount"),
+                    PercentageOfCosts = row.Field<decimal>("PercentageOfCosts"),
                     Quarter = row.Field<int>("Quarter"),
-                    Year = row.Field<int>("Year"),
-                    Sheet = row.Field<string>("Sheet")
+                    Year = row.Field<int>("Year")
                 });
             }
             else return null;
@@ -193,7 +190,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<SalesValueByCategory> GetSalesValueByCategory(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByCategory({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -233,7 +230,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<SalesValueByPeriod> GetSalesValueByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);

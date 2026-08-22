@@ -10,5 +10,6 @@ namespace ForecastingModelParameters.Application.Interfaces
         Task<List<SalesValueByPeriod>> GetSalesValueByPeriodAsync(string complexProperty);
         Task<List<OtherCost>> GetOtherCostAsync(string complexProperty);
         Task<List<OtherCostByPeriod>> GetOtherCostByPeriodAsync(string complexProperty);
+        Task<List<ReportField>> GetReportFieldAsync(string complexProperty);
     }
 }

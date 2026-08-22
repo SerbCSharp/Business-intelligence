@@ -29,12 +29,45 @@ namespace ForecastingModelParameters.Application.Services
 
         public async Task<IEnumerable<OtherCost>> RequestOtherCostAsync(string complexProperty)
         {
-            return await _getDataRepository.GetOtherCostAsync(complexProperty);
+            var otherCost = await _getDataRepository.GetOtherCostAsync(complexProperty);
+            if (otherCost.Count == 0)
+            {
+                var reportFields = await _getDataRepository.GetReportFieldAsync(complexProperty);
+                foreach (var item in reportFields)
+                {
+                    otherCost.Add(new OtherCost
+                    {
+                        ComplexProperty = complexProperty,
+                        Name = item.Name,
+                    });
+                }
+            }
+
+            return otherCost;
         }
 
-        public async Task<IEnumerable<OtherCostByPeriod>> RequestOtherCostByPeriodAsync(string complexProperty)
+        public async Task<IEnumerable<OtherCostByPeriod>> RequestOtherCostByPeriodAsync(string complexProperty, int period)
         {
-            return await _getDataRepository.GetOtherCostByPeriodAsync(complexProperty);
+            var otherCostByPeriod = await _getDataRepository.GetOtherCostByPeriodAsync(complexProperty);
+            if (otherCostByPeriod.Count == 0)
+            {
+                var reportFields = await _getDataRepository.GetReportFieldAsync(complexProperty);
+                foreach (var item in reportFields)
+                {
+                    for (int i = 0; i < period; i++)
+                    {
+                        otherCostByPeriod.Add(new OtherCostByPeriod
+                        {
+                            ComplexProperty = complexProperty,
+                            Name = item.Name,
+                            Quarter = (DateTime.Now.AddMonths(i * 3).Month - 1) / 3 + 1,
+                            Year = DateTime.Now.AddMonths(i * 3).Year
+                        });
+                    }
+                }
+            }
+
+            return otherCostByPeriod;
         }
 
         public async Task SaveConstructionCostByPropertyAsync(string complexProperty)

@@ -10,8 +10,6 @@ namespace ForecastingModelParameters.Domain
         public Guid RowId { get; set; }
         public string ComplexProperty { get; set; }
         public string Name { get; set; }
-        public string Sheet { get; set; }
-        public decimal MoneyOut { get; set; }
-        public decimal MoneyIn { get; set; }
+        public decimal IncurredCosts { get; set; }
     }
 }

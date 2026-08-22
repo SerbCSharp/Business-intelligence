@@ -3,16 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForecastingModelParameters.Domain
 {
-    [Table("OtherCostByPeriods", Schema = "params")]
-    public class OtherCostByPeriod
+    [Table("ReportFields", Schema = "params")]
+    public class ReportField
     {
         [Key]
         public Guid RowId { get; set; }
         public string ComplexProperty { get; set; }
         public string Name { get; set; }
-        public decimal Amount { get; set; }
-        public decimal PercentageOfCosts { get; set; }
-        public int Quarter { get; set; }
-        public int Year { get; set; }
     }
 }

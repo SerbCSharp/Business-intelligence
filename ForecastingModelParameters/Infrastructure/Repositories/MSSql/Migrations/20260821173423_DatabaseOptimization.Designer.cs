@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260821173423_DatabaseOptimization")]
+    partial class DatabaseOptimization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +35,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ConstructionCost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("PercentageOfCosts")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Property")
@@ -89,6 +89,9 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Sheet")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("RowId");
 
                     b.ToTable("OtherCosts", "params");
@@ -100,17 +103,17 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("MoneyIn")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MoneyOut")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PercentageOfCosts")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quarter")
                         .HasColumnType("int");
@@ -121,23 +124,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.HasKey("RowId");
 
                     b.ToTable("OtherCostByPeriods", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ReportField", b =>
-                {
-                    b.Property<Guid>("RowId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ComplexProperty")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RowId");
-
-                    b.ToTable("ReportFields", "params");
                 });
 
             modelBuilder.Entity("ForecastingModelParameters.Domain.SalesValueByCategory", b =>

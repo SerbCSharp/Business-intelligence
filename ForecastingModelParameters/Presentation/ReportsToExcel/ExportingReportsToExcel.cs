@@ -22,7 +22,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByProperty({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByProperty({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("ConstructionCostByProperty");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -59,7 +59,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByCategory({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("SalesValueByCategory");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -96,7 +96,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("ConstructionCostByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -104,10 +104,11 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             sheetSource.Cells[1, 1].Value = "ComplexProperty";
             sheetSource.Cells[1, 2].Value = "Property";
             sheetSource.Cells[1, 3].Value = "ConstructionCost";
-            sheetSource.Cells[1, 4].Value = "Quarter";
-            sheetSource.Cells[1, 5].Value = "Year";
-            sheetSource.Cells[1, 1, 1, 5].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheetSource.Cells[1, 4].Value = "PercentageOfCosts";
+            sheetSource.Cells[1, 5].Value = "Quarter";
+            sheetSource.Cells[1, 6].Value = "Year";
+            sheetSource.Cells[1, 1, 1, 6].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -116,14 +117,15 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
                 sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
                 sheetSource.Cells[row, column + 2].Value = item.Property;
                 sheetSource.Cells[row, column + 3].Value = item.ConstructionCost;
-                sheetSource.Cells[row, column + 4].Value = item.Quarter;
-                sheetSource.Cells[row, column + 5].Value = item.Year;
+                sheetSource.Cells[row, column + 4].Value = item.PercentageOfCosts;
+                sheetSource.Cells[row, column + 5].Value = item.Quarter;
+                sheetSource.Cells[row, column + 6].Value = item.Year;
                 row++;
             }
-            sheetSource.Cells[1, 1, row, 5].AutoFitColumns();
-            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheetSource.Cells["D:E"].Style.Numberformat.Format = "###0";
-            var range = sheetSource.Cells[1, 1, row - 1, 5];
+            sheetSource.Cells[1, 1, row, 6].AutoFitColumns();
+            sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
+            var range = sheetSource.Cells[1, 1, row - 1, 6];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
@@ -136,7 +138,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("SalesValueByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -176,18 +178,16 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCost({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("OtherCost");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
 
             sheetSource.Cells[1, 1].Value = "ComplexProperty";
             sheetSource.Cells[1, 2].Value = "Name";
-            sheetSource.Cells[1, 3].Value = "Sheet";
-            sheetSource.Cells[1, 4].Value = "MoneyOut";
-            sheetSource.Cells[1, 5].Value = "MoneyIn";
-            sheetSource.Cells[1, 1, 1, 5].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheetSource.Cells[1, 3].Value = "IncurredCosts";
+            sheetSource.Cells[1, 1, 1, 3].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -195,14 +195,12 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             {
                 sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
                 sheetSource.Cells[row, column + 2].Value = item.Name;
-                sheetSource.Cells[row, column + 3].Value = item.Sheet;
-                sheetSource.Cells[row, column + 4].Value = item.MoneyOut;
-                sheetSource.Cells[row, column + 5].Value = item.MoneyIn;
+                sheetSource.Cells[row, column + 3].Value = item.IncurredCosts;
                 row++;
             }
-            sheetSource.Cells[1, 1, row, 5].AutoFitColumns();
-            sheetSource.Cells["D:E"].Style.Numberformat.Format = "### ### ### ##0.00";
-            var range = sheetSource.Cells[1, 1, row - 1, 5];
+            sheetSource.Cells[1, 1, row, 3].AutoFitColumns();
+            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
+            var range = sheetSource.Cells[1, 1, row - 1, 3];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
@@ -215,21 +213,19 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCostByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("OtherCostByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
 
             sheetSource.Cells[1, 1].Value = "ComplexProperty";
             sheetSource.Cells[1, 2].Value = "Name";
-            sheetSource.Cells[1, 3].Value = "Sheet";
-            sheetSource.Cells[1, 4].Value = "MoneyOut";
-            sheetSource.Cells[1, 5].Value = "MoneyIn";
-            sheetSource.Cells[1, 6].Value = "IncurredCosts";
-            sheetSource.Cells[1, 7].Value = "Quarter";
-            sheetSource.Cells[1, 8].Value = "Year";
-            sheetSource.Cells[1, 1, 1, 8].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheetSource.Cells[1, 3].Value = "Amount";
+            sheetSource.Cells[1, 4].Value = "PercentageOfCosts";
+            sheetSource.Cells[1, 5].Value = "Quarter";
+            sheetSource.Cells[1, 6].Value = "Year";
+            sheetSource.Cells[1, 1, 1, 6].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -237,18 +233,16 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             {
                 sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
                 sheetSource.Cells[row, column + 2].Value = item.Name;
-                sheetSource.Cells[row, column + 3].Value = item.Sheet;
-                sheetSource.Cells[row, column + 4].Value = item.MoneyOut;
-                sheetSource.Cells[row, column + 5].Value = item.MoneyIn;
-                sheetSource.Cells[row, column + 6].Value = item.IncurredCosts;
-                sheetSource.Cells[row, column + 7].Value = item.Quarter;
-                sheetSource.Cells[row, column + 8].Value = item.Year;
+                sheetSource.Cells[row, column + 3].Value = item.Amount;
+                sheetSource.Cells[row, column + 4].Value = item.PercentageOfCosts;
+                sheetSource.Cells[row, column + 5].Value = item.Quarter;
+                sheetSource.Cells[row, column + 6].Value = item.Year;
                 row++;
             }
-            sheetSource.Cells[1, 1, row, 8].AutoFitColumns();
-            sheetSource.Cells["D:F"].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheetSource.Cells["G:H"].Style.Numberformat.Format = "###0";
-            var range = sheetSource.Cells[1, 1, row - 1, 8];
+            sheetSource.Cells[1, 1, row, 6].AutoFitColumns();
+            sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
+            var range = sheetSource.Cells[1, 1, row - 1, 6];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;

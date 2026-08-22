@@ -11,5 +11,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories
         public DbSet<SalesValueByPeriod> SalesValueByPeriods { get; set; }
         public DbSet<OtherCost> OtherCosts { get; set; }
         public DbSet<OtherCostByPeriod> OtherCostByPeriods { get; set; }
+        public DbSet<ReportField> ReportFields { get; set; }
     }
 }
