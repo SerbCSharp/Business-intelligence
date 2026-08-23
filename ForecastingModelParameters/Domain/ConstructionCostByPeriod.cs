@@ -12,6 +12,7 @@ namespace ForecastingModelParameters.Domain
         public string Property { get; set; }
         public decimal ConstructionCost { get; set; }
         public decimal PercentageOfCosts { get; set; }
+        public bool CommissioningOfResidentialProperty { get; set; }
         public int Quarter { get; set; }
         public int Year { get; set; }
     }

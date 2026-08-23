@@ -10,7 +10,8 @@ namespace ForecastingModelParameters.Domain
         public Guid RowId { get; set; }
         public string ComplexProperty { get; set; }
         public string Category { get; set; }
-        public decimal SalesValue { get; set; }
+        public decimal PricePerSqm { get; set; }
+        public decimal SquareMeters { get; set; }
         public decimal Sold { get; set; }
     }
 }

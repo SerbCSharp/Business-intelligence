@@ -10,5 +10,6 @@ namespace ForecastingModelParameters.Domain
         public Guid RowId { get; set; }
         public string ComplexProperty { get; set; }
         public string Name { get; set; }
+        public bool ParameterHasPeriod { get; set; }
     }
 }

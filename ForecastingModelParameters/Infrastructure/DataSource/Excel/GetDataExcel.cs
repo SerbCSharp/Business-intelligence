@@ -34,6 +34,8 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "PercentageOfCosts")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "CommissioningOfResidentialProperty")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(bool));
                     else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
                     else if (sheet.Cells[1, i].Value.ToString() == "Year")
@@ -58,6 +60,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                     Property = row.Field<string>("Property"),
                     ConstructionCost = row.Field<decimal>("ConstructionCost"),
                     PercentageOfCosts = row.Field<decimal>("PercentageOfCosts"),
+                    CommissioningOfResidentialProperty = row.Field<bool>("CommissioningOfResidentialProperty"),
                     Quarter = row.Field<int>("Quarter"),
                     Year = row.Field<int>("Year")
                 });
@@ -76,7 +79,9 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    if (sheet.Cells[1, i].Value.ToString() == "ConstructionCost")
+                    if (sheet.Cells[1, i].Value.ToString() == "PlannedCostPerSqm")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "SquareMeters")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "IncurredCosts")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
@@ -98,7 +103,8 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 {
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Property = row.Field<string>("Property"),
-                    ConstructionCost = row.Field<decimal>("ConstructionCost"),
+                    PlannedCostPerSqm = row.Field<decimal>("PlannedCostPerSqm"),
+                    SquareMeters = row.Field<decimal>("SquareMeters"),
                     IncurredCosts = row.Field<decimal>("IncurredCosts")
                 });
             }
@@ -199,7 +205,9 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    if (sheet.Cells[1, i].Value.ToString() == "SalesValue")
+                    if (sheet.Cells[1, i].Value.ToString() == "PricePerSqm")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "SquareMeters")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "Sold")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
@@ -221,7 +229,8 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 {
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Category = row.Field<string>("Category"),
-                    SalesValue = row.Field<decimal>("SalesValue"),
+                    PricePerSqm = row.Field<decimal>("PricePerSqm"),
+                    SquareMeters = row.Field<decimal>("SquareMeters"),
                     Sold = row.Field<decimal>("Sold")
                 });
             }
@@ -239,7 +248,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
                 for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    if (sheet.Cells[1, i].Value.ToString() == "SalesValue")
+                    if (sheet.Cells[1, i].Value.ToString() == "SalesTargetInSqm")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
@@ -263,7 +272,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
                 {
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     Category = row.Field<string>("Category"),
-                    SalesValue = row.Field<decimal>("SalesValue"),
+                    SalesTargetInSqm = row.Field<decimal>("SalesTargetInSqm"),
                     Quarter = row.Field<int>("Quarter"),
                     Year = row.Field<int>("Year")
                 });

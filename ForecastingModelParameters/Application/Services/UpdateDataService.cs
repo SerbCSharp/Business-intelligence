@@ -51,7 +51,7 @@ namespace ForecastingModelParameters.Application.Services
             var otherCostByPeriod = await _getDataRepository.GetOtherCostByPeriodAsync(complexProperty);
             if (otherCostByPeriod.Count == 0)
             {
-                var reportFields = await _getDataRepository.GetReportFieldAsync(complexProperty);
+                var reportFields = (await _getDataRepository.GetReportFieldAsync(complexProperty)).Where(x => x.ParameterHasPeriod);
                 foreach (var item in reportFields)
                 {
                     for (int i = 0; i < period; i++)
