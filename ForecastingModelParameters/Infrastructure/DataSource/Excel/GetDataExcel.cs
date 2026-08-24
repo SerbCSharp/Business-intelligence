@@ -21,7 +21,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<ConstructionCostByPeriod> GetConstructionCostByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -70,7 +70,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<ConstructionCostByProperty> GetConstructionCostByProperty(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByProperty({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByProperty({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -113,7 +113,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<OtherCost> GetOtherCost(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCost({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -150,7 +150,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<OtherCostByPeriod> GetOtherCostByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -196,7 +196,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<SalesValueByCategory> GetSalesValueByCategory(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByCategory({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
@@ -239,7 +239,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 
         public IEnumerable<SalesValueByPeriod> GetSalesValueByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);

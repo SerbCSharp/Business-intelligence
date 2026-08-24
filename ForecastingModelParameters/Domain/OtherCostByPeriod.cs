@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForecastingModelParameters.Domain
@@ -11,6 +12,8 @@ namespace ForecastingModelParameters.Domain
         public string ComplexProperty { get; set; }
         public string Name { get; set; }
         public decimal Amount { get; set; }
+
+        [Precision(18, 4)]
         public decimal PercentageOfCosts { get; set; }
         public int Quarter { get; set; }
         public int Year { get; set; }

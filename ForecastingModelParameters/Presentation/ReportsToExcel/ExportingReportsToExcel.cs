@@ -22,7 +22,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByProperty({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByProperty({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("ConstructionCostByProperty");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -63,7 +63,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByCategory({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("SalesValueByCategory");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -102,7 +102,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\ConstructionCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\ConstructionCostByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("ConstructionCostByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -146,7 +146,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\SalesValueByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\SalesValueByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("SalesValueByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -186,7 +186,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCost({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("OtherCost");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -221,7 +221,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"C:\\Business-intelligence\\ForecastingModel\\OtherCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
             var sheetSource = package.Workbook.Worksheets.Add("OtherCostByPeriod");
             sheetSource.Cells.Style.Font.Name = "Calibri";
             sheetSource.Cells.Style.Font.Size = 11;
@@ -248,7 +248,8 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
                 row++;
             }
             sheetSource.Cells[1, 1, row, 6].AutoFitColumns();
-            sheetSource.Cells["C:D"].Style.Numberformat.Format = "### ### ### ##0.000";
+            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheetSource.Cells["D:D"].Style.Numberformat.Format = "##0.0000";
             sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
             var range = sheetSource.Cells[1, 1, row - 1, 6];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;

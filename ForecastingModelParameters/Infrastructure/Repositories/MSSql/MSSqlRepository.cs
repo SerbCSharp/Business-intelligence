@@ -38,9 +38,9 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
             return await _dataContext.SalesValueByPeriods.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
         }
 
-        public async Task<List<ReportField>> GetReportFieldAsync(string complexProperty)
+        public async Task<List<ReportField>> GetReportFieldAsync()
         {
-            return await _dataContext.ReportFields.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+            return await _dataContext.ReportFields.ToListAsync();
         }
 
         public async Task SaveConstructionCostByPeriodAsync(IEnumerable<ConstructionCostByPeriod> constructionCostByPeriod, string complexProperty)
