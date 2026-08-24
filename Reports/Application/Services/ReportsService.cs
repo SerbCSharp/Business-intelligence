@@ -84,5 +84,10 @@ namespace Reports.Application.Services
                 CostItem = item.CostItem,
             };
         }
+
+        public async Task<IEnumerable<ConstructionCostByPeriod>> ConstructionCostByPeriodAsync(string complexProperty)
+        {
+            return await _getData.ConstructionCostByPeriodAsync(complexProperty);
+        }
     }
 }

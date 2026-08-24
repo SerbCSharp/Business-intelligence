@@ -2,6 +2,7 @@
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
 using Reports.Application.DTO;
 using Reports.Domain;
 using System.Reflection;
@@ -312,6 +313,33 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Column(8).Width = 50;
 
             var range = sheet.Cells[1, 1, row - 1, 10];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            return package.GetAsByteArray();
+        }
+
+        public byte[] ConstructionCostByPeriod(IEnumerable<ConstructionCostByPeriod> constructionCostByPeriod)
+        {
+            using var package = new ExcelPackage();
+
+            var sheet = package.Workbook.Worksheets.Add("Browse");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+            sheet.View.FreezePanes(2, 1);
+
+            sheet.Cells["A1"].LoadFromCollection(constructionCostByPeriod, c => {
+                c.PrintHeaders = true;
+                //c.Transpose = true;
+            });
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;

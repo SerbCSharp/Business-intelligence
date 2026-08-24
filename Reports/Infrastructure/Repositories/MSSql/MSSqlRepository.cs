@@ -41,5 +41,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
         }
+
+        public async Task<IEnumerable<ConstructionCostByPeriod>> ConstructionCostByPeriodAsync(string complexProperty)
+        {
+            return await _dbConnection.QueryAsync<ConstructionCostByPeriod>("ConstructionCostByPeriod", new { ComplexProperty = complexProperty });
+        }
     }
 }

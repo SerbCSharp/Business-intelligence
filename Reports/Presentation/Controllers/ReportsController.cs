@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reports.Application.Services;
+using Reports.Domain;
 using Reports.Presentation.ReportsToExcel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Reports.Presentation.Controllers
 {
@@ -67,6 +69,17 @@ namespace Reports.Presentation.Controllers
             var fileBytes = _exportingReportsToExcel.ProfitCenters(package, profitCenters, openingBalance, startDate, endDate);
 
             string fileName = "ProfitCenters.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
+
+        [HttpGet("ConstructionForecastingModel")]
+        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty)
+        {
+            var constructionCostByPeriod = await _reportsService.ConstructionCostByPeriodAsync(complexProperty);
+            var fileBytes = _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod);
+            string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";
 
             return File(fileBytes, contentType, fileName);
