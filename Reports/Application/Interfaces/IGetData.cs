@@ -11,5 +11,7 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate);
         Task<decimal> OpeningBalanceAsync(DateTime startDate);
         Task<IEnumerable<ConstructionCostByPeriod>> ConstructionCostByPeriodAsync(string complexProperty);
+        Task<IEnumerable<SalesTarget>> SalesTargetAsync(string complexProperty);
+        Task<IEnumerable<CashFlow>> CashFlowAsync(string complexProperty);
     }
 }

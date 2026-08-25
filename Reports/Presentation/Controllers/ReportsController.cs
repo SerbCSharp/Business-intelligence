@@ -78,7 +78,14 @@ namespace Reports.Presentation.Controllers
         public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty)
         {
             var constructionCostByPeriod = await _reportsService.ConstructionCostByPeriodAsync(complexProperty);
-            var fileBytes = _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod);
+            var package = _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod);
+
+            var salesTarget = await _reportsService.SalesTargetAsync(complexProperty);
+            _exportingReportsToExcel.SalesTarget(package, salesTarget);
+
+            var cashFlow = await _reportsService.CashFlowAsync(complexProperty);
+            var fileBytes = _exportingReportsToExcel.CashFlow(package, cashFlow);
+
             string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";
 

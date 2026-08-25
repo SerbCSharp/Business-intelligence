@@ -89,5 +89,15 @@ namespace Reports.Application.Services
         {
             return await _getData.ConstructionCostByPeriodAsync(complexProperty);
         }
+
+        public async Task<IEnumerable<SalesTarget>> SalesTargetAsync(string complexProperty)
+        {
+            return await _getData.SalesTargetAsync(complexProperty);
+        }
+
+        public async Task<IEnumerable<CashFlow>> CashFlowAsync(string complexProperty)
+        {
+            return await _getData.CashFlowAsync(complexProperty);
+        }
     }
 }
