@@ -27,15 +27,15 @@ namespace ForecastingModelParameters.Application.Services
             return salesValueByCategory;
         }
 
-        public async Task<IEnumerable<OtherCost>> RequestOtherCostAsync(string complexProperty)
+        public async Task<IEnumerable<OtherFixedCost>> RequestOtherFixedCostAsync(string complexProperty)
         {
-            var otherCost = await _getDataRepository.GetOtherCostAsync(complexProperty);
-            if (otherCost.Count == 0)
+            var otherFixedCost = await _getDataRepository.GetOtherFixedCostAsync(complexProperty);
+            if (otherFixedCost.Count == 0)
             {
-                var reportFields = await _getDataRepository.GetReportFieldAsync();
+                var reportFields = (await _getDataRepository.GetReportFieldAsync()).Where(x => x.FixedOrPercentage);
                 foreach (var item in reportFields)
                 {
-                    otherCost.Add(new OtherCost
+                    otherFixedCost.Add(new OtherFixedCost
                     {
                         ComplexProperty = complexProperty,
                         Name = item.Name,
@@ -43,20 +43,39 @@ namespace ForecastingModelParameters.Application.Services
                 }
             }
 
-            return otherCost;
+            return otherFixedCost;
         }
 
-        public async Task<IEnumerable<OtherCostByPeriod>> RequestOtherCostByPeriodAsync(string complexProperty, int period)
+        public async Task<IEnumerable<OtherPercentageCost>> RequestOtherPercentageCostAsync(string complexProperty)
         {
-            var otherCostByPeriod = await _getDataRepository.GetOtherCostByPeriodAsync(complexProperty);
-            if (otherCostByPeriod.Count == 0)
+            var otherPercentageCost = await _getDataRepository.GetOtherPercentageCostAsync(complexProperty);
+            if (otherPercentageCost.Count == 0)
             {
-                var reportFields = (await _getDataRepository.GetReportFieldAsync()).Where(x => x.ParameterHasPeriod);
+                var reportFields = (await _getDataRepository.GetReportFieldAsync()).Where(x => x.FixedOrPercentage == false);
+                foreach (var item in reportFields)
+                {
+                    otherPercentageCost.Add(new OtherPercentageCost
+                    {
+                        ComplexProperty = complexProperty,
+                        Name = item.Name,
+                    });
+                }
+            }
+
+            return otherPercentageCost;
+        }
+
+        public async Task<IEnumerable<OtherFixedCostByPeriod>> RequestOtherFixedCostByPeriodAsync(string complexProperty, int period)
+        {
+            var otherFixedCostByPeriod = await _getDataRepository.GetOtherFixedCostByPeriodAsync(complexProperty);
+            if (otherFixedCostByPeriod.Count == 0)
+            {
+                var reportFields = (await _getDataRepository.GetReportFieldAsync()).Where(x => x.FixedOrPercentage);
                 foreach (var item in reportFields)
                 {
                     for (int i = 0; i < period; i++)
                     {
-                        otherCostByPeriod.Add(new OtherCostByPeriod
+                        otherFixedCostByPeriod.Add(new OtherFixedCostByPeriod
                         {
                             ComplexProperty = complexProperty,
                             Name = item.Name,
@@ -67,7 +86,7 @@ namespace ForecastingModelParameters.Application.Services
                 }
             }
 
-            return otherCostByPeriod;
+            return otherFixedCostByPeriod;
         }
 
         public async Task SaveConstructionCostByPropertyAsync(string complexProperty)
@@ -94,16 +113,22 @@ namespace ForecastingModelParameters.Application.Services
             await _saveData.SaveSalesValueByPeriodAsync(getExcelSalesValueByPeriod, complexProperty);
         }
 
-        public async Task SaveOtherCostAsync(string complexProperty)
+        public async Task SaveOtherFixedCostAsync(string complexProperty)
         {
-            var getExcelOtherCost = _getDataSource.GetOtherCost(complexProperty);
-            await _saveData.SaveOtherCostAsync(getExcelOtherCost, complexProperty);
+            var getExcelOtherFixedCost = _getDataSource.GetOtherFixedCost(complexProperty);
+            await _saveData.SaveOtherFixedCostAsync(getExcelOtherFixedCost, complexProperty);
         }
 
-        public async Task SaveOtherCostByPeriodAsync(string complexProperty)
+        public async Task SaveOtherPercentageCostAsync(string complexProperty)
         {
-            var getExcelOtherCostByPeriod = _getDataSource.GetOtherCostByPeriod(complexProperty);
-            await _saveData.SaveOtherCostByPeriodAsync(getExcelOtherCostByPeriod, complexProperty);
+            var getExcelOtherPercentageCost = _getDataSource.GetOtherPercentageCost(complexProperty);
+            await _saveData.SaveOtherPercentageCostAsync(getExcelOtherPercentageCost, complexProperty);
+        }
+
+        public async Task SaveOtherFixedCostByPeriodAsync(string complexProperty)
+        {
+            var getExcelOtherFixedCostByPeriod = _getDataSource.GetOtherFixedCostByPeriod(complexProperty);
+            await _saveData.SaveOtherFixedCostByPeriodAsync(getExcelOtherFixedCostByPeriod, complexProperty);
         }
 
         public async Task<IEnumerable<ConstructionCostByPeriod>> RequestByPeriodsConstructionAsync(string complexProperty, int period)
@@ -163,8 +188,9 @@ namespace ForecastingModelParameters.Application.Services
         {
             await SaveConstructionCostByPropertyAsync(complexProperty);
             await SaveConstructionCostByPeriodAsync(complexProperty);
-            await SaveOtherCostAsync(complexProperty);
-            await SaveOtherCostByPeriodAsync(complexProperty);
+            await SaveOtherFixedCostAsync(complexProperty);
+            await SaveOtherPercentageCostAsync(complexProperty);
+            await SaveOtherFixedCostByPeriodAsync(complexProperty);
             await SaveSalesValueByCategoryAsync(complexProperty);
             await SaveSalesValueByPeriodAsync(complexProperty);
         }

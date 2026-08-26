@@ -13,5 +13,6 @@ namespace ForecastingModelParameters.Domain
         public decimal PricePerSqm { get; set; }
         public decimal SquareMeters { get; set; }
         public decimal Sold { get; set; }
+        public bool ResidentialProperty { get; set; }
     }
 }

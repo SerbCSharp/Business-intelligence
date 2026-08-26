@@ -3,6 +3,7 @@ using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
+using System;
 using System.Data;
 
 namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
@@ -111,85 +112,45 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
             else return null;
         }
 
-        public IEnumerable<OtherCost> GetOtherCost(string complexProperty)
+        public IEnumerable<OtherFixedCost> GetOtherFixedCost(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherFixedCost({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
-                var sheet = package.Workbook.Worksheets[Name: "OtherCost"];
-                DataTable dataTable = new();
+                var sheet = package.Workbook.Worksheets[Name: "OtherFixedCost"];
 
-                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
-                {
-                    if (sheet.Cells[1, i].Value.ToString() == "IncurredCosts")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                    else
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
-                }
-
-                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
-                {
-                    DataRow dataRow = dataTable.NewRow();
-                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
-                    {
-                        dataRow[j - 1] = sheet.Cells[i, j].Value;
-                    }
-                    dataTable.Rows.Add(dataRow);
-                }
-
-                return dataTable.AsEnumerable().Select(row => new OtherCost
-                {
-                    ComplexProperty = row.Field<string>("ComplexProperty"),
-                    Name = row.Field<string>("Name"),
-                    IncurredCosts = row.Field<decimal>("IncurredCosts")                     
-                });
+                var range = sheet.Cells[sheet.Dimension.Address];
+                return range.ToCollection<OtherFixedCost>();
             }
             else return null;
         }
 
-        public IEnumerable<OtherCostByPeriod> GetOtherCostByPeriod(string complexProperty)
+        public IEnumerable<OtherFixedCostByPeriod> GetOtherFixedCostByPeriod(string complexProperty)
         {
-            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
+            FileInfo fileInfo = new(filePath + $"\\OtherFixedCostByPeriod({complexProperty}).xlsx");
             if (fileInfo.Exists)
             {
                 using var package = new ExcelPackage(fileInfo);
-                var sheet = package.Workbook.Worksheets[Name: "OtherCostByPeriod"];
-                DataTable dataTable = new();
+                var sheet = package.Workbook.Worksheets[Name: "OtherFixedCostByPeriod"];
 
-                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
-                {
-                    if (sheet.Cells[1, i].Value.ToString() == "Amount")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                    else if (sheet.Cells[1, i].Value.ToString() == "PercentageOfCosts")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                    else if (sheet.Cells[1, i].Value.ToString() == "Quarter")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
-                    else if (sheet.Cells[1, i].Value.ToString() == "Year")
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(int));
-                    else
-                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
-                }
+                var range = sheet.Cells[sheet.Dimension.Address];
+                return range.ToCollection<OtherFixedCostByPeriod>();
+            }
+            else return null;
+        }
 
-                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
-                {
-                    DataRow dataRow = dataTable.NewRow();
-                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
-                    {
-                        dataRow[j - 1] = sheet.Cells[i, j].Value;
-                    }
-                    dataTable.Rows.Add(dataRow);
-                }
+        public IEnumerable<OtherPercentageCost> GetOtherPercentageCost(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\OtherPercentageCost({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "OtherPercentageCost"];
 
-                return dataTable.AsEnumerable().Select(row => new OtherCostByPeriod
-                {
-                    ComplexProperty = row.Field<string>("ComplexProperty"),
-                    Name = row.Field<string>("Name"),
-                    Amount = row.Field<decimal>("Amount"),
-                    PercentageOfCosts = row.Field<decimal>("PercentageOfCosts"),
-                    Quarter = row.Field<int>("Quarter"),
-                    Year = row.Field<int>("Year")
-                });
+                var range = sheet.Cells[sheet.Dimension.Address];
+
+                return range.ToCollection<OtherPercentageCost>();
             }
             else return null;
         }

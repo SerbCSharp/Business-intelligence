@@ -8,7 +8,8 @@ namespace ForecastingModelParameters.Application.Interfaces
         Task SaveSalesValueByCategoryAsync(IEnumerable<SalesValueByCategory> salesValueByCategory, string complexProperty);
         Task SaveConstructionCostByPeriodAsync(IEnumerable<ConstructionCostByPeriod> constructionCostByPeriod, string complexProperty);
         Task SaveSalesValueByPeriodAsync(IEnumerable<SalesValueByPeriod> salesValueByPeriod, string complexProperty);
-        Task SaveOtherCostAsync(IEnumerable<OtherCost> otherCost, string complexProperty);
-        Task SaveOtherCostByPeriodAsync(IEnumerable<OtherCostByPeriod> otherCostByPeriod, string complexProperty);
+        Task SaveOtherFixedCostAsync(IEnumerable<OtherFixedCost> otherFixedCost, string complexProperty);
+        Task SaveOtherFixedCostByPeriodAsync(IEnumerable<OtherFixedCostByPeriod> otherFixedCostByPeriod, string complexProperty);
+        Task SaveOtherPercentageCostAsync(IEnumerable<OtherPercentageCost> otherPercentageCost, string complexProperty);
     }
 }

@@ -182,80 +182,74 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             package.SaveAs(fileInfo);
         }
 
-        public void OtherCost(IEnumerable<OtherCost> otherCost, string complexProperty)
+        public void OtherFixedCost(IEnumerable<OtherFixedCost> otherFixedCost, string complexProperty)
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\OtherCost({complexProperty}).xlsx");
-            var sheetSource = package.Workbook.Worksheets.Add("OtherCost");
-            sheetSource.Cells.Style.Font.Name = "Calibri";
-            sheetSource.Cells.Style.Font.Size = 11;
+            FileInfo fileInfo = new(filePath + $"\\OtherFixedCost({complexProperty}).xlsx");
+            var sheet = package.Workbook.Worksheets.Add("OtherFixedCost");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
 
-            sheetSource.Cells[1, 1].Value = "ComplexProperty";
-            sheetSource.Cells[1, 2].Value = "Name";
-            sheetSource.Cells[1, 3].Value = "IncurredCosts";
-            sheetSource.Cells[1, 1, 1, 3].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells["A1"].LoadFromCollection(otherFixedCost, c => { c.PrintHeaders = true; });
 
-            var row = 2;
-            var column = 0;
-            foreach (var item in otherCost)
-            {
-                sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
-                sheetSource.Cells[row, column + 2].Value = item.Name;
-                sheetSource.Cells[row, column + 3].Value = item.IncurredCosts;
-                row++;
-            }
-            sheetSource.Cells[1, 1, row, 3].AutoFitColumns();
-            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
-            var range = sheetSource.Cells[1, 1, row - 1, 3];
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
 
             package.SaveAs(fileInfo);
         }
 
-        public void OtherCostByPeriod(IEnumerable<OtherCostByPeriod> otherCostByPeriod, string complexProperty)
+        public void OtherPercentageCost(IEnumerable<OtherPercentageCost> otherPercentageCost, string complexProperty)
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\OtherCostByPeriod({complexProperty}).xlsx");
-            var sheetSource = package.Workbook.Worksheets.Add("OtherCostByPeriod");
-            sheetSource.Cells.Style.Font.Name = "Calibri";
-            sheetSource.Cells.Style.Font.Size = 11;
+            FileInfo fileInfo = new(filePath + $"\\OtherPercentageCost({complexProperty}).xlsx");
+            var sheet = package.Workbook.Worksheets.Add("OtherPercentageCost");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
 
-            sheetSource.Cells[1, 1].Value = "ComplexProperty";
-            sheetSource.Cells[1, 2].Value = "Name";
-            sheetSource.Cells[1, 3].Value = "Amount";
-            sheetSource.Cells[1, 4].Value = "PercentageOfCosts";
-            sheetSource.Cells[1, 5].Value = "Quarter";
-            sheetSource.Cells[1, 6].Value = "Year";
-            sheetSource.Cells[1, 1, 1, 6].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells["A1"].LoadFromCollection(otherPercentageCost, c => { c.PrintHeaders = true; });
 
-            var row = 2;
-            var column = 0;
-            foreach (var item in otherCostByPeriod)
-            {
-                sheetSource.Cells[row, column + 1].Value = item.ComplexProperty;
-                sheetSource.Cells[row, column + 2].Value = item.Name;
-                sheetSource.Cells[row, column + 3].Value = item.Amount;
-                sheetSource.Cells[row, column + 4].Value = item.PercentageOfCosts;
-                sheetSource.Cells[row, column + 5].Value = item.Quarter;
-                sheetSource.Cells[row, column + 6].Value = item.Year;
-                row++;
-            }
-            sheetSource.Cells[1, 1, row, 6].AutoFitColumns();
-            sheetSource.Cells["C:C"].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheetSource.Cells["D:D"].Style.Numberformat.Format = "##0.0000";
-            sheetSource.Cells["E:F"].Style.Numberformat.Format = "###0";
-            var range = sheetSource.Cells[1, 1, row - 1, 6];
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            package.SaveAs(fileInfo);
+        }
+
+        public void OtherFixedCostByPeriod(IEnumerable<OtherFixedCostByPeriod> otherFixedCostByPeriod, string complexProperty)
+        {
+            using var package = new ExcelPackage();
+
+            FileInfo fileInfo = new(filePath + $"\\OtherFixedCostByPeriod({complexProperty}).xlsx");
+            var sheet = package.Workbook.Worksheets.Add("OtherFixedCostByPeriod");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells["A1"].LoadFromCollection(otherFixedCostByPeriod, c => { c.PrintHeaders = true; });
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
 
             package.SaveAs(fileInfo);
         }

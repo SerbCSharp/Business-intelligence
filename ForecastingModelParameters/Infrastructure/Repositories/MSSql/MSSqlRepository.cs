@@ -18,14 +18,19 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
             return await _dataContext.ConstructionCostByProperties.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
         }
 
-        public async Task<List<OtherCost>> GetOtherCostAsync(string complexProperty)
+        public async Task<List<OtherFixedCost>> GetOtherFixedCostAsync(string complexProperty)
         {
-            return await _dataContext.OtherCosts.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+            return await _dataContext.OtherFixedCosts.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
         }
 
-        public async Task<List<OtherCostByPeriod>> GetOtherCostByPeriodAsync(string complexProperty)
+        public async Task<List<OtherPercentageCost>> GetOtherPercentageCostAsync(string complexProperty)
         {
-            return await _dataContext.OtherCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+            return await _dataContext.OtherPercentageCosts.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+        }
+
+        public async Task<List<OtherFixedCostByPeriod>> GetOtherFixedCostByPeriodAsync(string complexProperty)
+        {
+            return await _dataContext.OtherFixedCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
         }
 
         public async Task<List<SalesValueByCategory>> GetSalesValueByCategoryAsync(string complexProperty)
@@ -57,20 +62,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task SaveOtherCostAsync(IEnumerable<OtherCost> otherCost, string complexProperty)
-        {
-            await _dataContext.OtherCosts.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
-            await _dataContext.OtherCosts.AddRangeAsync(otherCost);
-            await _dataContext.SaveChangesAsync();
-        }
-
-        public async Task SaveOtherCostByPeriodAsync(IEnumerable<OtherCostByPeriod> otherCostByPeriod, string complexProperty)
-        {
-            await _dataContext.OtherCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
-            await _dataContext.OtherCostByPeriods.AddRangeAsync(otherCostByPeriod);
-            await _dataContext.SaveChangesAsync();
-        }
-
         public async Task SaveSalesValueByCategoryAsync(IEnumerable<SalesValueByCategory> salesValueByCategory, string complexProperty)
         {
             await _dataContext.SalesValueByCategories.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
@@ -82,6 +73,27 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
         {
             await _dataContext.SalesValueByPeriods.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
             await _dataContext.SalesValueByPeriods.AddRangeAsync(salesValueByPeriod);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task SaveOtherFixedCostAsync(IEnumerable<OtherFixedCost> otherFixedCost, string complexProperty)
+        {
+            await _dataContext.OtherFixedCosts.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
+            await _dataContext.OtherFixedCosts.AddRangeAsync(otherFixedCost);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task SaveOtherFixedCostByPeriodAsync(IEnumerable<OtherFixedCostByPeriod> otherFixedCostByPeriod, string complexProperty)
+        {
+            await _dataContext.OtherFixedCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
+            await _dataContext.OtherFixedCostByPeriods.AddRangeAsync(otherFixedCostByPeriod);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task SaveOtherPercentageCostAsync(IEnumerable<OtherPercentageCost> otherPercentageCost, string complexProperty)
+        {
+            await _dataContext.OtherPercentageCosts.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
+            await _dataContext.OtherPercentageCosts.AddRangeAsync(otherPercentageCost);
             await _dataContext.SaveChangesAsync();
         }
     }

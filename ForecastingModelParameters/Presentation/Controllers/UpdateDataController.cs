@@ -18,8 +18,10 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.ConstructionCostByProperty(constructionCostByProperty, complexProperty);
             var salesValueByCategory = await _updateDataService.RequestCategoriesAsync(complexProperty, category);
             _exportingReportsToExcel.SalesValueByCategory(salesValueByCategory, complexProperty);
-            var otherCost = await _updateDataService.RequestOtherCostAsync(complexProperty);
-            _exportingReportsToExcel.OtherCost(otherCost, complexProperty);
+            var otherFixedCost = await _updateDataService.RequestOtherFixedCostAsync(complexProperty);
+            _exportingReportsToExcel.OtherFixedCost(otherFixedCost, complexProperty);
+            var otherPercentageCost = await _updateDataService.RequestOtherPercentageCostAsync(complexProperty);
+            _exportingReportsToExcel.OtherPercentageCost(otherPercentageCost, complexProperty);
 
             return NoContent();
         }
@@ -31,8 +33,8 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod, complexProperty);
             var salesValueByPeriod = await _updateDataService.RequestBySalesPeriodsAsync(complexProperty, period);
             _exportingReportsToExcel.SalesValueByPeriod(salesValueByPeriod, complexProperty);
-            var otherCostByPeriod = await _updateDataService.RequestOtherCostByPeriodAsync(complexProperty, period);
-            _exportingReportsToExcel.OtherCostByPeriod(otherCostByPeriod, complexProperty);
+            var otherFixedCostByPeriod = await _updateDataService.RequestOtherFixedCostByPeriodAsync(complexProperty, period);
+            _exportingReportsToExcel.OtherFixedCostByPeriod(otherFixedCostByPeriod, complexProperty);
 
             return NoContent();
         }

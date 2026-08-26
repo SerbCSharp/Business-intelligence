@@ -9,8 +9,7 @@ namespace ForecastingModelParameters.Domain
         [Key]
         public Guid RowId { get; set; }
         public string Name { get; set; }
-        public bool ParameterHasPeriod { get; set; }
-        public string ReportSheet { get; set; }
         public int LineNumber { get; set; }
+        public bool FixedOrPercentage { get; set; }
     }
 }
