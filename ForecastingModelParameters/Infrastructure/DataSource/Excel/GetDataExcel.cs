@@ -3,7 +3,6 @@ using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
-using System;
 using System.Data;
 
 namespace ForecastingModelParameters.Infrastructure.DataSource.Excel

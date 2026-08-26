@@ -18,8 +18,5 @@ namespace Reports.Domain
 
         [EpplusTableColumn(Header = "Плановые затраты", NumberFormat = "### ### ### ##0.00")]
         public decimal Amount { get; set; }
-
-        [EpplusTableColumn(Header = "Процент", NumberFormat = "### ### ### ##0.00")]
-        public decimal PercentageOfCosts { get; set; }
     }
 }
