@@ -373,9 +373,9 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[2, 1, sheet.Dimension.End.Row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         }
 
-        public byte[] CashFlow(ExcelPackage package, IEnumerable<CashFlow> cashFlow)
+        public byte[] OtherCost(ExcelPackage package, IEnumerable<OtherCost> cashFlow)
         {
-            var sheet = package.Workbook.Worksheets.Add("ДДС");
+            var sheet = package.Workbook.Worksheets.Add("Все расходы кроме СМР и процентов");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);

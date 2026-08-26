@@ -52,9 +52,9 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.QueryAsync<SalesTarget>("SalesTarget", new { ComplexProperty = complexProperty });
         }
 
-        public async Task<IEnumerable<CashFlow>> CashFlowAsync(string complexProperty)
+        public async Task<IEnumerable<OtherCost>> OtherCostAsync(string complexProperty)
         {
-            return await _dbConnection.QueryAsync<CashFlow>("CashFlow", new { ComplexProperty = complexProperty });
+            return await _dbConnection.QueryAsync<OtherCost>("OtherCost", new { ComplexProperty = complexProperty });
         }
     }
 }

@@ -83,8 +83,8 @@ namespace Reports.Presentation.Controllers
             var salesTarget = await _reportsService.SalesTargetAsync(complexProperty);
             _exportingReportsToExcel.SalesTarget(package, salesTarget);
 
-            var cashFlow = await _reportsService.CashFlowAsync(complexProperty);
-            var fileBytes = _exportingReportsToExcel.CashFlow(package, cashFlow);
+            var otherCost = await _reportsService.OtherCostAsync(complexProperty);
+            var fileBytes = _exportingReportsToExcel.OtherCost(package, otherCost);
 
             string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";

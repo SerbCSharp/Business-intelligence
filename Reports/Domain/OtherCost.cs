@@ -2,7 +2,7 @@
 
 namespace Reports.Domain
 {
-    public class CashFlow
+    public class OtherCost
     {
         [EpplusTableColumn(Header = "Показатель")]
         public string Name { get; set; }
