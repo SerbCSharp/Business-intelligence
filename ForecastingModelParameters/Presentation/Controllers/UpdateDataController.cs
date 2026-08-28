@@ -35,6 +35,8 @@ namespace ForecastingModelParameters.Presentation.Controllers
             _exportingReportsToExcel.SalesValueByPeriod(salesValueByPeriod, complexProperty);
             var otherFixedCostByPeriod = await _updateDataService.RequestOtherFixedCostByPeriodAsync(complexProperty, period);
             _exportingReportsToExcel.OtherFixedCostByPeriod(otherFixedCostByPeriod, complexProperty);
+            var оtherPercentageCostByPeriod = await _updateDataService.RequestOtherPercentageCostByPeriodAsync(complexProperty, period);
+            _exportingReportsToExcel.OtherPercentageCostByPeriod(оtherPercentageCostByPeriod, complexProperty);
 
             return NoContent();
         }

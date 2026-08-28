@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260827113234_ChangedPercentageOrFixed")]
+    partial class ChangedPercentageOrFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,9 +118,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Field")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -141,9 +141,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Field")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -157,36 +154,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.HasKey("RowId");
 
                     b.ToTable("OtherPercentageCosts", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.OtherPercentageCostByPeriod", b =>
-                {
-                    b.Property<Guid>("RowId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ComplexProperty")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PercentageOfCosts")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("float(18)");
-
-                    b.Property<double>("Quarter")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Year")
-                        .HasColumnType("float");
-
-                    b.HasKey("RowId");
-
-                    b.ToTable("OtherPercentageCostByPeriods", "params");
                 });
 
             modelBuilder.Entity("ForecastingModelParameters.Domain.ReportField", b =>
@@ -203,9 +170,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Parameter")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("PercentageOrFixed")
                         .HasColumnType("bit");

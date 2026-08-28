@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForecastingModelParameters.Domain
 {
-    [Table("OtherPercentageCosts", Schema = "params")]
-    public class OtherPercentageCost
+    [Table("OtherPercentageCostByPeriods", Schema = "params")]
+    public class OtherPercentageCostByPeriod
     {
         [Key]
         [EpplusIgnore]
@@ -22,8 +22,11 @@ namespace ForecastingModelParameters.Domain
         [EpplusTableColumn(Header = "Процент", NumberFormat = "##0.0000")]
         public double PercentageOfCosts { get; set; }
 
-        [EpplusTableColumn(Header = "Признак для БПВ и КВ", NumberFormat = "General")]
-        public bool ResidentialProperty { get; set; }
+        [EpplusTableColumn(Header = "Квартал", NumberFormat = "###0")]
+        public double Quarter { get; set; }
+
+        [EpplusTableColumn(Header = "Год", NumberFormat = "###0")]
+        public double Year { get; set; }
 
         [EpplusTableColumn(Hidden = true)]
         public string Field { get; set; }

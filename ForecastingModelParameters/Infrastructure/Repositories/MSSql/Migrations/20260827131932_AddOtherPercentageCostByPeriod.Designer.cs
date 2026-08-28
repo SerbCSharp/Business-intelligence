@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260827131932_AddOtherPercentageCostByPeriod")]
+    partial class AddOtherPercentageCostByPeriod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,9 +118,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Field")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,9 +139,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ComplexProperty")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -203,9 +200,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Parameter")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("PercentageOrFixed")
                         .HasColumnType("bit");

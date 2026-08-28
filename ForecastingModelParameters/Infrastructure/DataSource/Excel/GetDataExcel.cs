@@ -154,6 +154,20 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
             else return null;
         }
 
+        public IEnumerable<OtherPercentageCostByPeriod> GetOtherPercentageCostByPeriod(string complexProperty)
+        {
+            FileInfo fileInfo = new(filePath + $"\\OtherPercentageCostByPeriod({complexProperty}).xlsx");
+            if (fileInfo.Exists)
+            {
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "OtherPercentageCostByPeriod"];
+
+                var range = sheet.Cells[sheet.Dimension.Address];
+                return range.ToCollection<OtherPercentageCostByPeriod>();
+            }
+            else return null;
+        }
+
         public IEnumerable<SalesValueByCategory> GetSalesValueByCategory(string complexProperty)
         {
             FileInfo fileInfo = new(filePath + $"\\SalesValueByCategory({complexProperty}).xlsx");

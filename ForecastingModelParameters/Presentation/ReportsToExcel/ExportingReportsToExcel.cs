@@ -73,8 +73,9 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             sheetSource.Cells[1, 3].Value = "PricePerSqm";
             sheetSource.Cells[1, 4].Value = "SquareMeters";
             sheetSource.Cells[1, 5].Value = "Sold";
-            sheetSource.Cells[1, 1, 1, 5].Style.Font.Bold = true;
-            sheetSource.Cells[1, 1, 1, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheetSource.Cells[1, 6].Value = "ResidentialProperty";
+            sheetSource.Cells[1, 1, 1, 6].Style.Font.Bold = true;
+            sheetSource.Cells[1, 1, 1, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -85,11 +86,12 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
                 sheetSource.Cells[row, column + 3].Value = item.PricePerSqm;
                 sheetSource.Cells[row, column + 4].Value = item.SquareMeters;
                 sheetSource.Cells[row, column + 5].Value = item.Sold;
+                sheetSource.Cells[row, column + 6].Value = item.ResidentialProperty;
                 row++;
             }
-            sheetSource.Cells[1, 1, row, 5].AutoFitColumns();
+            sheetSource.Cells[1, 1, row, 6].AutoFitColumns();
             sheetSource.Cells["C:E"].Style.Numberformat.Format = "### ### ### ##0.00";
-            var range = sheetSource.Cells[1, 1, row - 1, 5];
+            var range = sheetSource.Cells[1, 1, row - 1, 6];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
@@ -240,6 +242,30 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             sheet.Cells.Style.Font.Size = 11;
 
             sheet.Cells["A1"].LoadFromCollection(otherFixedCostByPeriod, c => { c.PrintHeaders = true; });
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            package.SaveAs(fileInfo);
+        }
+
+        public void OtherPercentageCostByPeriod(IEnumerable<OtherPercentageCostByPeriod> otherPercentageCostByPeriod, string complexProperty)
+        {
+            using var package = new ExcelPackage();
+
+            FileInfo fileInfo = new(filePath + $"\\OtherPercentageCostByPeriod({complexProperty}).xlsx");
+            var sheet = package.Workbook.Worksheets.Add("OtherPercentageCostByPeriod");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells["A1"].LoadFromCollection(otherPercentageCostByPeriod, c => { c.PrintHeaders = true; });
 
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;

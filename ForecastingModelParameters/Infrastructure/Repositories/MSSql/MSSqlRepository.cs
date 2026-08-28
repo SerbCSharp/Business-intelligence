@@ -96,5 +96,17 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
             await _dataContext.OtherPercentageCosts.AddRangeAsync(otherPercentageCost);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task SaveOtherPercentageCostByPeriodAsync(IEnumerable<OtherPercentageCostByPeriod> оtherPercentageCostByPeriod, string complexProperty)
+        {
+            await _dataContext.OtherPercentageCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
+            await _dataContext.OtherPercentageCostByPeriods.AddRangeAsync(оtherPercentageCostByPeriod);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task<List<OtherPercentageCostByPeriod>> GetOtherPercentageCostByPeriodAsync(string complexProperty)
+        {
+            return await _dataContext.OtherPercentageCostByPeriods.Where(x => x.ComplexProperty == complexProperty).ToListAsync();
+        }
     }
 }

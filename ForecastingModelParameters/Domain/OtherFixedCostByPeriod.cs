@@ -1,7 +1,6 @@
 ﻿using OfficeOpenXml.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace ForecastingModelParameters.Domain
 {
@@ -9,8 +8,7 @@ namespace ForecastingModelParameters.Domain
     public class OtherFixedCostByPeriod
     {
         [Key]
-        //[EpplusTableColumn(Hidden = true)]
-        [JsonIgnore]
+        [EpplusIgnore]
         public Guid RowId { get; set; }
 
         [EpplusTableColumn(Header = "Комплекс")]
@@ -27,5 +25,8 @@ namespace ForecastingModelParameters.Domain
 
         [EpplusTableColumn(Header = "Год", NumberFormat = "###0")]
         public double Year { get; set; }
+
+        [EpplusTableColumn(Hidden = true)]
+        public string Field { get; set; }
     }
 }

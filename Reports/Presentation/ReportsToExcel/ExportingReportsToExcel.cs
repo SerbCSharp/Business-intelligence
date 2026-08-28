@@ -375,7 +375,7 @@ namespace Reports.Presentation.ReportsToExcel
 
         public byte[] OtherCost(ExcelPackage package, IEnumerable<OtherCost> cashFlow)
         {
-            var sheet = package.Workbook.Worksheets.Add("Все расходы кроме СМР и процентов");
+            var sheet = package.Workbook.Worksheets.Add("Расходы кроме СМР и процентов");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);

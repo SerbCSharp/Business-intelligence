@@ -11,5 +11,6 @@ namespace ForecastingModelParameters.Application.Interfaces
         Task SaveOtherFixedCostAsync(IEnumerable<OtherFixedCost> otherFixedCost, string complexProperty);
         Task SaveOtherFixedCostByPeriodAsync(IEnumerable<OtherFixedCostByPeriod> otherFixedCostByPeriod, string complexProperty);
         Task SaveOtherPercentageCostAsync(IEnumerable<OtherPercentageCost> otherPercentageCost, string complexProperty);
+        Task SaveOtherPercentageCostByPeriodAsync(IEnumerable<OtherPercentageCostByPeriod> оtherPercentageCostByPeriod, string complexProperty);
     }
 }

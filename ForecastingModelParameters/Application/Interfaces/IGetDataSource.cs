@@ -11,5 +11,6 @@ namespace ForecastingModelParameters.Application.Interfaces
         IEnumerable<OtherFixedCost> GetOtherFixedCost(string complexProperty);
         IEnumerable<OtherFixedCostByPeriod> GetOtherFixedCostByPeriod(string complexProperty);
         IEnumerable<OtherPercentageCost> GetOtherPercentageCost(string complexProperty);
+        IEnumerable<OtherPercentageCostByPeriod> GetOtherPercentageCostByPeriod(string complexProperty);
     }
 }
