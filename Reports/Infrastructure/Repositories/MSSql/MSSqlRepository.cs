@@ -56,5 +56,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryAsync<OtherCost>("OtherCost", new { ComplexProperty = complexProperty });
         }
+
+        public async Task<IEnumerable<InterestCost>> InterestCostAsync(string complexProperty)
+        {
+            return await _dbConnection.QueryAsync<InterestCost>("InterestCost", new { ComplexProperty = complexProperty });
+        }
     }
 }

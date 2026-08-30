@@ -1,6 +1,7 @@
 ﻿using Reports.Application.DTO;
 using Reports.Application.Interfaces;
 using Reports.Domain;
+using System.Reflection;
 
 namespace Reports.Application.Services
 {
@@ -98,6 +99,86 @@ namespace Reports.Application.Services
         public async Task<IEnumerable<OtherCost>> OtherCostAsync(string complexProperty)
         {
             return await _getData.OtherCostAsync(complexProperty);
+        }
+
+        public async Task<IEnumerable<InterestCostDTO>> InterestCostAsync(string complexProperty)
+        {
+            var interestCost = (await _getData.InterestCostAsync(complexProperty)).ToList();
+
+            var interestCostsDTO = new List<InterestCostDTO> { new() };
+            interestCostsDTO[0].EscrowFunding = interestCost[0].IncurredCosts;
+            interestCostsDTO[0].InterestPayable = interestCost[1].IncurredCosts;
+            interestCostsDTO[0].Principal = interestCost[4].IncurredCosts;
+            interestCostsDTO[0].KeyRate = interestCost[12].PercentageOfCosts;
+            interestCostsDTO[0].WeightedAverage = interestCost[13].PercentageOfCosts;
+            interestCostsDTO[0].BaseAssessmentRate = interestCost[14].PercentageOfCosts;
+            interestCostsDTO[0].CalculatedInterestRate = interestCost[18].PercentageOfCosts;
+            interestCostsDTO[0].UnpaidInterest = interestCost[1].IncurredCosts - interestCost[2].IncurredCosts;
+            interestCostsDTO[0].PrincipalBalance = interestCost[4].IncurredCosts - interestCost[5].IncurredCosts;
+
+            interestCostsDTO[0].TotalPayoffAmount = interestCostsDTO[0].PrincipalBalance + interestCostsDTO[0].UnpaidInterest;
+            interestCostsDTO[0].ProportionOfDebtK1 = interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) / interestCostsDTO[0].TotalPayoffAmount;
+            interestCostsDTO[0].ProportionOfDebtK2 = 1 - interestCostsDTO[0].ProportionOfDebtK1;
+            interestCostsDTO[0].ConditionK3 = interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) - interestCostsDTO[0].TotalPayoffAmount;
+            interestCostsDTO[0].ProportionOfCashK3 = interestCostsDTO[0].ConditionK3 < 0 ? 0 :
+                (interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) - interestCostsDTO[0].TotalPayoffAmount) / interestCostsDTO[0].TotalPayoffAmount;
+            interestCostsDTO[0].SpecialCreditRate = (0.0245M + interestCostsDTO[0].BaseAssessmentRate) / (1 - interestCostsDTO[0].WeightedAverage);
+            interestCostsDTO[0].BaseLendingRate = 0.056M + interestCostsDTO[0].KeyRate;
+            interestCostsDTO[0].DiscountRate =
+                (0.0204M + interestCostsDTO[0].KeyRate) - 0.001M - interestCostsDTO[0].BaseAssessmentRate * (1 - interestCostsDTO[0].WeightedAverage);
+            interestCostsDTO[0].CurrentInterestRate =
+                (interestCostsDTO[0].SpecialCreditRate * interestCostsDTO[0].ProportionOfDebtK1) +
+                (interestCostsDTO[0].BaseLendingRate * interestCostsDTO[0].ProportionOfDebtK2) -
+                (interestCostsDTO[0].DiscountRate * interestCostsDTO[0].ProportionOfCashK3);
+            interestCostsDTO[0].AccruedInterest = interestCostsDTO[0].CurrentInterestRate * interestCostsDTO[0].Principal * 3 / 12;
+
+            var quarter = 0;
+            var j = 0;
+
+            for (int i = 0; i < interestCost.Count; i++)
+            {
+                if (interestCost[i].Quarter == quarter)
+                {
+                    if (interestCost[i].Field == "KeyRate")
+                        interestCostsDTO[j].KeyRate = interestCost[i].PercentageOfCostsByPeriods;
+                    if (interestCost[i].Field == "Principal")
+                        interestCostsDTO[j].Principal = interestCost[i].TotalCost;
+                }
+                else
+                {
+                    j++;
+                    interestCostsDTO.Add(new InterestCostDTO());
+                    interestCostsDTO[j].EscrowFunding = interestCost[i].TotalSales;
+                    interestCostsDTO[j].CommissioningOfResidentialProperty = interestCost[i].CommissioningOfResidentialProperty;
+                    interestCostsDTO[j].Year = interestCost[i].Year;
+                    interestCostsDTO[j].Quarter = interestCost[i].Quarter;
+                }
+                quarter = interestCost[i].Quarter;
+            }
+
+            for (int i = 1; i < interestCostsDTO.Count; i++)
+            {
+                interestCostsDTO[i].InterestPayable = interestCostsDTO[i - 1].UnpaidInterest + interestCostsDTO[i - 1].AccruedInterest;
+                
+                interestCostsDTO[i].Principal = interestCostsDTO[i - 1].PrincipalBalance + interestCostsDTO[i].Principal;
+                interestCostsDTO[i].InterestPaid = interestCostsDTO[i].CommissioningOfResidentialProperty ? interestCostsDTO[i].InterestPayable - 800000 : 0;
+
+                var EscrowFundingTmp = interestCostsDTO[i - 1].EscrowFunding + interestCostsDTO[i].EscrowFunding;
+
+                interestCostsDTO[i].LoanRepayment = interestCostsDTO[i].CommissioningOfResidentialProperty ? EscrowFundingTmp - interestCostsDTO[i].InterestPaid : 0;
+                interestCostsDTO[i].PrincipalBalance = interestCostsDTO[i].Principal - interestCostsDTO[i].LoanRepayment;
+
+                interestCostsDTO[i].UnpaidInterest = interestCostsDTO[i].InterestPayable - interestCostsDTO[i].InterestPaid;
+
+                interestCostsDTO[i].EscrowFunding = interestCostsDTO[i - 1].EscrowFunding + interestCostsDTO[i].EscrowFunding - interestCostsDTO[i].InterestPaid - interestCostsDTO[i].LoanRepayment;
+
+
+                interestCostsDTO[i].TotalPayoffAmount = interestCostsDTO[i].PrincipalBalance + interestCostsDTO[i].UnpaidInterest;
+
+
+            }
+
+            return interestCostsDTO;
         }
     }
 }

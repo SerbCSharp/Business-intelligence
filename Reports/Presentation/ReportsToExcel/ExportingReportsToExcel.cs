@@ -373,14 +373,14 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[2, 1, sheet.Dimension.End.Row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         }
 
-        public byte[] OtherCost(ExcelPackage package, IEnumerable<OtherCost> cashFlow)
+        public void OtherCost(ExcelPackage package, IEnumerable<OtherCost> otherCost)
         {
             var sheet = package.Workbook.Worksheets.Add("Расходы кроме СМР и процентов");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);
 
-            sheet.Cells["A1"].LoadFromCollection(cashFlow, c => { c.PrintHeaders = true; });
+            sheet.Cells["A1"].LoadFromCollection(otherCost, c => { c.PrintHeaders = true; });
 
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -395,6 +395,30 @@ namespace Reports.Presentation.ReportsToExcel
             MergeSameAdjacentCells(sheet, 1, 2, sheet.Dimension.End.Row, 2);
             sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        }
+
+        public byte[] InterestCost(ExcelPackage package, IEnumerable<InterestCostDTO> interestCost)
+        {
+            var sheet = package.Workbook.Worksheets.Add("Проценты");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+            sheet.View.FreezePanes(2, 1);
+
+            sheet.Cells["A1"].LoadFromCollection(interestCost, c => { c.PrintHeaders = true; });
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            range.AutoFilter = true;
+
+            //MergeSameAdjacentCells(sheet, 1, 2, sheet.Dimension.End.Row, 2);
+            //sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            //sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var byteArray = package.GetAsByteArray();
             package.Dispose();

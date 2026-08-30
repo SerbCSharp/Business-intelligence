@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Reports.Application.DTO;
 using Reports.Application.Services;
 using Reports.Domain;
 using Reports.Presentation.ReportsToExcel;
@@ -84,7 +85,10 @@ namespace Reports.Presentation.Controllers
             _exportingReportsToExcel.SalesTarget(package, salesTarget);
 
             var otherCost = await _reportsService.OtherCostAsync(complexProperty);
-            var fileBytes = _exportingReportsToExcel.OtherCost(package, otherCost);
+            _exportingReportsToExcel.OtherCost(package, otherCost);
+
+            var interestCost = await _reportsService.InterestCostAsync(complexProperty);
+            var fileBytes = _exportingReportsToExcel.InterestCost(package, interestCost);
 
             string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";

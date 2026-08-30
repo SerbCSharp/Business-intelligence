@@ -13,5 +13,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<ConstructionCostByPeriod>> ConstructionCostByPeriodAsync(string complexProperty);
         Task<IEnumerable<SalesTarget>> SalesTargetAsync(string complexProperty);
         Task<IEnumerable<OtherCost>> OtherCostAsync(string complexProperty);
+        Task<IEnumerable<InterestCost>> InterestCostAsync(string complexProperty);
     }
 }
