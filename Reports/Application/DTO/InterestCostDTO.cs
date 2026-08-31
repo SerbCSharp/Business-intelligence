@@ -2,6 +2,8 @@
 {
     public class InterestCostDTO
     {
+        public decimal TotalSales { get; set; }
+        public decimal TotalCost { get; set; }
         public decimal EscrowFunding { get; set; }
         public decimal InterestPayable { get; set; }
         public decimal InterestPaid { get; set; }

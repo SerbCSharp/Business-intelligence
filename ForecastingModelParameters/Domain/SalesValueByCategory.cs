@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OfficeOpenXml.Attributes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForecastingModelParameters.Domain
@@ -10,9 +11,11 @@ namespace ForecastingModelParameters.Domain
         public Guid RowId { get; set; }
         public string ComplexProperty { get; set; }
         public string Category { get; set; }
-        public decimal PricePerSqm { get; set; }
-        public decimal SquareMeters { get; set; }
-        public decimal Sold { get; set; }
+        public double PricePerSqm { get; set; }
+        public double SquareMeters { get; set; }
+        public double Sold { get; set; }
+
+        [EpplusTableColumn(Header = "Признак для БПВ и КВ", NumberFormat = "General")]
         public bool ResidentialProperty { get; set; }
     }
 }
