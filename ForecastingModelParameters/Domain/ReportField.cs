@@ -14,5 +14,6 @@ namespace ForecastingModelParameters.Domain
         public string ReportSheet { get; set; }
         public string Field { get; set; }
         public bool Parameter { get; set; }
-    }    
+        public string ConstructionCostForecast { get; set; }
+    }
 }

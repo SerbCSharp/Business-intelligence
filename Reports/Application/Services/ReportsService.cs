@@ -17,7 +17,7 @@ namespace Reports.Application.Services
         public async Task<IEnumerable<ConstructionCostDTO>> ConstructionCostAsync()
         {
             var constructionCost = (await _getData.ConstructionCostAsync()).ToList();
-            return constructionCost.Select(x => EstimatingLogic(x));
+            return constructionCost.Select(EstimatingLogic).OrderBy(y => y.Contractor).ThenBy(z => z.Name);
         }
 
         public async Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync()
@@ -74,7 +74,6 @@ namespace Reports.Application.Services
             return new ConstructionCostDTO
             {
                 ConstructionCost = maxAmount,
-                ConstructionCostPlusVATDifference = maxAmount * (1.22M - item.VATRate),
                 ContractAmount = item.ContractAmount,
                 InvoiceAmount = item.InvoiceAmount,
                 PaymentAmount = item.PaymentAmount,
@@ -104,7 +103,7 @@ namespace Reports.Application.Services
             return await _getData.OtherCostAsync(complexProperty);
         }
 
-        public async Task<IEnumerable<InterestCostDTO>> InterestCostAsync(string complexProperty)
+        public async Task<(IEnumerable<InterestCostDTO>, decimal)> InterestCostAsync(string complexProperty)
         {
             var interestCost = (await _getData.InterestCostAsync(complexProperty)).ToList();
 
@@ -198,11 +197,20 @@ namespace Reports.Application.Services
                     (interestCostsDTO[i].BaseLendingRate * interestCostsDTO[i].ProportionOfDebtK2) -
                     (interestCostsDTO[i].DiscountRate * interestCostsDTO[i].ProportionOfCashK3);
                 interestCostsDTO[i].AccruedInterest = interestCostsDTO[i].CurrentInterestRate * interestCostsDTO[i].Principal * 3 / 12;
-
-
             }
 
-            return interestCostsDTO;
+            return (interestCostsDTO, interestCostsDTO.Sum(x => x.AccruedInterest) + interestCostsDTO[0].UnpaidInterest);
+        }
+
+        public async Task<IEnumerable<ConstructionCostForecast>> ConstructionCostForecastAsync(string complexProperty, decimal interestCost)
+        {
+            var constructionCostForecast = await _getData.ConstructionCostForecastAsync(complexProperty);
+            var result = constructionCostForecast.Select(x => new ConstructionCostForecast
+            {
+                Name = x.Name,
+                Amount = x.Field == "InterestCost" ? interestCost : x.Amount
+            });
+            return result;
         }
     }
 }

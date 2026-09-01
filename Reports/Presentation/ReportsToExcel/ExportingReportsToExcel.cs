@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
 using Reports.Application.DTO;
 using Reports.Domain;
+using System.Data.Common;
 using System.Reflection;
 
 namespace Reports.Presentation.ReportsToExcel
@@ -275,10 +276,9 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[1, 9].Value = "Подрядчик/Поставщик";
             sheet.Cells[1, 10].Value = "Генподрядные";
             sheet.Cells[1, 11].Value = "Стоимость строительства";
-            sheet.Cells[1, 12].Value = "Стоимость строительства с ∆НДС";
-            sheet.Cells[1, 13].Value = "Входящий НДС";
-            sheet.Cells[1, 1, 1, 13].Style.Font.Bold = true;
-            sheet.Cells[1, 1, 1, 13].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 12].Value = "Входящий НДС";
+            sheet.Cells[1, 1, 1, 12].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, 12].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -295,8 +295,7 @@ namespace Reports.Presentation.ReportsToExcel
                 sheet.Cells[row, column + 9].Value = item.ContractorOrSupplier;
                 sheet.Cells[row, column + 10].Value = item.GeneralContractorMarkup;
                 sheet.Cells[row, column + 11].Value = item.ConstructionCost;
-                sheet.Cells[row, column + 12].Value = item.ConstructionCostPlusVATDifference;
-                sheet.Cells[row, column + 13].Value = item.VATRate;
+                sheet.Cells[row, column + 12].Value = item.VATRate;
                 row++;
             }
 
@@ -304,22 +303,21 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[row, column + 5].Formula = $"=SUBTOTAL(9,E2:E{row - 1})";
             sheet.Cells[row, column + 6].Formula = $"=SUBTOTAL(9,F2:F{row - 1})";
             sheet.Cells[row, column + 11].Formula = $"=SUBTOTAL(9,K2:K{row - 1})";
-            sheet.Cells[row, column + 12].Formula = $"=SUBTOTAL(9,L2:L{row - 1})";
-            sheet.Cells[row, 2, row, 13].Style.Font.Bold = true;
+            sheet.Cells[row, 2, row, 12].Style.Font.Bold = true;
 
 
-            sheet.Cells[1, 1, row, 13].AutoFitColumns();
+            sheet.Cells[1, 1, row, 12].AutoFitColumns();
             sheet.Cells[2, 3, row, 3].Style.Numberformat.Format = "dd.mm.yyyy";
             sheet.Cells[2, 4, row, 6].Style.Numberformat.Format = "### ### ### ##0.00";
             sheet.Cells[2, 10, row, 10].Style.Numberformat.Format = "0%";
-            sheet.Cells[2, 11, row, 12].Style.Numberformat.Format = "### ### ### ##0.00";
-            sheet.Cells[2, 13, row, 13].Style.Numberformat.Format = "0%";
+            sheet.Cells[2, 11, row, 11].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheet.Cells[2, 12, row, 12].Style.Numberformat.Format = "0%";
             sheet.Column(1).Width = 50;
             sheet.Column(2).Width = 50;
             sheet.Column(7).Width = 50;
             sheet.Column(8).Width = 50;
 
-            var range = sheet.Cells[1, 1, row - 1, 13];
+            var range = sheet.Cells[1, 1, row - 1, 12];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
@@ -405,7 +403,7 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         }
 
-        public byte[] InterestCost(ExcelPackage package, IEnumerable<InterestCostDTO> interestCost)
+        public void InterestCost(ExcelPackage package, IEnumerable<InterestCostDTO> interestCost)
         {
             var sheet = package.Workbook.Worksheets.Add("Проценты");
             sheet.Cells.Style.Font.Name = "Calibri";
@@ -423,10 +421,39 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
             range.AutoFilter = true;
+        }
 
-            //MergeSameAdjacentCells(sheet, 1, 2, sheet.Dimension.End.Row, 2);
-            //sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-            //sheet.Cells[2, 1, sheet.Dimension.End.Row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecast> constructionCostForecast)
+        {
+            var sheet = package.Workbook.Worksheets.Add("Бюджет");
+            package.Workbook.Worksheets.MoveToStart("Бюджет");
+            package.Workbook.View.ActiveTab = 0;
+
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1, 1, 2].Merge = true;
+            sheet.Cells[1, 1].Value = "Прогноз общей стоимости строительства";
+            sheet.Cells[1, 1].Style.Font.Size = 14;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            sheet.Cells["A3"].LoadFromCollection(constructionCostForecast, c => { c.PrintHeaders = true; });
+
+            sheet.Cells[3, 1, 3, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[3, 1, 3, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+
+
+            sheet.Cells[5, 2].Formula = $"B{6}+B{7}+B{8}";
+
+
+
+            var range = sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
             var byteArray = package.GetAsByteArray();
             package.Dispose();
