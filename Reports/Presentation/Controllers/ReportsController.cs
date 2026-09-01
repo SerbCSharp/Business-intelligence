@@ -89,7 +89,7 @@ namespace Reports.Presentation.Controllers
             _exportingReportsToExcel.InterestCost(package, interestCost.Item1);
 
             var constructionCostForecast = await _reportsService.ConstructionCostForecastAsync(complexProperty, interestCost.Item2);
-            var fileBytes = _exportingReportsToExcel.ConstructionCostForecast(package, constructionCostForecast);
+            var fileBytes = _exportingReportsToExcel.ConstructionCostForecast(package, constructionCostForecast, complexProperty);
 
             string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";

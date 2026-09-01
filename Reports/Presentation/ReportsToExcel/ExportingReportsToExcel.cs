@@ -423,7 +423,7 @@ namespace Reports.Presentation.ReportsToExcel
             range.AutoFilter = true;
         }
 
-        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecast> constructionCostForecast)
+        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecast> constructionCostForecast, string complexProperty)
         {
             var sheet = package.Workbook.Worksheets.Add("Бюджет");
             package.Workbook.Worksheets.MoveToStart("Бюджет");
@@ -433,7 +433,7 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells.Style.Font.Size = 11;
 
             sheet.Cells[1, 1, 1, 2].Merge = true;
-            sheet.Cells[1, 1].Value = "Прогноз общей стоимости строительства";
+            sheet.Cells[1, 1].Value = $"Прогноз общей стоимости строительства({complexProperty})";
             sheet.Cells[1, 1].Style.Font.Size = 14;
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
             sheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -444,10 +444,17 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[3, 1, 3, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
 
+            sheet.Cells[4, 1, 4, 2].Style.Font.Size = 12;
+            sheet.Cells[4, 1, 4, 2].Style.Font.Bold = true;
+            sheet.Cells[6, 1, 8, 1].Style.Font.Size = 10;
+            sheet.Cells[11, 1, 13, 1].Style.Font.Size = 10;
+            sheet.Cells[15, 1, 16, 2].Style.Font.Size = 12;
+            sheet.Cells[15, 1, 16, 2].Style.Font.Bold = true;
 
             sheet.Cells[5, 2].Formula = $"B{6}+B{7}+B{8}";
-
-
+            sheet.Cells[10, 2].Formula = $"B{11}+B{12}+B{13}";
+            sheet.Cells[15, 2].Formula = $"B{5}+B{9}+B{10}+B{14}";
+            sheet.Cells[16, 2].Formula = $"B{4}-B{15}";
 
             var range = sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
