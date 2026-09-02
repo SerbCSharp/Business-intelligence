@@ -123,49 +123,49 @@ namespace ForecastingModelParameters.Application.Services
 
         public async Task SaveConstructionCostByPropertyAsync(string complexProperty)
         {
-            var getExcelConstructionCostByProperty = _getDataSource.GetConstructionCostByProperty(complexProperty);
+            var getExcelConstructionCostByProperty = _getDataSource.GetProjectCostingData<ConstructionCostByProperty>(complexProperty, "ConstructionCostByProperty");
             await _saveData.SaveConstructionCostByPropertyAsync(getExcelConstructionCostByProperty, complexProperty);
         }
 
         public async Task SaveSalesValueByCategoryAsync(string complexProperty)
         {
-            var getExcelSalesValueByCategory = _getDataSource.GetSalesValueByCategory(complexProperty);
+            var getExcelSalesValueByCategory = _getDataSource.GetProjectCostingData<SalesValueByCategory>(complexProperty, "SalesValueByCategory");
             await _saveData.SaveSalesValueByCategoryAsync(getExcelSalesValueByCategory, complexProperty);
         }
 
         public async Task SaveConstructionCostByPeriodAsync(string complexProperty)
         {
-            var getExcelConstructionCostByPeriod = _getDataSource.GetConstructionCostByPeriod(complexProperty);
+            var getExcelConstructionCostByPeriod = _getDataSource.GetProjectCostingData<ConstructionCostByPeriod>(complexProperty, "ConstructionCostByPeriod");
             await _saveData.SaveConstructionCostByPeriodAsync(getExcelConstructionCostByPeriod, complexProperty);
         }
 
         public async Task SaveSalesValueByPeriodAsync(string complexProperty)
         {
-            var getExcelSalesValueByPeriod = _getDataSource.GetSalesValueByPeriod(complexProperty);
+            var getExcelSalesValueByPeriod = _getDataSource.GetProjectCostingData<SalesValueByPeriod>(complexProperty, "SalesValueByPeriod");
             await _saveData.SaveSalesValueByPeriodAsync(getExcelSalesValueByPeriod, complexProperty);
         }
 
         public async Task SaveOtherFixedCostAsync(string complexProperty)
         {
-            var getExcelOtherFixedCost = _getDataSource.GetOtherFixedCost(complexProperty);
+            var getExcelOtherFixedCost = _getDataSource.GetProjectCostingData<OtherFixedCost>(complexProperty, "OtherFixedCost");
             await _saveData.SaveOtherFixedCostAsync(getExcelOtherFixedCost, complexProperty);
         }
 
         public async Task SaveOtherPercentageCostAsync(string complexProperty)
         {
-            var getExcelOtherPercentageCost = _getDataSource.GetOtherPercentageCost(complexProperty);
+            var getExcelOtherPercentageCost = _getDataSource.GetProjectCostingData<OtherPercentageCost>(complexProperty, "OtherPercentageCost");
             await _saveData.SaveOtherPercentageCostAsync(getExcelOtherPercentageCost, complexProperty);
         }
 
         public async Task SaveOtherFixedCostByPeriodAsync(string complexProperty)
         {
-            var getExcelOtherFixedCostByPeriod = _getDataSource.GetOtherFixedCostByPeriod(complexProperty);
+            var getExcelOtherFixedCostByPeriod = _getDataSource.GetProjectCostingData<OtherFixedCostByPeriod>(complexProperty, "OtherFixedCostByPeriod");
             await _saveData.SaveOtherFixedCostByPeriodAsync(getExcelOtherFixedCostByPeriod, complexProperty);
         }
 
         public async Task SaveOtherPercentageCostByPeriodAsync(string complexProperty)
         {
-            var getExcelOtherPercentageCostByPeriod = _getDataSource.GetOtherPercentageCostByPeriod(complexProperty);
+            var getExcelOtherPercentageCostByPeriod = _getDataSource.GetProjectCostingData<OtherPercentageCostByPeriod>(complexProperty, "OtherPercentageCostByPeriod");
             await _saveData.SaveOtherPercentageCostByPeriodAsync(getExcelOtherPercentageCostByPeriod, complexProperty);
         }
 

@@ -1,6 +1,4 @@
-﻿using OfficeOpenXml.Attributes;
-
-namespace Reports.Domain
+﻿namespace Reports.Domain
 {
     public class InterestCost
     {

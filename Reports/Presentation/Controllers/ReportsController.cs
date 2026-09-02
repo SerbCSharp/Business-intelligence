@@ -74,7 +74,7 @@ namespace Reports.Presentation.Controllers
         }
 
         [HttpGet("ConstructionForecastingModel")]
-        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty)
+        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК КИПАРИС")
         {
             var constructionCostByPeriod = await _reportsService.ConstructionCostByPeriodAsync(complexProperty);
             var package = _exportingReportsToExcel.ConstructionCostByPeriod(constructionCostByPeriod);

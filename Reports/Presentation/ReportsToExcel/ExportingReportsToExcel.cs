@@ -4,7 +4,6 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
 using Reports.Application.DTO;
 using Reports.Domain;
-using System.Data.Common;
 using System.Reflection;
 
 namespace Reports.Presentation.ReportsToExcel
