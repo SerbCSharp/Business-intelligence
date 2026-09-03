@@ -12,7 +12,7 @@ namespace ForecastingModelParameters.Presentation.Controllers
         private readonly ExportingReportsToExcel _exportingReportsToExcel = exportingReportsToExcel;
 
         [HttpGet("RequestPropertyAndCategories")]
-        public async Task<IActionResult> RequestPropertyAndCategoriesAsync(int property, int category, [Required] string complexProperty = "ЖК КИПАРИС")
+        public async Task<IActionResult> RequestPropertyAndCategoriesAsync(int property, int category, [Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
         {
             var constructionCostByProperty = await _updateDataService.RequestPropertyAsync(complexProperty, property);
             _exportingReportsToExcel.RequestProjectCostingData(constructionCostByProperty, complexProperty, "ConstructionCostByProperty");
@@ -27,7 +27,7 @@ namespace ForecastingModelParameters.Presentation.Controllers
         }
 
         [HttpGet("RequestByPeriods")]
-        public async Task<IActionResult> RequestByPeriodsAsync(int period, [Required] string complexProperty = "ЖК КИПАРИС")
+        public async Task<IActionResult> RequestByPeriodsAsync(int period, [Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
         {
             var constructionCostByPeriod = await _updateDataService.RequestByPeriodsConstructionAsync(complexProperty, period);
             _exportingReportsToExcel.RequestProjectCostingData(constructionCostByPeriod, complexProperty, "ConstructionCostByPeriod");
@@ -42,7 +42,7 @@ namespace ForecastingModelParameters.Presentation.Controllers
         }
 
         [HttpGet("SaveAllProjectCostingData")]
-        public async Task<IActionResult> SaveAllProjectCostingDataAsync([Required] string complexProperty = "ЖК КИПАРИС")
+        public async Task<IActionResult> SaveAllProjectCostingDataAsync([Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
         {
             await _updateDataService.SaveAllProjectCostingDataAsync(complexProperty);
 

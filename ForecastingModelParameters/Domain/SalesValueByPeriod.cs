@@ -17,6 +17,9 @@ namespace ForecastingModelParameters.Domain
         [EpplusTableColumn(Header = "Категория жилья")]
         public string Category { get; set; }
 
+        [EpplusTableColumn(Header = "Цена продаж за м2", NumberFormat = "### ### ### ##0.00")]
+        public double PricePerSqm { get; set; }
+
         [EpplusTableColumn(Header = "Плановые продажи за м2", NumberFormat = "### ### ### ##0.00")]
         public double SalesTargetInSqm { get; set; }
 

@@ -119,11 +119,17 @@ namespace Reports.Application.Services
             interestCostsDTO[0].PrincipalBalance = interestCost[4].IncurredCosts - interestCost[5].IncurredCosts;
 
             interestCostsDTO[0].TotalPayoffAmount = interestCostsDTO[0].PrincipalBalance + interestCostsDTO[0].UnpaidInterest;
-            interestCostsDTO[0].ProportionOfDebtK1 = interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) / interestCostsDTO[0].TotalPayoffAmount;
+
+            interestCostsDTO[0].ProportionOfDebtK1 = interestCostsDTO[0].TotalPayoffAmount == decimal.Zero ? decimal.Zero : 
+                interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) / interestCostsDTO[0].TotalPayoffAmount;
+
             interestCostsDTO[0].ProportionOfDebtK2 = 1 - interestCostsDTO[0].ProportionOfDebtK1;
             interestCostsDTO[0].ConditionK3 = interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) - interestCostsDTO[0].TotalPayoffAmount;
             interestCostsDTO[0].ProportionOfCashK3 = interestCostsDTO[0].ConditionK3 < 0 ? 0 :
-                (interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) - interestCostsDTO[0].TotalPayoffAmount) / interestCostsDTO[0].TotalPayoffAmount;
+
+                interestCostsDTO[0].TotalPayoffAmount == decimal.Zero ? decimal.Zero : 
+                    interestCostsDTO[0].TotalPayoffAmount == decimal.Zero ? decimal.Zero : (interestCostsDTO[0].EscrowFunding * (1 - interestCostsDTO[0].WeightedAverage) - interestCostsDTO[0].TotalPayoffAmount) / interestCostsDTO[0].TotalPayoffAmount;
+
             interestCostsDTO[0].SpecialCreditRate = (0.0245M + interestCostsDTO[0].BaseAssessmentRate) / (1 - interestCostsDTO[0].WeightedAverage);
             interestCostsDTO[0].BaseLendingRate = 0.056M + interestCostsDTO[0].KeyRate;
             interestCostsDTO[0].DiscountRate =
