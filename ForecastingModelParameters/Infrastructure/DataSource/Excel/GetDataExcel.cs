@@ -1,9 +1,7 @@
 ﻿using ForecastingModelParameters.Application;
 using ForecastingModelParameters.Application.Interfaces;
-using ForecastingModelParameters.Domain;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
-using System.Data;
 
 namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
 {
@@ -19,7 +17,7 @@ namespace ForecastingModelParameters.Infrastructure.DataSource.Excel
             ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
         }
 
-        public IEnumerable<T> GetProjectCostingData<T>(string complexProperty, string name)
+        public IEnumerable<T> ProjectCostingData<T>(string complexProperty, string name)
         {
             FileInfo fileInfo = new(filePath + $"\\{name}({complexProperty}).xlsx");
             if (fileInfo.Exists)

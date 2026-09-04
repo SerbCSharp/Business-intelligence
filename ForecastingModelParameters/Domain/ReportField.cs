@@ -10,7 +10,6 @@ namespace ForecastingModelParameters.Domain
         public Guid RowId { get; set; }
         public string Name { get; set; }
         public int LineNumber { get; set; }
-        public bool PercentageOrFixed { get; set; }
         public string ReportSheet { get; set; }
         public string Field { get; set; }
         public bool Parameter { get; set; }

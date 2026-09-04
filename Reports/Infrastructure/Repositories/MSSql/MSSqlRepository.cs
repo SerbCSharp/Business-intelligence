@@ -41,31 +41,5 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
         }
-
-        public async Task<IEnumerable<ConstructionCostByPeriod>> ConstructionCostByPeriodAsync(string complexProperty)
-        {
-            return await _dbConnection.QueryAsync<ConstructionCostByPeriod>("ConstructionCostByPeriod", new { ComplexProperty = complexProperty });
-        }
-
-        public async Task<IEnumerable<SalesTarget>> SalesTargetAsync(string complexProperty)
-        {
-            return await _dbConnection.QueryAsync<SalesTarget>("SalesTarget", new { ComplexProperty = complexProperty });
-        }
-
-        public async Task<IEnumerable<OtherCost>> OtherCostAsync(string complexProperty)
-        {
-            var sql = "SELECT * FROM OtherCost(@ComplexProperty) ORDER BY LineNumber, Name, [Year], [Quarter]";
-            return await _dbConnection.QueryAsync<OtherCost>(sql, new { ComplexProperty = complexProperty });
-        }
-
-        public async Task<IEnumerable<InterestCost>> InterestCostAsync(string complexProperty)
-        {
-            return await _dbConnection.QueryAsync<InterestCost>("InterestCost", new { ComplexProperty = complexProperty });
-        }
-
-        public async Task<IEnumerable<ConstructionCostForecast>> ConstructionCostForecastAsync(string complexProperty)
-        {
-            return await _dbConnection.QueryAsync<ConstructionCostForecast>("ConstructionCostForecast", new { ComplexProperty = complexProperty });
-        }
     }
 }

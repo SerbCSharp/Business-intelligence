@@ -2,6 +2,6 @@
 {
     public interface IGetDataSource
     {
-        IEnumerable<T> GetProjectCostingData<T>(string complexProperty, string name);
+        IEnumerable<T> ProjectCostingData<T>(string complexProperty, string name);
     }
 }
