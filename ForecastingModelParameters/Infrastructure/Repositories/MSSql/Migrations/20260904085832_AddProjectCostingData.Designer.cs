@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260904085832_AddProjectCostingData")]
+    partial class AddProjectCostingData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Fact")
-                        .HasColumnType("float");
-
                     b.Property<string>("Field")
                         .HasColumnType("nvarchar(max)");
 
@@ -42,32 +42,7 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectCostingDatas", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ProjectCostingDataPeriod", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("ProjectCostingDataId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Quarter")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Year")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectCostingDataId");
-
-                    b.ToTable("ProjectCostingDataPeriods", "params");
+                    b.ToTable("ProjectCostingDatas");
                 });
 
             modelBuilder.Entity("ForecastingModelParameters.Domain.ReportField", b =>
@@ -97,22 +72,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.HasKey("RowId");
 
                     b.ToTable("ReportFields", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ProjectCostingDataPeriod", b =>
-                {
-                    b.HasOne("ForecastingModelParameters.Domain.ProjectCostingData", "ProjectCostingData")
-                        .WithMany("ProjectCostingDataPeriods")
-                        .HasForeignKey("ProjectCostingDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectCostingData");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ProjectCostingData", b =>
-                {
-                    b.Navigation("ProjectCostingDataPeriods");
                 });
 #pragma warning restore 612, 618
         }

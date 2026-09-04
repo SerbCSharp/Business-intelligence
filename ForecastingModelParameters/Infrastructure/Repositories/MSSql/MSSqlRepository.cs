@@ -8,6 +8,12 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
     {
         private readonly DataContext _dataContext = dataContext;
 
+        public async Task<List<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty)
+        {
+            return await _dataContext.ProjectCostingDatas.Include(x => x.ProjectCostingDataPeriods)
+                .Where(y => y.ComplexProperty == complexProperty).ToListAsync();
+        }
+
         public async Task<List<ReportField>> ReportFieldAsync()
         {
             return await _dataContext.ReportFields.ToListAsync();

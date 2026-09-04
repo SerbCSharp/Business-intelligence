@@ -1,4 +1,5 @@
 ﻿using ForecastingModelParameters.Application;
+using ForecastingModelParameters.Domain;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -17,26 +18,40 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
             ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
         }
 
-        public void RequestProjectCostingData<T>(IEnumerable<T> requestProjectCostingData, string complexProperty, string name)
+        public void ProjectCostingData(List<ProjectCostingData> projectCostingData, string complexProperty, int period)
         {
             using var package = new ExcelPackage();
 
-            FileInfo fileInfo = new(filePath + $"\\{name}({complexProperty}).xlsx");
-            var sheet = package.Workbook.Worksheets.Add(name);
+            FileInfo fileInfo = new(filePath + $"\\ProjectCostingData({complexProperty}).xlsx");
+            var sheet = package.Workbook.Worksheets.Add("ProjectCostingData");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
 
-            sheet.Cells["A1"].LoadFromCollection(requestProjectCostingData, c => { c.PrintHeaders = true; });
+            sheet.Cells[1, 1].Value = "Наименование";
+            sheet.Cells[1, 2].Value = "Факт";
+            sheet.Cells[1, 1, 2, 1].Merge = true;
+            sheet.Cells[1, 2, 2, 2].Merge = true;
+            for (int i = 0; i < period; i++)
+            {
+                sheet.Cells[1, 3 + i].Value = projectCostingData[i].ProjectCostingDataPeriods[i].Year;
+                sheet.Cells[2, 3 + i].Value = projectCostingData[i].ProjectCostingDataPeriods[i].Quarter;
+            }
 
-            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
-            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
-            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
-            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-            range.AutoFilter = true;
+            var row = 3;
+            var column = 0;
+            foreach (var item in projectCostingData)
+            {
+                sheet.Cells[row, column + 1].Value = item.Name;
+                sheet.Cells[row, column + 2].Value = item.Fact;
+                for (int i = 0; i < period; i++)
+                {
+                    sheet.Cells[row, column + 3 + i].Value = projectCostingData[i].ProjectCostingDataPeriods[i].Quarter;
+                }
+
+                row++;
+            }
+
+            sheet.Cells[1, 1, row, 2].AutoFitColumns();
 
             package.SaveAs(fileInfo);
         }
