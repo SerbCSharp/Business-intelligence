@@ -61,6 +61,9 @@ namespace ForecastingModelParameters.Application.Services
 
         public async Task SaveProjectCostingDataAsync(string complexProperty)
         {
+            var projectCostingData = _getDataSource.ProjectCostingData(complexProperty);
+            await _saveData.SaveProjectCostingDataAsync(projectCostingData, complexProperty);
         }
+
     }
 }

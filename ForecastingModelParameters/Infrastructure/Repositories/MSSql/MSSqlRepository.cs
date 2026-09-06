@@ -18,5 +18,12 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
         {
             return await _dataContext.ReportFields.ToListAsync();
         }
+
+        public async Task SaveProjectCostingDataAsync(IEnumerable<ProjectCostingData> projectCostingDatas, string complexProperty)
+        {
+            await _dataContext.ProjectCostingDatas.Where(x => x.ComplexProperty == complexProperty).ExecuteDeleteAsync();
+            await _dataContext.ProjectCostingDatas.AddRangeAsync(projectCostingDatas);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

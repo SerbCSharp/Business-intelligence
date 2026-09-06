@@ -1,7 +1,9 @@
-﻿namespace ForecastingModelParameters.Application.Interfaces
+﻿using ForecastingModelParameters.Domain;
+
+namespace ForecastingModelParameters.Application.Interfaces
 {
     public interface IGetDataSource
     {
-        IEnumerable<T> ProjectCostingData<T>(string complexProperty, string name);
+        IEnumerable<ProjectCostingData> ProjectCostingData(string complexProperty);
     }
 }
