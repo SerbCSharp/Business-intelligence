@@ -1,7 +1,6 @@
 ﻿using Reports.Application.DTO;
 using Reports.Application.Interfaces;
 using Reports.Domain;
-using System.Reflection;
 
 namespace Reports.Application.Services
 {
@@ -86,6 +85,11 @@ namespace Reports.Application.Services
                 ContractorOrSupplier = item.ContractorOrSupplier,
                 VATRate = item.VATRate
             };
+        }
+
+        public async Task<IEnumerable<InterestCostDTO>> InterestCostAsync(string complexProperty)
+        {
+            return await _getData.InterestCostAsync(complexProperty);
         }
     }
 }

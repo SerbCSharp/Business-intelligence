@@ -74,9 +74,15 @@ namespace Reports.Presentation.Controllers
         }
 
         [HttpGet("ConstructionForecastingModel")]
-        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
+        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК КИПАРИС")
         {
-            return NoContent();
+            var interestCost = await _reportsService.InterestCostAsync(complexProperty);
+            var fileBytes = _exportingReportsToExcel.ProjectCostingData(interestCost);
+
+            string fileName = "ConstructionForecastingModel.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
         }
     }
 }
