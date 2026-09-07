@@ -10,6 +10,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync();
         Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate);
         Task<decimal> OpeningBalanceAsync(DateTime startDate);
-        Task<IEnumerable<InterestCost>> InterestCostAsync(string complexProperty);
+        IEnumerable<ProjectCostingData> ProjectCostingData(string complexProperty);
     }
 }

@@ -87,20 +87,9 @@ namespace Reports.Application.Services
             };
         }
 
-        public async Task<IEnumerable<InterestCostDTO>> InterestCostAsync(string complexProperty)
+        public IEnumerable<ProjectCostingData> InterestCost(string complexProperty)
         {
-            var interestCost = await _getData.InterestCostAsync(complexProperty);
-            var interestCostDTO = interestCost.Select(x => new { x.Year, x.Quarter, x.TotalSales, x.TotalCost }).Distinct();
-            var serb = interestCostDTO.Select((x, index) => new { LineNumber = index + 1, x }).Distinct();
-
-
-
-            return interestCostDTO.Select(x => new InterestCostDTO
-            {
-                Year = x.Year,
-                Quarter = x.Quarter,
-                EscrowFunding = interestCost.FirstOrDefault(y => y.Year == x.Year || y.Quarter == x.Quarter).Fact
-            });
+            return _getData.ProjectCostingData(complexProperty);
         }
     }
 }

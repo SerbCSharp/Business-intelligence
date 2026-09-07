@@ -76,7 +76,7 @@ namespace Reports.Presentation.Controllers
         [HttpGet("ConstructionForecastingModel")]
         public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК КИПАРИС")
         {
-            var interestCost = await _reportsService.InterestCostAsync(complexProperty);
+            var interestCost = _reportsService.InterestCost(complexProperty);
             var fileBytes = _exportingReportsToExcel.ProjectCostingData(interestCost);
 
             string fileName = "ConstructionForecastingModel.xlsx";
