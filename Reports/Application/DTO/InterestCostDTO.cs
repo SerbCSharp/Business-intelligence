@@ -72,5 +72,10 @@ namespace Reports.Application.DTO
 
         [EpplusTableColumn(Header = "Начислено процентов", NumberFormat = "### ### ### ##0.00")]
         public double AccruedInterest { get; set; }
+        public double TotalCost { get; set; }
+        public double TotalSales { get; set; }
+
+        [EpplusTableColumn(Header = "Сдача в эксплуатацию")]
+        public bool CommissioningOfResidentialProperty { get; set; }
     }
 }

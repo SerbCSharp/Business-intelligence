@@ -10,6 +10,7 @@ namespace ForecastingModelParameters.Domain
         public double Amount { get; set; }
         public double Quarter { get; set; }
         public double Year { get; set; }
+        public bool CommissioningOfResidentialProperty { get; set; }
         public ProjectCostingData ProjectCostingData { get; set; }
     }
 }
