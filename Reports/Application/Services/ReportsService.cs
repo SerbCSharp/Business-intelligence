@@ -102,6 +102,10 @@ namespace Reports.Application.Services
                         interest[i + 1].BaseAssessmentRate = 0.12;
                         interest[i + 1].CalculatedInterestRate = 0.1629;
                     }
+                    else if (item.Field == "CommissioningOfResidentialProperty")
+                    {
+                        interest[i + 1].CommissioningOfResidentialProperty = item.ProjectCostingDataPeriods[i].Amount != 0;
+                    }
                 }
             }
 
