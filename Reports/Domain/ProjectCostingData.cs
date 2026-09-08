@@ -7,6 +7,6 @@
         public string Name { get; set; }
         public double Fact { get; set; }
         public string Field { get; set; }
-        public IEnumerable<ProjectCostingDataPeriod> ProjectCostingDataPeriods { get; set; } = [];
+        public List<ProjectCostingDataPeriod> ProjectCostingDataPeriods { get; set; } = [];
     }
 }

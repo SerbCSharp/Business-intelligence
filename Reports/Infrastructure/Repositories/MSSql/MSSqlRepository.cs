@@ -1,9 +1,7 @@
 ﻿using Dapper;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using Reports.Application.Interfaces;
 using Reports.Domain;
 using System.Data;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Reports.Infrastructure.Repositories.MSSql
 {
@@ -44,19 +42,19 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
         }
 
-        public async Task<IEnumerable<ProjectCostingData>> InterestCostAsync(string complexProperty)
+        public async Task<IEnumerable<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty)
         {
             using var multi = _dbConnection.QueryMultiple("InterestCost", new { ComplexProperty = complexProperty });
 
-            var orders = await multi.ReadAsync<ProjectCostingData>();
-            var item = await multi.ReadAsync<ProjectCostingDataPeriod>();
+            var projectCostingDatas = await multi.ReadAsync<ProjectCostingData>();
+            var projectCostingDataPeriods = await multi.ReadAsync<ProjectCostingDataPeriod>();
 
-            foreach (var order in orders)
+            foreach (var item in projectCostingDatas)
             {
-                order.ProjectCostingDataPeriods = item.Where(b => b.ProjectCostingDataId == order.Id);
+                item.ProjectCostingDataPeriods = [.. projectCostingDataPeriods.Where(x => x.ProjectCostingDataId == item.Id)];
             }
 
-            return orders;
+            return projectCostingDatas;
         }
     }
 }
