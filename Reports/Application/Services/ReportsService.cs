@@ -63,7 +63,7 @@ namespace Reports.Application.Services
             return await _getData.OpeningBalanceAsync(startDate);
         }
 
-        public async Task<IEnumerable<InterestCostDTO>> InterestCostAsync(string complexProperty)
+        public async Task<List<InterestCostDTO>> InterestCostAsync(string complexProperty, double escrowBalance)
         {
             var projectCostingData = await _getData.ProjectCostingDataAsync(complexProperty);
             var interest = projectCostingData.First().ProjectCostingDataPeriods.Select(x => new InterestCostDTO
@@ -119,11 +119,27 @@ namespace Reports.Application.Services
                 }
                 else
                 {
-                    interest[i].InterestPayable = interest[i - 1].UnpaidInterest + interest[i - 1].AccruedInterest;
+                    interest[i].InterestPayable = interest[i - 1].UnpaidInterest.OrZero() + interest[i - 1].AccruedInterest.OrZero();
                     interest[i].Principal = interest[i - 1].PrincipalBalance + interest[i].TotalCost;
                     interest[i].InterestPaid = interest[i].CommissioningOfResidentialProperty ? interest[i].InterestPayable : 0;
                     var EscrowFundingTmp = interest[i - 1].EscrowFunding + interest[i].TotalSales;
-                    interest[i].LoanRepayment = interest[i].CommissioningOfResidentialProperty ? EscrowFundingTmp - interest[i].InterestPaid - 200000000 : 0;
+                    if (interest[i].CommissioningOfResidentialProperty)
+                    {
+                        if ((EscrowFundingTmp - interest[i].InterestPaid - escrowBalance) <= interest[i].Principal)
+                        {
+                            interest[i].LoanRepayment = EscrowFundingTmp - interest[i].InterestPaid - escrowBalance;
+                        }
+                        else
+                        {
+                            interest[i].LoanRepayment = interest[i].Principal;
+                            interest[i].EscrowFunding = interest[i - 1].EscrowFunding + interest[i].TotalSales - interest[i].InterestPaid - interest[i].LoanRepayment;
+                            return interest;
+                        }
+                    }
+                    else
+                    {
+                        interest[i].LoanRepayment = 0;
+                    }
                     interest[i].PrincipalBalance = interest[i].Principal - interest[i].LoanRepayment;
                     interest[i].UnpaidInterest = interest[i].InterestPayable - interest[i].InterestPaid;
                     interest[i].EscrowFunding = interest[i - 1].EscrowFunding + interest[i].TotalSales - interest[i].InterestPaid - interest[i].LoanRepayment;
@@ -141,7 +157,12 @@ namespace Reports.Application.Services
                     interest[i].ProportionOfDebtK2) - (interest[i].DiscountRate * interest[i].ProportionOfCashK3);
                 interest[i].AccruedInterest = interest[i].CurrentInterestRate * interest[i].Principal * 3 / 12;
             }
-            return interest;
+            var serb = interest.Select(x => new InterestCostDTO
+            {
+                AccruedInterest = x.AccruedInterest,
+                BaseAssessmentRate = x.BaseAssessmentRate,
+            }).ToList();
+            return serb;
         }
 
         public ConstructionCostDTO EstimatingLogic(ConstructionCost item)

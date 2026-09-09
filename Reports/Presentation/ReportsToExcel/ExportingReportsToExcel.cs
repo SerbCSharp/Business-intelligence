@@ -1,9 +1,13 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
 using Reports.Application.DTO;
 using Reports.Domain;
+using System;
+using System.ComponentModel;
+using System.Data.Common;
 using System.Reflection;
 
 namespace Reports.Presentation.ReportsToExcel
@@ -345,6 +349,47 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
             range.AutoFilter = true;
+
+            return package.GetAsByteArray();
+        }
+
+        public byte[] InterestCost(List<InterestCostDTO> projectCostingData)
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Проценты");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            var row = 1;
+            var column = 2;
+
+            PropertyInfo[] properties = typeof(InterestCostDTO).GetProperties();
+
+
+
+
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                var epplusTableColumn = properties[i].GetCustomAttribute<EpplusTableColumnAttribute>();
+                string columnName = epplusTableColumn != null ? epplusTableColumn.Header : properties[i].Name;
+                sheet.Cells[i + 1, 1].Value = columnName;
+
+                for (int j = 0; j < projectCostingData.Count; j++)
+                {
+                    sheet.Cells[row, column + j].Value = properties[i].GetValue(projectCostingData[j]);
+                }
+                row++;
+            }
+
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+            var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
             return package.GetAsByteArray();
         }
