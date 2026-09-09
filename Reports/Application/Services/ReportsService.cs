@@ -65,14 +65,14 @@ namespace Reports.Application.Services
 
         public async Task<List<InterestCostDTO>> InterestCostAsync(string complexProperty, double escrowBalance)
         {
-            var projectCostingData = await _getData.ProjectCostingDataAsync(complexProperty);
+            var projectCostingData = await _getData.InterestCostAsync(complexProperty);
             var interest = projectCostingData.First().ProjectCostingDataPeriods.Select(x => new InterestCostDTO
             {
                 Year = x.Year,
                 Quarter = x.Quarter
             }).ToList();
             interest.Insert(0, new()
-            { 
+            {
                 Year = 0,
                 Quarter = 0,
                 WeightedAverage = 0.045,
@@ -109,6 +109,35 @@ namespace Reports.Application.Services
                 }
             }
 
+            return CreditCostCalculationMethodology(interest, escrowBalance);
+        }
+
+        public ConstructionCostDTO EstimatingLogic(ConstructionCost item)
+        {
+            var contractAmount = item.ContractAmount - item.ContractAmount * item.GeneralContractorMarkup;
+            var invoiceAmount = item.InvoiceAmount - item.InvoiceAmount * item.GeneralContractorMarkup;
+            var maxAmount = item.Closed ? Math.Max(item.PaymentAmount, invoiceAmount) :
+                Math.Max(item.PaymentAmount, Math.Max(contractAmount, invoiceAmount));
+
+            return new ConstructionCostDTO
+            {
+                ConstructionCost = maxAmount,
+                ContractAmount = item.ContractAmount,
+                InvoiceAmount = item.InvoiceAmount,
+                PaymentAmount = item.PaymentAmount,
+                Contractor = item.Contractor,
+                Name = item.Name,
+                Date = item.Date,
+                Property = item.Property,
+                CostItem = item.CostItem,
+                GeneralContractorMarkup = item.GeneralContractorMarkup,
+                ContractorOrSupplier = item.ContractorOrSupplier,
+                VATRate = item.VATRate
+            };
+        }
+
+        public List<InterestCostDTO> CreditCostCalculationMethodology(List<InterestCostDTO> interest, double escrowBalance)
+        {
             for (int i = 0; i < interest.Count; i++)
             {
                 if (i == 0)
@@ -148,45 +177,16 @@ namespace Reports.Application.Services
                 interest[i].ProportionOfDebtK1 = interest[i].EscrowFunding * (1 - interest[i].WeightedAverage) / interest[i].TotalPayoffAmount;
                 interest[i].ProportionOfDebtK2 = 1 - interest[i].ProportionOfDebtK1;
                 interest[i].ConditionK3 = interest[i].EscrowFunding * (1 - interest[i].WeightedAverage) - interest[i].TotalPayoffAmount;
-                interest[i].ProportionOfCashK3 = interest[i].ConditionK3 < 0 ? 0 : (interest[i].EscrowFunding * (1 - interest[i].WeightedAverage) - 
+                interest[i].ProportionOfCashK3 = interest[i].ConditionK3 < 0 ? 0 : (interest[i].EscrowFunding * (1 - interest[i].WeightedAverage) -
                     interest[i].TotalPayoffAmount) / interest[i].TotalPayoffAmount;
                 interest[i].SpecialCreditRate = (0.0245 + interest[i].BaseAssessmentRate) / (1 - interest[i].WeightedAverage);
                 interest[i].BaseLendingRate = 0.056 + interest[i].KeyRate;
                 interest[i].DiscountRate = (0.0204 + interest[i].KeyRate) - 0.001 - interest[i].BaseAssessmentRate * (1 - interest[i].WeightedAverage);
-                interest[i].CurrentInterestRate = (interest[i].SpecialCreditRate * interest[i].ProportionOfDebtK1) + (interest[i].BaseLendingRate * 
+                interest[i].CurrentInterestRate = (interest[i].SpecialCreditRate * interest[i].ProportionOfDebtK1) + (interest[i].BaseLendingRate *
                     interest[i].ProportionOfDebtK2) - (interest[i].DiscountRate * interest[i].ProportionOfCashK3);
                 interest[i].AccruedInterest = interest[i].CurrentInterestRate * interest[i].Principal * 3 / 12;
             }
-            var serb = interest.Select(x => new InterestCostDTO
-            {
-                AccruedInterest = x.AccruedInterest,
-                BaseAssessmentRate = x.BaseAssessmentRate,
-            }).ToList();
-            return serb;
-        }
-
-        public ConstructionCostDTO EstimatingLogic(ConstructionCost item)
-        {
-            var contractAmount = item.ContractAmount - item.ContractAmount * item.GeneralContractorMarkup;
-            var invoiceAmount = item.InvoiceAmount - item.InvoiceAmount * item.GeneralContractorMarkup;
-            var maxAmount = item.Closed ? Math.Max(item.PaymentAmount, invoiceAmount) :
-                Math.Max(item.PaymentAmount, Math.Max(contractAmount, invoiceAmount));
-
-            return new ConstructionCostDTO
-            {
-                ConstructionCost = maxAmount,
-                ContractAmount = item.ContractAmount,
-                InvoiceAmount = item.InvoiceAmount,
-                PaymentAmount = item.PaymentAmount,
-                Contractor = item.Contractor,
-                Name = item.Name,
-                Date = item.Date,
-                Property = item.Property,
-                CostItem = item.CostItem,
-                GeneralContractorMarkup = item.GeneralContractorMarkup,
-                ContractorOrSupplier = item.ContractorOrSupplier,
-                VATRate = item.VATRate
-            };
+            return interest;
         }
     }
 }

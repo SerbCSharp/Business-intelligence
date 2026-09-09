@@ -5,9 +5,6 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Style;
 using Reports.Application.DTO;
 using Reports.Domain;
-using System;
-using System.ComponentModel;
-using System.Data.Common;
 using System.Reflection;
 
 namespace Reports.Presentation.ReportsToExcel
@@ -360,20 +357,16 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
 
+            var properties = typeof(InterestCostDTO).GetProperties().Where(x => x.GetCustomAttribute<EpplusIgnore>() == null).ToList();
+
             var row = 1;
             var column = 2;
 
-            PropertyInfo[] properties = typeof(InterestCostDTO).GetProperties();
-
-
-
-
-
-            for (int i = 0; i < properties.Length; i++)
+            for (int i = 0; i < properties.Count; i++)
             {
                 var epplusTableColumn = properties[i].GetCustomAttribute<EpplusTableColumnAttribute>();
-                string columnName = epplusTableColumn != null ? epplusTableColumn.Header : properties[i].Name;
-                sheet.Cells[i + 1, 1].Value = columnName;
+                string name = epplusTableColumn != null ? epplusTableColumn.Header : properties[i].Name;
+                sheet.Cells[i + 1, 1].Value = name;
 
                 for (int j = 0; j < projectCostingData.Count; j++)
                 {
@@ -382,8 +375,15 @@ namespace Reports.Presentation.ReportsToExcel
                 row++;
             }
 
-            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
-            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, 2, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 2, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, 1].Style.Font.Bold = true;
+
+            sheet.Cells[1, 1, 2, 1].Merge = true;
+            sheet.Cells[1, 2, 2, 2].Merge = true;
+            sheet.Cells[1, 1, 2, 2].Style.Font.Color.SetColor(System.Drawing.Color.White);
+
+            sheet.Cells[3, 2, sheet.Dimension.End.Row, sheet.Dimension.End.Column].Style.Numberformat.Format = "### ### ### ##0.00";
             sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
             var range = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;

@@ -42,7 +42,7 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
         }
 
-        public async Task<IEnumerable<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty)
+        public async Task<IEnumerable<ProjectCostingData>> InterestCostAsync(string complexProperty)
         {
             using var multi = _dbConnection.QueryMultiple("InterestCost", new { ComplexProperty = complexProperty });
 
