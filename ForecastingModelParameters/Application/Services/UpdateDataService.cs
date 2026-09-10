@@ -18,7 +18,7 @@ namespace ForecastingModelParameters.Application.Services
                 {
                     ComplexProperty = complexProperty,
                     Name = $"Позиция №{index}",
-                    Field = $"Property{index}",
+                    Field = $"ConstructionProperty{index}",
                     ProjectCostingDataPeriods = [.. Enumerable.Range(1, period).Select(i => new ProjectCostingDataPeriod
                     {
                         Year = DateTime.Now.AddMonths(i * 3).Year,
@@ -30,7 +30,7 @@ namespace ForecastingModelParameters.Application.Services
                 {
                     ComplexProperty = complexProperty,
                     Name = $"Категория №{index}",
-                    Field = $"Category{index}",
+                    Field = $"ConstructionCategory{index}",
                     ProjectCostingDataPeriods = [.. Enumerable.Range(1, period).Select(i => new ProjectCostingDataPeriod
                     {
                         Year = DateTime.Now.AddMonths(i * 3).Year,

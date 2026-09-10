@@ -42,9 +42,9 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
         }
 
-        public async Task<IEnumerable<ProjectCostingData>> InterestCostAsync(string complexProperty)
+        public async Task<IEnumerable<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty, string storedProcedureName)
         {
-            using var multi = _dbConnection.QueryMultiple("InterestCost", new { ComplexProperty = complexProperty });
+            using var multi = _dbConnection.QueryMultiple(storedProcedureName, new { ComplexProperty = complexProperty });
 
             var projectCostingDatas = await multi.ReadAsync<ProjectCostingData>();
             var projectCostingDataPeriods = await multi.ReadAsync<ProjectCostingDataPeriod>();

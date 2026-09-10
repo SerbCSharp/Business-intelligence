@@ -65,7 +65,7 @@ namespace Reports.Application.Services
 
         public async Task<List<InterestCostDTO>> InterestCostAsync(string complexProperty, double escrowBalance)
         {
-            var projectCostingData = await _getData.InterestCostAsync(complexProperty);
+            var projectCostingData = await _getData.ProjectCostingDataAsync(complexProperty, "InterestCost");
             var interest = projectCostingData.First().ProjectCostingDataPeriods.Select(x => new InterestCostDTO
             {
                 Year = x.Year,
@@ -110,6 +110,21 @@ namespace Reports.Application.Services
             }
 
             return CreditCostCalculationMethodology(interest, escrowBalance);
+        }
+
+        public async Task<IEnumerable<ProjectCostingData>> BuildingCostsAsync(string complexProperty)
+        {
+            return await _getData.ProjectCostingDataAsync(complexProperty, "BuildingCosts");
+        }
+
+        public async Task<IEnumerable<ProjectCostingData>> SalesTargetAsync(string complexProperty)
+        {
+            return await _getData.ProjectCostingDataAsync(complexProperty, "SalesTarget");
+        }
+
+        public async Task<IEnumerable<ProjectCostingData>> OtherCostAsync(string complexProperty)
+        {
+            return await _getData.ProjectCostingDataAsync(complexProperty, "OtherExpenses");
         }
 
         public ConstructionCostDTO EstimatingLogic(ConstructionCost item)

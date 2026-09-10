@@ -182,7 +182,7 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
             range.AutoFilter = true;
 
-            return package;            
+            return package;
         }
 
         public byte[] ProfitCenters(ExcelPackage package, IEnumerable<ProfitCentersDTO> profitCenters, decimal openingBalance, DateTime startDate, DateTime endDate)
@@ -330,7 +330,7 @@ namespace Reports.Presentation.ReportsToExcel
         public byte[] ProjectCostingData<T>(IEnumerable<T> projectCostingData)
         {
             using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Проценты");
+            var sheet = package.Workbook.Worksheets.Add("ProjectCostingData");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);
@@ -350,9 +350,8 @@ namespace Reports.Presentation.ReportsToExcel
             return package.GetAsByteArray();
         }
 
-        public byte[] InterestCost(List<InterestCostDTO> projectCostingData)
+        public void InterestCost(ExcelPackage package, List<InterestCostDTO> projectCostingData)
         {
-            using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Проценты");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
@@ -390,8 +389,192 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        }
 
-            return package.GetAsByteArray();
+        public ExcelPackage BuildingCosts(List<ProjectCostingData> projectCostingData)
+        {
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("СМР");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1].Value = "Наименование";
+            sheet.Cells[1, 2].Value = "Факт";
+            sheet.Cells[1, 1, 2, 1].Merge = true;
+            sheet.Cells[1, 2, 2, 2].Merge = true;
+
+            var period = projectCostingData[0].ProjectCostingDataPeriods.Count;
+            for (int i = 0; i < period; i++)
+            {
+                sheet.Cells[1, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Year;
+                sheet.Cells[2, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Quarter;
+            }
+            sheet.Cells[1, 1, 2, period + 3].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 2, period + 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, 2, period + 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            var row = 3;
+            var column = 0;
+            foreach (var item in projectCostingData)
+            {
+                sheet.Cells[row, column + 1].Value = item.Name;
+                sheet.Cells[row, column + 2].Value = item.Fact;
+
+                for (int j = 0; j < period; j++)
+                {
+                    sheet.Cells[row, column + 3 + j].Value = item.ProjectCostingDataPeriods[j].Amount;
+                }
+                row++;
+            }
+
+            sheet.Cells[3, 2, row - 1, period + 2].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheet.Cells[1, 1, row, period + 2].AutoFitColumns();
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, 1].Style.Font.Bold = true;
+
+            var range = sheet.Cells[1, 1, row - 1, period + 2];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+            return package;
+        }
+
+        public void SalesTarget(ExcelPackage package, List<ProjectCostingData> projectCostingData)
+        {
+            var sheet = package.Workbook.Worksheets.Add("План продаж");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1].Value = "Наименование";
+            sheet.Cells[1, 2].Value = "Факт";
+            sheet.Cells[1, 1, 2, 1].Merge = true;
+            sheet.Cells[1, 2, 2, 2].Merge = true;
+
+            var period = projectCostingData[0].ProjectCostingDataPeriods.Count;
+            for (int i = 0; i < period; i++)
+            {
+                sheet.Cells[1, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Year;
+                sheet.Cells[2, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Quarter;
+            }
+            sheet.Cells[1, 1, 2, period + 3].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 2, period + 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, 2, period + 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            var row = 3;
+            var column = 0;
+            foreach (var item in projectCostingData)
+            {
+                sheet.Cells[row, column + 1].Value = item.Name;
+                sheet.Cells[row, column + 2].Value = item.Fact;
+
+                for (int j = 0; j < period; j++)
+                {
+                    sheet.Cells[row, column + 3 + j].Value = item.ProjectCostingDataPeriods[j].Amount;
+                }
+                row++;
+            }
+
+            sheet.Cells[3, 2, row - 1, period + 2].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheet.Cells[1, 1, row, period + 2].AutoFitColumns();
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, 1].Style.Font.Bold = true;
+
+            var range = sheet.Cells[1, 1, row - 1, period + 2];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        }
+
+        public void OtherCost(ExcelPackage package, List<ProjectCostingData> projectCostingData)
+        {
+            var sheet = package.Workbook.Worksheets.Add("Расходы кроме СМР и процентов");
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1].Value = "Наименование";
+            sheet.Cells[1, 2].Value = "Факт";
+            sheet.Cells[1, 1, 2, 1].Merge = true;
+            sheet.Cells[1, 2, 2, 2].Merge = true;
+
+            var period = projectCostingData[0].ProjectCostingDataPeriods.Count;
+            for (int i = 0; i < period; i++)
+            {
+                sheet.Cells[1, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Year;
+                sheet.Cells[2, 3 + i].Value = projectCostingData[0].ProjectCostingDataPeriods[i].Quarter;
+            }
+            sheet.Cells[1, 1, 2, period + 3].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 2, period + 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 1, 2, period + 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            var row = 3;
+            var column = 0;
+            foreach (var item in projectCostingData)
+            {
+                sheet.Cells[row, column + 1].Value = item.Name;
+                sheet.Cells[row, column + 2].Value = item.Fact;
+
+                for (int j = 0; j < period; j++)
+                {
+                    sheet.Cells[row, column + 3 + j].Value = item.ProjectCostingDataPeriods[j].Amount;
+                }
+                row++;
+            }
+
+            sheet.Cells[3, 2, row - 1, period + 2].Style.Numberformat.Format = "### ### ### ##0.00";
+            sheet.Cells[1, 1, row, period + 2].AutoFitColumns();
+            sheet.Cells[1, 1, sheet.Dimension.End.Row, 1].Style.Font.Bold = true;
+
+            var range = sheet.Cells[1, 1, row - 1, period + 2];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        }
+
+        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecastDTO> constructionCostForecast, string complexProperty)
+        {
+            var sheet = package.Workbook.Worksheets.Add("Бюджет");
+            package.Workbook.Worksheets.MoveToStart("Бюджет");
+            package.Workbook.View.ActiveTab = 0;
+
+            sheet.Cells.Style.Font.Name = "Calibri";
+            sheet.Cells.Style.Font.Size = 11;
+
+            sheet.Cells[1, 1, 1, 2].Merge = true;
+            sheet.Cells[1, 1].Value = $"Прогноз общей стоимости строительства({complexProperty})";
+            sheet.Cells[1, 1].Style.Font.Size = 14;
+            sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            sheet.Cells["A3"].LoadFromCollection(constructionCostForecast, c => { c.PrintHeaders = true; });
+
+            sheet.Cells[3, 1, 3, sheet.Dimension.End.Column].Style.Font.Bold = true;
+            sheet.Cells[3, 1, 3, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column].AutoFitColumns();
+
+            sheet.Cells[4, 1, 4, 2].Style.Font.Size = 12;
+            sheet.Cells[4, 1, 4, 2].Style.Font.Bold = true;
+            sheet.Cells[6, 1, 8, 1].Style.Font.Size = 10;
+            sheet.Cells[11, 1, 13, 1].Style.Font.Size = 10;
+            sheet.Cells[15, 1, 16, 2].Style.Font.Size = 12;
+            sheet.Cells[15, 1, 16, 2].Style.Font.Bold = true;
+
+            sheet.Cells[5, 2].Formula = $"B{6}+B{7}+B{8}";
+            sheet.Cells[10, 2].Formula = $"B{11}+B{12}+B{13}";
+            sheet.Cells[15, 2].Formula = $"B{5}+B{9}+B{10}+B{14}";
+            sheet.Cells[16, 2].Formula = $"B{4}-B{15}";
+
+            var range = sheet.Cells[3, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+            var byteArray = package.GetAsByteArray();
+            package.Dispose();
+
+            return byteArray;
         }
     }
 }

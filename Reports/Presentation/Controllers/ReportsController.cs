@@ -76,8 +76,20 @@ namespace Reports.Presentation.Controllers
         [HttpGet("ConstructionForecastingModel")]
         public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО", double escrowBalance = 200000000)
         {
+            var buildingCosts = await _reportsService.BuildingCostsAsync(complexProperty);
+            var package = _exportingReportsToExcel.BuildingCosts([.. buildingCosts]);
+
+            var salesTarget = await _reportsService.SalesTargetAsync(complexProperty);
+            _exportingReportsToExcel.SalesTarget(package, [.. salesTarget]);
+
+            var otherCost = await _reportsService.OtherCostAsync(complexProperty);
+            _exportingReportsToExcel.OtherCost(package, [.. otherCost]);
+
             var interestCost = await _reportsService.InterestCostAsync(complexProperty, escrowBalance);
-            var fileBytes = _exportingReportsToExcel.InterestCost(interestCost);
+            _exportingReportsToExcel.InterestCost(package, [.. interestCost]);
+
+            var constructionCostForecast = await _reportsService.ConstructionCostForecastAsync(complexProperty, interestCost.Item2);
+            var fileBytes = _exportingReportsToExcel.ConstructionCostForecast(package, constructionCostForecast, complexProperty);
 
             string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";
