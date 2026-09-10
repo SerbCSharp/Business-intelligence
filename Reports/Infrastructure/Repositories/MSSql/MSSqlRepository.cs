@@ -56,5 +56,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
 
             return projectCostingDatas;
         }
+
+        public async Task<IEnumerable<ConstructionCostForecast>> ConstructionCostForecastAsync(string complexProperty)
+        {
+            return await _dbConnection.QueryAsync<ConstructionCostForecast>("ConstructionCostForecast", new { ComplexProperty = complexProperty });
+        }
     }
 }

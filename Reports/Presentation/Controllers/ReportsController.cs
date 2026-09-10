@@ -86,7 +86,7 @@ namespace Reports.Presentation.Controllers
             _exportingReportsToExcel.OtherCost(package, [.. otherCost]);
 
             var interestCost = await _reportsService.InterestCostAsync(complexProperty, escrowBalance);
-            _exportingReportsToExcel.InterestCost(package, [.. interestCost]);
+            _exportingReportsToExcel.InterestCost(package, [.. interestCost.Item1]);
 
             var constructionCostForecast = await _reportsService.ConstructionCostForecastAsync(complexProperty, interestCost.Item2);
             var fileBytes = _exportingReportsToExcel.ConstructionCostForecast(package, constructionCostForecast, complexProperty);

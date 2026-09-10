@@ -532,7 +532,7 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
         }
 
-        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecastDTO> constructionCostForecast, string complexProperty)
+        public byte[] ConstructionCostForecast(ExcelPackage package, IEnumerable<ConstructionCostForecast> constructionCostForecast, string complexProperty)
         {
             var sheet = package.Workbook.Worksheets.Add("Бюджет");
             package.Workbook.Worksheets.MoveToStart("Бюджет");

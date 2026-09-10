@@ -63,7 +63,7 @@ namespace Reports.Application.Services
             return await _getData.OpeningBalanceAsync(startDate);
         }
 
-        public async Task<List<InterestCostDTO>> InterestCostAsync(string complexProperty, double escrowBalance)
+        public async Task<(List<InterestCostDTO>, double)> InterestCostAsync(string complexProperty, double escrowBalance)
         {
             var projectCostingData = await _getData.ProjectCostingDataAsync(complexProperty, "InterestCost");
             var interest = projectCostingData.First().ProjectCostingDataPeriods.Select(x => new InterestCostDTO
@@ -108,8 +108,9 @@ namespace Reports.Application.Services
                     }
                 }
             }
+            var interestCostsDTO = CreditCostCalculationMethodology(interest, escrowBalance);
 
-            return CreditCostCalculationMethodology(interest, escrowBalance);
+            return (interestCostsDTO, interestCostsDTO.Sum(x => x.AccruedInterest) + interestCostsDTO[0].UnpaidInterest);
         }
 
         public async Task<IEnumerable<ProjectCostingData>> BuildingCostsAsync(string complexProperty)
@@ -202,6 +203,17 @@ namespace Reports.Application.Services
                 interest[i].AccruedInterest = interest[i].CurrentInterestRate * interest[i].Principal * 3 / 12;
             }
             return interest;
+        }
+
+        public async Task<IEnumerable<ConstructionCostForecast>> ConstructionCostForecastAsync(string complexProperty, double interestCost)
+        {
+            var constructionCostForecast = await _getData.ConstructionCostForecastAsync(complexProperty);
+            var result = constructionCostForecast.Select(x => new ConstructionCostForecast
+            {
+                Name = x.Name,
+                Amount = x.Field == "InterestCost" ? interestCost : x.Amount
+            });
+            return result;
         }
     }
 }
