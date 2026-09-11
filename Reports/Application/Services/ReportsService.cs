@@ -200,7 +200,7 @@ namespace Reports.Application.Services
                 interest[i].DiscountRate = (0.0204 + interest[i].KeyRate) - 0.001 - interest[i].BaseAssessmentRate * (1 - interest[i].WeightedAverage);
                 interest[i].CurrentInterestRate = (interest[i].SpecialCreditRate * interest[i].ProportionOfDebtK1) + (interest[i].BaseLendingRate *
                     interest[i].ProportionOfDebtK2) - (interest[i].DiscountRate * interest[i].ProportionOfCashK3);
-                interest[i].AccruedInterest = interest[i].CurrentInterestRate * interest[i].Principal * 3 / 12;
+                interest[i].AccruedInterest = interest[i].CurrentInterestRate.OrZero() * interest[i].Principal * 3 / 12;
             }
             return interest;
         }
