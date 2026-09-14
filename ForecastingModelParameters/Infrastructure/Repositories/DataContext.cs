@@ -8,5 +8,9 @@ namespace ForecastingModelParameters.Infrastructure.Repositories
         public DbSet<ProjectCostingData> ProjectCostingDatas { get; set; }
         public DbSet<ProjectCostingDataPeriod> ProjectCostingDataPeriods { get; set; }
         public DbSet<ReportField> ReportFields { get; set; }
+        public DbSet<ConstructionExpense> ConstructionExpenses { get; set; }
+        public DbSet<Revenue> Revenues { get; set; }
+        public DbSet<ReportStructure> ReportStructures { get; set; }
+        public DbSet<OtherExpense> OtherExpenses { get; set; }
     }
 }
