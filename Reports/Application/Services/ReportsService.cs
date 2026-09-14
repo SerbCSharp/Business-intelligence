@@ -148,7 +148,8 @@ namespace Reports.Application.Services
                 CostItem = item.CostItem,
                 GeneralContractorMarkup = item.GeneralContractorMarkup,
                 ContractorOrSupplier = item.ContractorOrSupplier,
-                VATRate = item.VATRate
+                VATRate = item.VATRate,
+                ContractId = item.ContractId
             };
         }
 

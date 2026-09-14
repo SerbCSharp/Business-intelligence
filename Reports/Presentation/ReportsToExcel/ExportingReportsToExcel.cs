@@ -277,8 +277,9 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[1, 10].Value = "Генподрядные";
             sheet.Cells[1, 11].Value = "Стоимость строительства";
             sheet.Cells[1, 12].Value = "Входящий НДС";
-            sheet.Cells[1, 1, 1, 12].Style.Font.Bold = true;
-            sheet.Cells[1, 1, 1, 12].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            sheet.Cells[1, 13].Value = "ContractId";
+            sheet.Cells[1, 1, 1, 13].Style.Font.Bold = true;
+            sheet.Cells[1, 1, 1, 13].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             var row = 2;
             var column = 0;
@@ -296,6 +297,7 @@ namespace Reports.Presentation.ReportsToExcel
                 sheet.Cells[row, column + 10].Value = item.GeneralContractorMarkup;
                 sheet.Cells[row, column + 11].Value = item.ConstructionCost;
                 sheet.Cells[row, column + 12].Value = item.VATRate;
+                sheet.Cells[row, column + 13].Value = item.ContractId;
                 row++;
             }
 
@@ -303,10 +305,10 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[row, column + 5].Formula = $"=SUBTOTAL(9,E2:E{row - 1})";
             sheet.Cells[row, column + 6].Formula = $"=SUBTOTAL(9,F2:F{row - 1})";
             sheet.Cells[row, column + 11].Formula = $"=SUBTOTAL(9,K2:K{row - 1})";
-            sheet.Cells[row, 2, row, 12].Style.Font.Bold = true;
+            sheet.Cells[row, 2, row, 13].Style.Font.Bold = true;
 
 
-            sheet.Cells[1, 1, row, 12].AutoFitColumns();
+            sheet.Cells[1, 1, row, 13].AutoFitColumns();
             sheet.Cells[2, 3, row, 3].Style.Numberformat.Format = "dd.mm.yyyy";
             sheet.Cells[2, 4, row, 6].Style.Numberformat.Format = "### ### ### ##0.00";
             sheet.Cells[2, 10, row, 10].Style.Numberformat.Format = "0%";
@@ -316,8 +318,9 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Column(2).Width = 50;
             sheet.Column(7).Width = 50;
             sheet.Column(8).Width = 50;
+            sheet.Column(13).Hidden = true;
 
-            var range = sheet.Cells[1, 1, row - 1, 12];
+            var range = sheet.Cells[1, 1, row - 1, 13];
             range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;

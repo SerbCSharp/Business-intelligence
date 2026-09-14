@@ -2,6 +2,7 @@
 {
     public class ConstructionCost
     {
+        public string ContractId { get; set; }
         public string Contractor { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }

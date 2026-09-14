@@ -323,7 +323,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 + "&$select=Объект,Значение,Значение_Type";
             using HttpResponseMessage additionalInformationResponse = await httpClient.GetAsync(additionalInformationUrl);
             var additionalInformation = await additionalInformationResponse.Content.ReadFromJsonAsync<AdditionalInformation>();
-            return additionalInformation.Value.Select(x => new MoreInformation
+            return additionalInformation.Value?.Select(x => new MoreInformation
             {
                 ObjectId = x.ObjectId,
                 ObjectValue = x.ObjectValue,

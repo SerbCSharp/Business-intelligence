@@ -101,7 +101,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
         public async Task MoreInformationAsync(IEnumerable<MoreInformation> moreInformations)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE MoreInformations");
-            await _dataContext.MoreInformations.AddRangeAsync(moreInformations);
+            if (moreInformations != null)
+                await _dataContext.MoreInformations.AddRangeAsync(moreInformations);
             await _dataContext.SaveChangesAsync();
         }
 
