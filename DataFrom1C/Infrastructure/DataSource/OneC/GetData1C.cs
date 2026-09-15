@@ -9,6 +9,7 @@ using DataFrom1C.Infrastructure.DataSource.Models.ContractCounterparties;
 using DataFrom1C.Infrastructure.DataSource.Models.Counterparty;
 using DataFrom1C.Infrastructure.DataSource.Models.CreditToCurrentAccount;
 using DataFrom1C.Infrastructure.DataSource.Models.DebitToCurrentAccount;
+using DataFrom1C.Infrastructure.DataSource.Models.DebtAdjustment;
 using DataFrom1C.Infrastructure.DataSource.Models.ExpenseItem;
 using DataFrom1C.Infrastructure.DataSource.Models.ImplementationConstructionWorks;
 using DataFrom1C.Infrastructure.DataSource.Models.Nomenclature;
@@ -21,6 +22,7 @@ using DataFrom1C.Infrastructure.DataSource.Models.UnitOfMeasure;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataFrom1C.Infrastructure.DataSource.OneC
 {
@@ -408,6 +410,70 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Code = x.Code,
                 Name = x.Description
             });
+        }
+
+        public async Task<IEnumerable<AccountingTransaction>> DebtAdjustmentAsync() // Корректировка долга
+        {
+            var debtAdjustmentUrl = ApiUrl + "Document_КорректировкаДолга?$format=json"
+                + "&$select=Date,DeletionMark,КредиторскаяЗадолженность,ДебиторскаяЗадолженность"
+                + "&$filter=DeletionMark eq false and Posted eq true";
+            using HttpResponseMessage debtAdjustmentResponse = await httpClient.GetAsync(debtAdjustmentUrl);
+            var debtAdjustment = (await debtAdjustmentResponse.Content.ReadFromJsonAsync<DebtAdjustment>()).Value.ToList();
+
+            // Убираем из Корректировки долга проводки по одному договору в одном документе Корректировка долга
+            foreach (var item in debtAdjustment)
+            {
+                if (item.AccountsPayable.Length > 0 && item.AccountsReceivable.Length > 0
+                    && item.AccountsPayable.First().ContractId == item.AccountsReceivable.First().ContractId)
+                {
+                    item.DeletionMark = true;
+                }
+                if (item.AccountsPayable.Length > 0 && item.AccountsPayable.First().ContractId == item.AccountsPayable.First().CorContractId)
+                {
+                    item.DeletionMark = true;
+                }
+                if (item.AccountsReceivable.Length > 0 && item.AccountsReceivable.First().ContractId == item.AccountsReceivable.First().CorContractId)
+                {
+                    item.DeletionMark = true;
+                }
+            }
+            debtAdjustment.RemoveAll(x => x.DeletionMark);
+
+            var multiplePayable = debtAdjustment.SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
+                .Select(z => new AccountingTransaction
+                {
+                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    ContractId = z.accountsPayable.ContractId,
+                    Debit = z.accountsPayable.Amount
+                });
+            var singlePayable = debtAdjustment.Where(x => x.AccountsPayable.Length == 0)
+                .SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
+                .Select(z => new AccountingTransaction
+                {
+                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    ContractId = z.accountsReceivable.CorContractId,
+                    Debit = z.accountsReceivable.Amount
+                });
+            var allPayable = multiplePayable.Concat(singlePayable);
+
+            var multipleReceivable = debtAdjustment.SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
+                .Select(z => new AccountingTransaction
+                {
+                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    ContractId = z.accountsReceivable.ContractId,
+                    Credit = z.accountsReceivable.Amount
+                });
+            var singleReceivable = debtAdjustment.Where(x => x.AccountsReceivable.Length == 0)
+                .SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
+                .Select(z => new AccountingTransaction
+                {
+                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    ContractId = z.accountsPayable.CorContractId,
+                    Credit = z.accountsPayable.Amount
+                });
+            var allReceivable = multipleReceivable.Concat(singleReceivable);
+
+            return allPayable.Concat(allReceivable);
         }
     }
 }

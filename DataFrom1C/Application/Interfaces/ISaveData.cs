@@ -23,5 +23,6 @@ namespace DataFrom1C.Application.Interfaces
         Task ConstructionCompletionCertificateAsync(IEnumerable<ConstructionCompletionCertificate> constructionCompletionCertificates);
         Task AccountingEntryAsync(IEnumerable<AccountingEntry> accountingEntries);
         Task PlanOfAccountsAsync(IEnumerable<Account> planOfAccounts);
+        Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransactions);
     }
 }

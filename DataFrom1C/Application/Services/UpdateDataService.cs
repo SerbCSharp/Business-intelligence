@@ -119,5 +119,11 @@ namespace DataFrom1C.Application.Services
             var getPlanOfAccounts = await _getData.PlanOfAccountsAsync();
             await _saveData.PlanOfAccountsAsync(getPlanOfAccounts);
         }
+
+        public async Task AccountingTransactionAsync()
+        {
+            var getDebtAdjustment = await _getData.DebtAdjustmentAsync();
+            await _saveData.AccountingTransactionAsync(getDebtAdjustment);
+        }
     }
 }

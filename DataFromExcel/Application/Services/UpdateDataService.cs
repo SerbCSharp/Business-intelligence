@@ -30,5 +30,11 @@ namespace DataFromExcel.Application.Services
             var getAreaOfActivity = _getData.AreaOfActivity();
             await _saveData.AreaOfActivityAsync(getAreaOfActivity);
         }
+
+        public async Task OperationsAsync()
+        {
+            var getOperations = _getData.Operations();
+            await _saveData.OperationsAsync(getOperations);
+        }
     }
 }

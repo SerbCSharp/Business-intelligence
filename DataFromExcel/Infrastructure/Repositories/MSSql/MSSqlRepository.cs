@@ -39,5 +39,13 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
                 await _dataContext.AreaOfActivityPayments.AddRangeAsync(areaOfActivity);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task OperationsAsync(IEnumerable<Operations> operations)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Operations");
+            if (operations != null)
+                await _dataContext.Operations.AddRangeAsync(operations);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }
