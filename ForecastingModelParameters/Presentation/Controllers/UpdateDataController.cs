@@ -27,5 +27,14 @@ namespace ForecastingModelParameters.Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("RequestProjectForecast")]
+        public async Task<IActionResult> RequestProjectForecastAsync(int property, int category, int period, [Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
+        {
+            var projectForecast = await _updateDataService.ProjectForecastAsync(complexProperty, property, category, period);
+            _exportingReportsToExcel.ProjectForecast(projectForecast);
+
+            return NoContent();
+        }
     }
 }

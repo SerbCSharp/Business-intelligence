@@ -1,4 +1,5 @@
-﻿using ForecastingModelParameters.Domain;
+﻿using ForecastingModelParameters.Application.DTO;
+using ForecastingModelParameters.Domain;
 
 namespace ForecastingModelParameters.Application.Interfaces
 {
@@ -6,11 +7,6 @@ namespace ForecastingModelParameters.Application.Interfaces
     {
         Task<List<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty);
         Task<List<ReportField>> ReportFieldAsync();
-
-        Task<IEnumerable<Revenue>> RevenueAsync(string complexProperty);
-        Task<IEnumerable<ConstructionExpense>> ConstructionExpenseAsync(string complexProperty);
-        Task<IEnumerable<OtherExpense>> OtherExpenseAsync(string complexProperty);
-        Task<IEnumerable<ReportStructure>> ReportStructureAsync();
-
+        Task<List<ProjectForecast>> ProjectForecastAsync(string complexProperty);
     }
 }

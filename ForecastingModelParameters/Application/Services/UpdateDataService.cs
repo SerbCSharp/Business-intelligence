@@ -1,4 +1,5 @@
-﻿using ForecastingModelParameters.Application.Interfaces;
+﻿using ForecastingModelParameters.Application.DTO;
+using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
 
 namespace ForecastingModelParameters.Application.Services
@@ -57,6 +58,16 @@ namespace ForecastingModelParameters.Application.Services
             }
 
             return projectCostingData;
+        }
+
+        public async Task<List<ProjectForecast>> ProjectForecastAsync(string complexProperty, int property, int category, int period)
+        {
+            var projectForecast = await _getDataRepository.ProjectForecastAsync(complexProperty);
+            if (projectForecast.Count == 0)
+            {
+            }
+
+            return projectForecast;
         }
 
         public async Task SaveProjectCostingDataAsync(string complexProperty)

@@ -14,6 +14,17 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
                 .Where(y => y.ComplexProperty == complexProperty).ToListAsync();
         }
 
+        public async Task<List<ProjectForecast>> ProjectForecastAsync(string complexProperty)
+        {
+            return await _dataContext.FactProjectForecasts
+                .Include(x => x.Date)
+                .Include(x => x.ComplexProperty)
+                .Include(x => x.CostItem)
+                .Include(x => x.Property)
+                .Include(x => x.LoanTerm)
+                .Where(y => y.ComplexProperty.Name == complexProperty).ToListAsync();
+        }
+
         public async Task<List<ReportField>> ReportFieldAsync()
         {
             return await _dataContext.ReportFields.ToListAsync();
