@@ -1,6 +1,8 @@
 ﻿using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System.Reflection.Metadata;
 
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
 {
@@ -16,13 +18,27 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql
 
         public async Task<List<ProjectForecast>> ProjectForecastAsync(string complexProperty)
         {
-            return await _dataContext.FactProjectForecasts
-                .Include(x => x.Date)
-                .Include(x => x.ComplexProperty)
-                .Include(x => x.CostItem)
-                .Include(x => x.Property)
-                .Include(x => x.LoanTerm)
-                .Where(y => y.ComplexProperty.Name == complexProperty).ToListAsync();
+            //var newProjectForecast = new ProjectForecast
+            //{
+            //    Amount = 1734040000,
+            //    ComplexProperty = new ComplexProperty { Name = "ЖК КИПАРИС" },
+            //    CostItem = new CostItem { Name = "СМР", FlowDirection = false },
+            //    Date = new Date { Year = 2026, Quarter = 2 },
+            //    Property = new Property { Id = 1, Name = "Позиция 6" },
+            //    LoanTerm = new LoanTerm { Name = "Проектное финансирование Сбербанк" }
+            //};
+
+            //_dataContext.FactProjectForecasts.Add(newProjectForecast);
+            //_dataContext.SaveChanges();
+
+            //return await _dataContext.FactProjectForecasts
+            //    .Include(x => x.Date)
+            //    .Include(x => x.ComplexProperty)
+            //    .Include(x => x.CostItem)
+            //    .Include(x => x.Property)
+            //    .Include(x => x.LoanTerm)
+            //    .Where(y => y.ComplexProperty.Name == complexProperty).ToListAsync();
+            return null;
         }
 
         public async Task<List<ReportField>> ReportFieldAsync()

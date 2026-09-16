@@ -7,10 +7,7 @@ namespace ForecastingModelParameters.Domain
     public class ComplexProperty
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        public Guid ProjectForecastId { get; set; }
-        public ProjectForecast ProjectForecast { get; set; }
     }
 }

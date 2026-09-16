@@ -10,8 +10,5 @@ namespace ForecastingModelParameters.Domain
         public int Id { get; set; } // ID корпуса или заглушки (например, -1 с именем «Общие расходы по ЖК»)
         public string Name { get; set; }
         public string CommissioningOfResidentialProperty { get; set; } // Дата ввода в эксплуатацию (ссылка на DateId)
-
-        public Guid ProjectForecastId { get; set; }
-        public ProjectForecast ProjectForecast { get; set; }
     }
 }

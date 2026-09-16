@@ -7,11 +7,8 @@ namespace ForecastingModelParameters.Domain
     public class Date
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int Year { get; set; }
         public int Quarter { get; set; }
-
-        public Guid ProjectForecastId { get; set; }
-        public ProjectForecast ProjectForecast { get; set; }
     }
 }
