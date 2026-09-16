@@ -8,6 +8,6 @@ namespace DataFromExcel.Application.Interfaces
         IEnumerable<ObjectOfSaleInContract> ObjectOfSaleInContract();
         IEnumerable<TotalFloorArea> TotalFloorArea();
         IEnumerable<AreaOfActivityPayment> AreaOfActivity();
-        IEnumerable<Operations> Operations();
+        IEnumerable<Operation> Operations();
     }
 }

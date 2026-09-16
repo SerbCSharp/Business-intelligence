@@ -174,7 +174,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
             else return null;
         }
 
-        public IEnumerable<Operations> Operations() // Бухгалтерские операции
+        public IEnumerable<Operation> Operations() // Бухгалтерские операции
         {
             FileInfo fileInfo = new(filePath + "\\Operations.xlsx");
             using var package = new ExcelPackage(fileInfo);
@@ -201,7 +201,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                 dataTable.Rows.Add(dataRow);
             }
 
-            return dataTable.AsEnumerable().Select(row => new Operations
+            return dataTable.AsEnumerable().Select(row => new Operation
             {
                 OperationId = row.Field<string>("Код из 1С"),
                 Number = row.Field<string>("Номер"),

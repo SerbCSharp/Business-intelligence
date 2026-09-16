@@ -1,2 +1,2 @@
-﻿﻿Add-Migration DeleteProductGroupIdInContract -OutputDir Infrastructure/Repositories/MSSql/Migrations
+﻿﻿Add-Migration RemovedDateOnly -OutputDir Infrastructure/Repositories/MSSql/Migrations
 Update-Database

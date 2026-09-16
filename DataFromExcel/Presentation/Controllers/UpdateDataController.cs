@@ -15,6 +15,7 @@ namespace DataFromExcel.Presentation.Controllers
             await _updateDataService.ObjectOfSaleInContractAsync();
             await _updateDataService.TotalFloorAreaAsync();
             await _updateDataService.AreaOfActivityAsync();
+            await _updateDataService.OperationsAsync();
             return NoContent();
         }
     }

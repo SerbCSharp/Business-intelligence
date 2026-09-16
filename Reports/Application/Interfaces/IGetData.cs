@@ -10,6 +10,7 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync();
         Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate);
         Task<decimal> OpeningBalanceAsync(DateTime startDate);
+        Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate);
 
         Task<IEnumerable<ProjectCostingData>> ProjectCostingDataAsync(string complexProperty, string storedProcedureName);
         Task<IEnumerable<ConstructionCostForecast>> ConstructionCostForecastAsync(string complexProperty);

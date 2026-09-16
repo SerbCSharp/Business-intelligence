@@ -2,7 +2,7 @@
 
 namespace DataFromExcel.Domain
 {
-    public class Operations
+    public class Operation
     {
         [Key]
         public string OperationId { get; set; }

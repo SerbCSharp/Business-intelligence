@@ -40,7 +40,7 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task OperationsAsync(IEnumerable<Operations> operations)
+        public async Task OperationsAsync(IEnumerable<Operation> operations)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Operations");
             if (operations != null)

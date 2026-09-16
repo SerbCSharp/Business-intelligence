@@ -8,6 +8,6 @@ namespace DataFromExcel.Application.Interfaces
         Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract);
         Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorArea);
         Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity);
-        Task OperationsAsync(IEnumerable<Operations> operations);
+        Task OperationsAsync(IEnumerable<Operation> operations);
     }
 }

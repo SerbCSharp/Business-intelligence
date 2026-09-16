@@ -96,5 +96,16 @@ namespace Reports.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("ReconciliationStatement")]
+        public async Task<IActionResult> ReconciliationStatementAsync(DateTime endDate)
+        {
+            var reconciliationStatement = await _reportsService.ReconciliationStatementAsync(endDate);
+            var fileBytes = _exportingReportsToExcel.ReconciliationStatement(reconciliationStatement);
+            string fileName = $"ReconciliationStatement({DateOnly.FromDateTime(endDate)}).xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }

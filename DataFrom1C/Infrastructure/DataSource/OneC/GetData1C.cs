@@ -442,7 +442,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var multiplePayable = debtAdjustment.SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
                 .Select(z => new AccountingTransaction
                 {
-                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.ContractId,
                     Debit = z.accountsPayable.Amount
                 });
@@ -450,7 +450,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 .SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
                 .Select(z => new AccountingTransaction
                 {
-                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.CorContractId,
                     Debit = z.accountsReceivable.Amount
                 });
@@ -459,7 +459,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var multipleReceivable = debtAdjustment.SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
                 .Select(z => new AccountingTransaction
                 {
-                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.ContractId,
                     Credit = z.accountsReceivable.Amount
                 });
@@ -467,7 +467,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 .SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
                 .Select(z => new AccountingTransaction
                 {
-                    Date = DateOnly.FromDateTime(z.debtAdjustment.Date),
+                    Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.CorContractId,
                     Credit = z.accountsPayable.Amount
                 });

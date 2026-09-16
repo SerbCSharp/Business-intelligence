@@ -217,13 +217,18 @@ namespace Reports.Application.Services
             return result;
         }
 
+        public async Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate)
+        {
+            return await _getData.ReconciliationStatementAsync(endDate);
+        }
+
         //public IEnumerable<InterestCostDTO> LoanCostsAsync(string complexProperty)
         //{
         //    var revenues = new List<Revenue> { new() { } };
         //    var interestCosts = revenues.Where(w => w.ComplexProperty == complexProperty).GroupBy(x => x.Date)
         //        .Select(y => new InterestCostDTO { TotalSales = y.Sum(z => z.Amount), Year = y.Key.Year, 
         //            Quarter = (y.Key.Month - 1) / 3 + 1 });
-            
+
         //    foreach (var interestCost in interestCosts)
         //    {
 

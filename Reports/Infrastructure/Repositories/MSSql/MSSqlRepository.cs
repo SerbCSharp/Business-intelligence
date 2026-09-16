@@ -61,5 +61,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryAsync<ConstructionCostForecast>("ConstructionCostForecast", new { ComplexProperty = complexProperty });
         }
+
+        public async Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate)
+        {
+            return await _dbConnection.QueryAsync<ReconciliationStatement>("ReconciliationStatement", new { EndDate = endDate });
+        }
     }
 }
