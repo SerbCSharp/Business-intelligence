@@ -9,10 +9,8 @@ namespace ForecastingModelParameters.Domain
         [Key]
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
-        public int DateId { get; set; }
-        public int ComplexPropertyId { get; set; }
-        public int PropertyId { get; set; }
-        public int CostItemId { get; set; }
-        public int LoanTermId { get; set; }
+        public string DateId { get; set; }
+        public string ComplexPropertyId { get; set; }
+        public string CostItemId { get; set; }
     }
 }

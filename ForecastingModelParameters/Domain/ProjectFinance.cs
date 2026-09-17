@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForecastingModelParameters.Domain
 {
-    [Table("DimLoanTerms", Schema = "params")]
-    public class LoanTerm
+    [Table("DimProjectFinance", Schema = "params")]
+    public class ProjectFinance
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; } // Например, «Проектное финансирование Сбербанк», «Кредитная линия ВТБ»
+        public string ProjectFinanceDetailId { get; set; }
+        
     }
 }

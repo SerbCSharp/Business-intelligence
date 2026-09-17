@@ -7,7 +7,7 @@ namespace ForecastingModelParameters.Domain
     public class Date
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int Year { get; set; }
         public int Quarter { get; set; }
     }
