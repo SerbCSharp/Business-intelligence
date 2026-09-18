@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reports.Application.Services;
 using Reports.Presentation.ReportsToExcel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Reports.Presentation.Controllers
 {
@@ -68,30 +67,6 @@ namespace Reports.Presentation.Controllers
             var fileBytes = _exportingReportsToExcel.ProfitCenters(package, profitCenters, openingBalance, startDate, endDate);
 
             string fileName = "ProfitCenters.xlsx";
-            string contentType = "application/octet-stream";
-
-            return File(fileBytes, contentType, fileName);
-        }
-
-        [HttpGet("ConstructionForecastingModel")]
-        public async Task<IActionResult> ConstructionForecastingModelAsync([Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО", double escrowBalance = 200000000)
-        {
-            var buildingCosts = await _reportsService.BuildingCostsAsync(complexProperty);
-            var package = _exportingReportsToExcel.BuildingCosts([.. buildingCosts]);
-
-            var salesTarget = await _reportsService.SalesTargetAsync(complexProperty);
-            _exportingReportsToExcel.SalesTarget(package, [.. salesTarget]);
-
-            var otherCost = await _reportsService.OtherCostAsync(complexProperty);
-            _exportingReportsToExcel.OtherCost(package, [.. otherCost]);
-
-            var interestCost = await _reportsService.InterestCostAsync(complexProperty, escrowBalance);
-            _exportingReportsToExcel.InterestCost(package, [.. interestCost.Item1]);
-
-            var constructionCostForecast = await _reportsService.ConstructionCostForecastAsync(complexProperty, interestCost.Item2);
-            var fileBytes = _exportingReportsToExcel.ConstructionCostForecast(package, constructionCostForecast, complexProperty);
-
-            string fileName = "ConstructionForecastingModel.xlsx";
             string contentType = "application/octet-stream";
 
             return File(fileBytes, contentType, fileName);

@@ -64,6 +64,11 @@ namespace ForecastingModelParameters.Application.Services
             var projectForecast = await _getDataRepository.ProjectForecastAsync(complexProperty);
             if (projectForecast.Count == 0)
             {
+                projectForecast.AddRange(Enumerable.Range(1, period).Select(x => new ProjectForecast
+                {
+                    ComplexPropertyId = complexProperty,
+                    DateId = DateTime.Now.AddMonths(x * 3).Year.ToString() + ((DateTime.Now.AddMonths(x * 3).Month - 1) / 3 + 1).ToString()
+                }));
             }
 
             return projectForecast;

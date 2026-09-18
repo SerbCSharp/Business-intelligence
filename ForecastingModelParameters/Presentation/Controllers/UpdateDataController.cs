@@ -29,12 +29,14 @@ namespace ForecastingModelParameters.Presentation.Controllers
         }
 
         [HttpGet("RequestProjectForecast")]
-        public async Task<IActionResult> RequestProjectForecastAsync(int property, int category, int period, [Required] string complexProperty = "ЖК ПЕРВОЕ МЕСТО")
+        public async Task<IActionResult> RequestProjectForecastAsync(int property, int category, int period, [Required] string complexProperty = "КИПАРИС")
         {
             var projectForecast = await _updateDataService.ProjectForecastAsync(complexProperty, property, category, period);
-            _exportingReportsToExcel.ProjectForecast(projectForecast);
+            var fileBytes = _exportingReportsToExcel.ProjectForecast(projectForecast);
+            string fileName = "ProjectForecast.xlsx";
+            string contentType = "application/octet-stream";
 
-            return NoContent();
+            return File(fileBytes, contentType, fileName);
         }
     }
 }

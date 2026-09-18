@@ -80,7 +80,7 @@ namespace ForecastingModelParameters.Presentation.ReportsToExcel
         public byte[] ProjectForecast<T>(IEnumerable<T> projectCostingData)
         {
             using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("ProjectCostingData");
+            var sheet = package.Workbook.Worksheets.Add("ProjectForecast");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);
