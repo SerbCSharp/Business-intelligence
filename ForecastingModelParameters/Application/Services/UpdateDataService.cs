@@ -1,5 +1,4 @@
-﻿using ForecastingModelParameters.Application.DTO;
-using ForecastingModelParameters.Application.Interfaces;
+﻿using ForecastingModelParameters.Application.Interfaces;
 using ForecastingModelParameters.Domain;
 
 namespace ForecastingModelParameters.Application.Services

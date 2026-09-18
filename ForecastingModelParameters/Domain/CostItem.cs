@@ -9,8 +9,6 @@ namespace ForecastingModelParameters.Domain
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-        public bool FlowDirection { get; set; } // true - доход
-        public string PropertyId { get; set; }
-        public string ProjectFinanceId { get; set; }
+        public string FlowDirection { get; set; } // Inflow or Outflow
     }
 }

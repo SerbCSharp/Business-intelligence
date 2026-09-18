@@ -14,6 +14,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories
         public DbSet<ComplexProperty> DimComplexProperties { get; set; }
         public DbSet<Property> DimProperties { get; set; }
         public DbSet<CostItem> DimCostItems { get; set; }
-        public DbSet<ProjectFinance> DimProjectFinance { get; set; }
+        public DbSet<ReportLine> ReportLines { get; set; }
     }
 }

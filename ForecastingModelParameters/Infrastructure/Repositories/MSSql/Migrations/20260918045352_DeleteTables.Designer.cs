@@ -4,6 +4,7 @@ using ForecastingModelParameters.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260918045352_DeleteTables")]
+    partial class DeleteTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,51 +24,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ComplexProperty", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DimComplexProperties", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.CostItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FlowDirection")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DimCostItems", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.Date", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Quarter")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DimDates", "params");
-                });
 
             modelBuilder.Entity("ForecastingModelParameters.Domain.ProjectCostingData", b =>
                 {
@@ -113,48 +71,6 @@ namespace ForecastingModelParameters.Infrastructure.Repositories.MSSql.Migration
                     b.HasIndex("ProjectCostingDataId");
 
                     b.ToTable("ProjectCostingDataPeriods", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.ProjectForecast", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ComplexPropertyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CostItemId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DateId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PropertyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FactProjectForecasts", "params");
-                });
-
-            modelBuilder.Entity("ForecastingModelParameters.Domain.Property", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CommissioningOfResidentialProperty")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DimProperties", "params");
                 });
 
             modelBuilder.Entity("ForecastingModelParameters.Domain.ReportField", b =>

@@ -9,6 +9,6 @@ namespace ForecastingModelParameters.Domain
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<string> CommissioningOfResidentialProperty { get; set; } // Дата ввода в эксплуатацию (ссылка на DateId)
+        public List<string> CommissioningOfResidentialProperty { get; set; } // Даты ввода в эксплуатацию (ссылка на DateId)
     }
 }

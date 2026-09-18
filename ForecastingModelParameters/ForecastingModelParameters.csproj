@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\DTO\" />
     <Folder Include="Infrastructure\Repositories\MSSql\Migrations\" />
   </ItemGroup>
 
