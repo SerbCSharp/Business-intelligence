@@ -7,10 +7,10 @@ namespace DataFrom1C.Application.Services
         private readonly IGetData _getData = getData;
         private readonly ISaveData _saveData = saveData;
 
-        public async Task PurchasePaymentAsync()
+        public async Task PaymentAsync()
         {
-            var getPurchasePayment = await _getData.PurchasePaymentAsync();
-            await _saveData.PurchasePaymentAsync(getPurchasePayment);
+            var getPayment = await _getData.PaymentAsync();
+            await _saveData.PaymentAsync(getPayment);
         }
 
         public async Task PurchaseInvoiceAsync()
@@ -23,12 +23,6 @@ namespace DataFrom1C.Application.Services
         {
             var getSalesInvoice = await _getData.SalesInvoiceAsync();
             await _saveData.SalesInvoiceAsync(getSalesInvoice);
-        }
-
-        public async Task SalesPaymentAsync()
-        {
-            var getSalesPayment = await _getData.SalesPaymentAsync();
-            await _saveData.SalesPaymentAsync(getSalesPayment);
         }
 
         public async Task ContractAsync()

@@ -8,10 +8,10 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
     {
         private readonly DataContext _dataContext = dataContext;
 
-        public async Task PurchasePaymentAsync(IEnumerable<PurchasePayment> purchasePayments)
+        public async Task PaymentAsync(IEnumerable<Payment> payments)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE PurchasePayments");
-            await _dataContext.PurchasePayments.AddRangeAsync(purchasePayments);
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Payments");
+            await _dataContext.Payments.AddRangeAsync(payments);
             await _dataContext.SaveChangesAsync();
         }
 
@@ -26,13 +26,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE SalesInvoices");
             await _dataContext.SalesInvoices.AddRangeAsync(salesInvoices);
-            await _dataContext.SaveChangesAsync();
-        }
-
-        public async Task SalesPaymentAsync(IEnumerable<SalesPayment> salesPayments)
-        {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE SalesPayments");
-            await _dataContext.SalesPayments.AddRangeAsync(salesPayments);
             await _dataContext.SaveChangesAsync();
         }
 

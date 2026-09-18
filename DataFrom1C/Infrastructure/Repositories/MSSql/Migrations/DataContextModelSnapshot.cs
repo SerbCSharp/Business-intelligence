@@ -194,6 +194,37 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("MoreInformations");
                 });
 
+            modelBuilder.Entity("DataFrom1C.Domain.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CashFlowItemId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PaymentPurpose")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeOperation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("DataFrom1C.Domain.PaymentDetails", b =>
                 {
                     b.Property<Guid>("RowId")
@@ -297,34 +328,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("PurchaseInvoices");
                 });
 
-            modelBuilder.Entity("DataFrom1C.Domain.PurchasePayment", b =>
-                {
-                    b.Property<string>("DocumentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CashFlowItemId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentPurpose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeOperation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DocumentId");
-
-                    b.ToTable("PurchasePayments");
-                });
-
             modelBuilder.Entity("DataFrom1C.Domain.SalesGoodAndService", b =>
                 {
                     b.Property<Guid>("RowId")
@@ -374,34 +377,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.HasKey("DocumentId");
 
                     b.ToTable("SalesInvoices");
-                });
-
-            modelBuilder.Entity("DataFrom1C.Domain.SalesPayment", b =>
-                {
-                    b.Property<string>("DocumentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CashFlowItemId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentPurpose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeOperation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DocumentId");
-
-                    b.ToTable("SalesPayments");
                 });
 
             modelBuilder.Entity("DataFrom1C.Domain.Unit", b =>

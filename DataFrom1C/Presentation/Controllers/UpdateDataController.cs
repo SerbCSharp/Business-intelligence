@@ -11,8 +11,7 @@ namespace DataFrom1C.Presentation.Controllers
         [HttpGet("Update")]
         public async Task<IActionResult> UpdateAsync()
         {
-            await _updateDataService.PurchasePaymentAsync();
-            await _updateDataService.SalesPaymentAsync();
+            await _updateDataService.PaymentAsync();
             await _updateDataService.PaymentDetailsAsync();
             await _updateDataService.MoreInformationAsync();
             await _updateDataService.CostItemAsync();

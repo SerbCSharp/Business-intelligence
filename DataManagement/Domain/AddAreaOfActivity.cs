@@ -2,7 +2,7 @@
 {
     public class AddAreaOfActivity
     {
-        public string DocumentId { get; set; }
+        public string Id { get; set; }
         public decimal Percent { get; set; }
         public string TypeOfActivity { get; set; }
         public string AreaOfActivity { get; set; }

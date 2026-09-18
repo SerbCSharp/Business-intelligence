@@ -1,2 +1,2 @@
-﻿﻿Add-Migration RemovedDateOnly -OutputDir Infrastructure/Repositories/MSSql/Migrations
+﻿﻿Add-Migration CombinedPayments -OutputDir Infrastructure/Repositories/MSSql/Migrations
 Update-Database

@@ -22,7 +22,6 @@ using DataFrom1C.Infrastructure.DataSource.Models.UnitOfMeasure;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DataFrom1C.Infrastructure.DataSource.OneC
 {
@@ -47,42 +46,41 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64Credentials);
         }
 
-        public async Task<IEnumerable<PurchasePayment>> PurchasePaymentAsync() // Списание с расчетного счета
+        public async Task<IEnumerable<Payment>> PaymentAsync() // Оплаты
         {
             var debitToCurrentAccountUrl = ApiUrl + "Document_СписаниеСРасчетногоСчета?$format=json"
                 + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key,ВидОперации"
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage debitToCurrentAccountResponse = await httpClient.GetAsync(debitToCurrentAccountUrl);
             var debitToCurrentAccount = await debitToCurrentAccountResponse.Content.ReadFromJsonAsync<DebitToCurrentAccount>();
-            return debitToCurrentAccount.Value.Select(x => new PurchasePayment
+            var paymentDedit =  debitToCurrentAccount.Value.Select(x => new Payment
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Debit = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
                 CashFlowItemId = x.CashFlowItemId,
                 TypeOperation = x.TypeOperation
             });
-        }
 
-        public async Task<IEnumerable<SalesPayment>> SalesPaymentAsync() // Поступление на расчетный счет
-        {
             var creditToCurrentAccountUrl = ApiUrl + "Document_ПоступлениеНаРасчетныйСчет?$format=json"
                 + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,НазначениеПлатежа,СтатьяДвиженияДенежныхСредств_Key,ВидОперации"
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage creditToCurrentAccountResponse = await httpClient.GetAsync(creditToCurrentAccountUrl);
             var creditToCurrentAccount = await creditToCurrentAccountResponse.Content.ReadFromJsonAsync<CreditToCurrentAccount>();
-            return creditToCurrentAccount.Value.Select(x => new SalesPayment
+            var paymentCredit = creditToCurrentAccount.Value.Select(x => new Payment
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Credit = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
                 CashFlowItemId = x.CashFlowItemId,
                 TypeOperation = x.TypeOperation
             });
+
+            return paymentDedit.Concat(paymentCredit);
         }
 
         public async Task<IEnumerable<PurchaseInvoice>> PurchaseInvoiceAsync()

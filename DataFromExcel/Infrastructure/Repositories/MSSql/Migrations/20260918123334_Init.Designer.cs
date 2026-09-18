@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(ObjectOfSaleContext))]
-    [Migration("20260916125000_Init")]
+    [Migration("20260918123334_Init")]
     partial class Init
     {
         /// <inheritdoc />
