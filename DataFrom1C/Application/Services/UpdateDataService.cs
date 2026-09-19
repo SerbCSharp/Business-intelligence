@@ -13,16 +13,10 @@ namespace DataFrom1C.Application.Services
             await _saveData.PaymentAsync(getPayment);
         }
 
-        public async Task PurchaseInvoiceAsync()
+        public async Task InvoiceAsync()
         {
-            var getPurchaseInvoice = await _getData.PurchaseInvoiceAsync();
-            await _saveData.PurchaseInvoiceAsync(getPurchaseInvoice);
-        }
-
-        public async Task SalesInvoiceAsync()
-        {
-            var getSalesInvoice = await _getData.SalesInvoiceAsync();
-            await _saveData.SalesInvoiceAsync(getSalesInvoice);
+            var getInvoice = await _getData.InvoiceAsync();
+            await _saveData.InvoiceAsync(getInvoice);
         }
 
         public async Task ContractAsync()
@@ -102,22 +96,10 @@ namespace DataFrom1C.Application.Services
             await _saveData.ConstructionCompletionCertificateAsync(getConstructionCompletionCertificate);
         }
 
-        public async Task AccountingEntryAsync()
-        {
-            var getAccountingEntry = await _getData.AccountingEntryAsync();
-            await _saveData.AccountingEntryAsync(getAccountingEntry);
-        }
-
-        public async Task PlanOfAccountsAsync()
-        {
-            var getPlanOfAccounts = await _getData.PlanOfAccountsAsync();
-            await _saveData.PlanOfAccountsAsync(getPlanOfAccounts);
-        }
-
-        public async Task AccountingTransactionAsync()
+        public async Task DebtAdjustmentAsync()
         {
             var getDebtAdjustment = await _getData.DebtAdjustmentAsync();
-            await _saveData.AccountingTransactionAsync(getDebtAdjustment);
+            await _saveData.DebtAdjustmentAsync(getDebtAdjustment);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace DataFromExcel.Infrastructure.Repositories
         public DbSet<ObjectOfSaleInContract> ObjectOfSaleInContracts { get; set; }
         public DbSet<TotalFloorArea> TotalFloorAreas { get; set; }
         public DbSet<AreaOfActivityPayment> AreaOfActivityPayments { get; set; }
-        public DbSet<Operation> Operations { get; set; }
+        public DbSet<AccountingTransaction> AccountingTransactions { get; set; }
     }
 }

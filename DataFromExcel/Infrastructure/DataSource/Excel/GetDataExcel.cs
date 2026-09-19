@@ -174,7 +174,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
             else return null;
         }
 
-        public IEnumerable<Operation> Operations() // Бухгалтерские операции
+        public IEnumerable<AccountingTransaction> AccountingTransaction() // Бухгалтерские операции
         {
             FileInfo fileInfo = new(filePath + "\\Operations.xlsx");
             using var package = new ExcelPackage(fileInfo);
@@ -185,7 +185,9 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
             {
                 if (sheet.Cells[1, i].Value.ToString() == "Дата")
                     dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(DateTime));
-                else if (sheet.Cells[1, i].Value.ToString() == "Сумма")
+                else if (sheet.Cells[1, i].Value.ToString() == "Debit")
+                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                else if (sheet.Cells[1, i].Value.ToString() == "Credit")
                     dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                 else
                     dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
@@ -201,14 +203,13 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                 dataTable.Rows.Add(dataRow);
             }
 
-            return dataTable.AsEnumerable().Select(row => new Operation
+            return dataTable.AsEnumerable().Select(row => new AccountingTransaction
             {
-                OperationId = row.Field<string>("Код из 1С"),
-                Number = row.Field<string>("Номер"),
+                Id = row.Field<string>("Код из 1С"),
                 Date = row.Field<DateTime>("Дата"),
-                Amount = row.Field<decimal>("Сумма"),
-                ContractDebit = row.Field<string>("Договор Дебет"),
-                ContractCredit = row.Field<string>("Договор Кредит"),
+                Debit = row.Field<decimal>("Debit"),
+                Credit = row.Field<decimal>("Credit"),
+                ContractId = row.Field<string>("ContractId")
             });
         }
     }

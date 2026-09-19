@@ -5,7 +5,7 @@ namespace DataFrom1C.Application.Interfaces
     public interface ISaveData
     {
         Task PaymentAsync(IEnumerable<Payment> payments);
-        Task InvoiceAsync(IEnumerable<Invoice> purchaseInvoices);
+        Task InvoiceAsync(IEnumerable<Invoice> invoices);
         Task ContractAsync(IEnumerable<Contract> contracts);
         Task ContractorAsync(IEnumerable<Contractor> contractors);
         Task PurchaseGoodAndServiceAsync(IEnumerable<PurchaseGoodAndService> purchaseGoodAndService);
@@ -19,8 +19,6 @@ namespace DataFrom1C.Application.Interfaces
         Task PaymentDetailsAsync(IEnumerable<PaymentDetails> paymentDetails);
         Task CostItemAsync(IEnumerable<CostItem> costItems);
         Task ConstructionCompletionCertificateAsync(IEnumerable<ConstructionCompletionCertificate> constructionCompletionCertificates);
-        Task AccountingEntryAsync(IEnumerable<AccountingEntry> accountingEntries);
-        Task PlanOfAccountsAsync(IEnumerable<Account> planOfAccounts);
-        Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransactions);
+        Task DebtAdjustmentAsync(IEnumerable<DebtAdjustment> debtAdjustment);
     }
 }

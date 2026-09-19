@@ -1,15 +1,13 @@
 ﻿using DataFrom1C.Application.Interfaces;
 using DataFrom1C.Domain;
-using DataFrom1C.Infrastructure.DataSource.Models.AccountingRegister;
 using DataFrom1C.Infrastructure.DataSource.Models.AdditionalInformation;
 using DataFrom1C.Infrastructure.DataSource.Models.CashFlowArticles;
-using DataFrom1C.Infrastructure.DataSource.Models.ChartOfAccounts;
 using DataFrom1C.Infrastructure.DataSource.Models.ConstructionOrder;
 using DataFrom1C.Infrastructure.DataSource.Models.ContractCounterparties;
 using DataFrom1C.Infrastructure.DataSource.Models.Counterparty;
 using DataFrom1C.Infrastructure.DataSource.Models.CreditToCurrentAccount;
 using DataFrom1C.Infrastructure.DataSource.Models.DebitToCurrentAccount;
-using DataFrom1C.Infrastructure.DataSource.Models.DebtAdjustment;
+using DataFrom1C.Infrastructure.DataSource.Models.DebtCorrection;
 using DataFrom1C.Infrastructure.DataSource.Models.ExpenseItem;
 using DataFrom1C.Infrastructure.DataSource.Models.ImplementationConstructionWorks;
 using DataFrom1C.Infrastructure.DataSource.Models.Nomenclature;
@@ -83,18 +81,18 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return paymentDedit.Concat(paymentCredit);
         }
 
-        public async Task<IEnumerable<PurchaseInvoice>> PurchaseInvoiceAsync()
+        public async Task<IEnumerable<Invoice>> InvoiceAsync()
         {
             var receiptGoodsServicesUrl = ApiUrl + "Document_ПоступлениеТоваровУслуг?$format=json"
                 + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,Склад_Key"
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage receiptGoodsServicesResponse = await httpClient.GetAsync(receiptGoodsServicesUrl);
             var receiptGoodsServices = await receiptGoodsServicesResponse.Content.ReadFromJsonAsync<ReceiptGoodsServices>();
-            var purchaseGoodsServices = receiptGoodsServices.Value.Select(x => new PurchaseInvoice
+            var purchaseGoodsServices = receiptGoodsServices.Value.Select(x => new Invoice
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Credit = x.Amount,
                 ContractId = x.ContractId,
                 WarehouseId = x.WarehouseId
             });
@@ -104,30 +102,27 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage receiptProcessingResponse = await httpClient.GetAsync(receiptProcessingUrl);
             var receiptProcessing = await receiptProcessingResponse.Content.ReadFromJsonAsync<ReceiptProcessing>();
-            var purchaseProcessing = receiptProcessing.Value.Select(x => new PurchaseInvoice
+            var purchaseProcessing = receiptProcessing.Value.Select(x => new Invoice
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Credit = x.Amount,
                 ContractId = x.ContractId,
                 WarehouseId = x.WarehouseId
             });
 
-            return purchaseGoodsServices.Concat(purchaseProcessing);
-        }
+            var purchase = purchaseGoodsServices.Concat(purchaseProcessing);
 
-        public async Task<IEnumerable<SalesInvoice>> SalesInvoiceAsync()
-        {
             var saleGoodsServicesUrl = ApiUrl + "Document_РеализацияТоваровУслуг?$format=json"
                 + "&$select=Ref_Key,Date,СуммаДокумента,ДоговорКонтрагента_Key,Склад_Key"
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage saleGoodsServicesResponse = await httpClient.GetAsync(saleGoodsServicesUrl);
             var saleGoodsServices = await saleGoodsServicesResponse.Content.ReadFromJsonAsync<SaleGoodsServices>();
-            var SalesGoodsServices = saleGoodsServices.Value.Select(x => new SalesInvoice
+            var SalesGoodsServices = saleGoodsServices.Value.Select(x => new Invoice
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Debit = x.Amount,
                 ContractId = x.ContractId,
                 WarehouseId = x.WarehouseId
             });
@@ -137,16 +132,17 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 + "&$filter=DeletionMark eq false and Posted eq true";
             using HttpResponseMessage implementationConstructionWorksResponse = await httpClient.GetAsync(implementationConstructionWorksUrl);
             var implementationConstructionWorks = await implementationConstructionWorksResponse.Content.ReadFromJsonAsync<ImplementationConstructionWorks>();
-            var SalesImplementationConstructionWorks = implementationConstructionWorks.Value?.Select(x => new SalesInvoice
+            var SalesImplementationConstructionWorks = implementationConstructionWorks.Value?.Select(x => new Invoice
             {
-                DocumentId = x.DocumentId,
+                Id = x.DocumentId,
                 Date = x.Date,
-                Amount = x.Amount,
+                Debit = x.Amount,
                 ContractId = x.ContractId
             });
 
-            return SalesImplementationConstructionWorks != null ? SalesGoodsServices.Concat(SalesImplementationConstructionWorks)
+            var sales = SalesImplementationConstructionWorks != null ? SalesGoodsServices.Concat(SalesImplementationConstructionWorks)
                                                                 : SalesGoodsServices;
+            return purchase.Concat(sales);
         }
 
         public async Task<IEnumerable<PurchaseGoodAndService>> PurchaseGoodAndServiceAsync()
@@ -379,47 +375,16 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             });
         }
 
-        public async Task<IEnumerable<AccountingEntry>> AccountingEntryAsync() // Проводки по счетам
+        public async Task<IEnumerable<DebtAdjustment>> DebtAdjustmentAsync() // Корректировка долга
         {
-            var accountingRegisterUrl = ApiUrl + "AccountingRegister_Хозрасчетный?$format=json"
-            + "&$select=RecordSet/Period,RecordSet/Содержание,RecordSet/AccountDr_Key,RecordSet/AccountCr_Key,RecordSet/Сумма,RecordSet/Active";
-            using HttpResponseMessage accountingRegisterResponse = await httpClient.GetAsync(accountingRegisterUrl);
-            var accountingRegister = await accountingRegisterResponse.Content.ReadFromJsonAsync<AccountingRegister>();
-            return accountingRegister.Value.SelectMany(y => y.RecordSet).Where(y => y.Active == true).Select(x => new AccountingEntry
-            {
-                AccountCreditId = x.AccountCreditId,
-                AccountDebitId = x.AccountDebitId,
-                Amount = x.Amount,
-                Date = x.Date,
-                Name = x.Name
-            });
-        }
-
-        public async Task<IEnumerable<Account>> PlanOfAccountsAsync() // План счетов
-        {
-            var chartOfAccountsUrl = ApiUrl + "ChartOfAccounts_Хозрасчетный?$format=json"
-            + "&$select=Ref_Key,Description,Code"
-            + "&$filter=DeletionMark eq false";
-            using HttpResponseMessage chartOfAccountsResponse = await httpClient.GetAsync(chartOfAccountsUrl);
-            var chartOfAccounts = await chartOfAccountsResponse.Content.ReadFromJsonAsync<ChartOfAccounts>();
-            return chartOfAccounts.Value.Select(x => new Account
-            {
-                AccountId = x.Ref_Key,
-                Code = x.Code,
-                Name = x.Description
-            });
-        }
-
-        public async Task<IEnumerable<AccountingTransaction>> DebtAdjustmentAsync() // Корректировка долга
-        {
-            var debtAdjustmentUrl = ApiUrl + "Document_КорректировкаДолга?$format=json"
+            var debtCorrectionUrl = ApiUrl + "Document_КорректировкаДолга?$format=json"
                 + "&$select=Date,DeletionMark,КредиторскаяЗадолженность,ДебиторскаяЗадолженность"
                 + "&$filter=DeletionMark eq false and Posted eq true";
-            using HttpResponseMessage debtAdjustmentResponse = await httpClient.GetAsync(debtAdjustmentUrl);
-            var debtAdjustment = (await debtAdjustmentResponse.Content.ReadFromJsonAsync<DebtAdjustment>()).Value.ToList();
+            using HttpResponseMessage debtCorrectionResponse = await httpClient.GetAsync(debtCorrectionUrl);
+            var debtCorrection = (await debtCorrectionResponse.Content.ReadFromJsonAsync<DebtCorrection>()).Value.ToList();
 
             // Убираем из Корректировки долга проводки по одному договору в одном документе Корректировка долга
-            foreach (var item in debtAdjustment)
+            foreach (var item in debtCorrection)
             {
                 if (item.AccountsPayable.Length > 0 && item.AccountsReceivable.Length > 0
                     && item.AccountsPayable.First().ContractId == item.AccountsReceivable.First().ContractId)
@@ -435,18 +400,18 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     item.DeletionMark = true;
                 }
             }
-            debtAdjustment.RemoveAll(x => x.DeletionMark);
+            debtCorrection.RemoveAll(x => x.DeletionMark);
 
-            var multiplePayable = debtAdjustment.SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
-                .Select(z => new AccountingTransaction
+            var multiplePayable = debtCorrection.SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
+                .Select(z => new DebtAdjustment
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.ContractId,
                     Debit = z.accountsPayable.Amount
                 });
-            var singlePayable = debtAdjustment.Where(x => x.AccountsPayable.Length == 0)
+            var singlePayable = debtCorrection.Where(x => x.AccountsPayable.Length == 0)
                 .SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
-                .Select(z => new AccountingTransaction
+                .Select(z => new DebtAdjustment
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.CorContractId,
@@ -454,16 +419,16 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 });
             var allPayable = multiplePayable.Concat(singlePayable);
 
-            var multipleReceivable = debtAdjustment.SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
-                .Select(z => new AccountingTransaction
+            var multipleReceivable = debtCorrection.SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
+                .Select(z => new DebtAdjustment
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.ContractId,
                     Credit = z.accountsReceivable.Amount
                 });
-            var singleReceivable = debtAdjustment.Where(x => x.AccountsReceivable.Length == 0)
+            var singleReceivable = debtCorrection.Where(x => x.AccountsReceivable.Length == 0)
                 .SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
-                .Select(z => new AccountingTransaction
+                .Select(z => new DebtAdjustment
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.CorContractId,

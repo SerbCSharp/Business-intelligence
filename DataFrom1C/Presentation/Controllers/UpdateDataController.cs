@@ -16,8 +16,7 @@ namespace DataFrom1C.Presentation.Controllers
             await _updateDataService.MoreInformationAsync();
             await _updateDataService.CostItemAsync();
 
-            await _updateDataService.PurchaseInvoiceAsync();
-            await _updateDataService.SalesInvoiceAsync();
+            await _updateDataService.InvoiceAsync();
             await _updateDataService.PurchaseGoodAndServiceAsync();
             await _updateDataService.SalesGoodAndServiceAsync();
             await _updateDataService.ProductAndServiceAsync();
@@ -29,9 +28,7 @@ namespace DataFrom1C.Presentation.Controllers
             await _updateDataService.CashFlowItemAsync();
             await _updateDataService.ProductGroupAsync();
             await _updateDataService.ConstructionCompletionCertificateAsync();
-            await _updateDataService.AccountingEntryAsync();
-            await _updateDataService.PlanOfAccountsAsync();
-            await _updateDataService.AccountingTransactionAsync();
+            await _updateDataService.DebtAdjustmentAsync();
 
             return NoContent();
         }

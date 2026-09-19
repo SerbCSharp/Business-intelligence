@@ -40,11 +40,11 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task OperationsAsync(IEnumerable<Operation> operations)
+        public async Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransaction)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Operations");
-            if (operations != null)
-                await _dataContext.Operations.AddRangeAsync(operations);
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE AccountingTransactions");
+            if (accountingTransaction != null)
+                await _dataContext.AccountingTransactions.AddRangeAsync(accountingTransaction);
             await _dataContext.SaveChangesAsync();
         }
     }

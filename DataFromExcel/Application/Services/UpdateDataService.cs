@@ -31,10 +31,10 @@ namespace DataFromExcel.Application.Services
             await _saveData.AreaOfActivityAsync(getAreaOfActivity);
         }
 
-        public async Task OperationsAsync()
+        public async Task AccountingTransactionAsync()
         {
-            var getOperations = _getData.Operations();
-            await _saveData.OperationsAsync(getOperations);
+            var getAccountingTransaction = _getData.AccountingTransaction();
+            await _saveData.AccountingTransactionAsync(getAccountingTransaction);
         }
     }
 }

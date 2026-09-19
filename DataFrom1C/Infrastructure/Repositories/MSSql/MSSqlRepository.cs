@@ -15,17 +15,10 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task PurchaseInvoiceAsync(IEnumerable<PurchaseInvoice> purchaseInvoices)
+        public async Task InvoiceAsync(IEnumerable<Invoice> invoices)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE PurchaseInvoices");
-            await _dataContext.PurchaseInvoices.AddRangeAsync(purchaseInvoices);
-            await _dataContext.SaveChangesAsync();
-        }
-
-        public async Task SalesInvoiceAsync(IEnumerable<SalesInvoice> salesInvoices)
-        {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE SalesInvoices");
-            await _dataContext.SalesInvoices.AddRangeAsync(salesInvoices);
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Invoices");
+            await _dataContext.Invoices.AddRangeAsync(invoices);
             await _dataContext.SaveChangesAsync();
         }
 
@@ -120,24 +113,10 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task AccountingEntryAsync(IEnumerable<AccountingEntry> accountingEntries)
+        public async Task DebtAdjustmentAsync(IEnumerable<DebtAdjustment> debtAdjustment)
         {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE AccountingEntries");
-            await _dataContext.AccountingEntries.AddRangeAsync(accountingEntries);
-            await _dataContext.SaveChangesAsync();
-        }
-
-        public async Task PlanOfAccountsAsync(IEnumerable<Account> planOfAccounts)
-        {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE PlanOfAccounts");
-            await _dataContext.PlanOfAccounts.AddRangeAsync(planOfAccounts);
-            await _dataContext.SaveChangesAsync();
-        }
-
-        public async Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransactions)
-        {
-            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE AccountingTransactions");
-            await _dataContext.AccountingTransactions.AddRangeAsync(accountingTransactions);
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE DebtAdjustments");
+            await _dataContext.DebtAdjustments.AddRangeAsync(debtAdjustment);
             await _dataContext.SaveChangesAsync();
         }
     }

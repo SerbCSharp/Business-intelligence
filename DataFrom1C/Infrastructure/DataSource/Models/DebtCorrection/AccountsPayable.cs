@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DataFrom1C.Infrastructure.DataSource.Models.DebtAdjustment
+namespace DataFrom1C.Infrastructure.DataSource.Models.DebtCorrection
 {
     public class AccountsPayable
     {

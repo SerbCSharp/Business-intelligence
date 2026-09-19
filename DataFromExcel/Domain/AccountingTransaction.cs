@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataFrom1C.Domain
+namespace DataFromExcel.Domain
 {
     public class AccountingTransaction
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime Date { get; set; }
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
