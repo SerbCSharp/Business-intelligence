@@ -184,7 +184,7 @@ namespace Reports.Presentation.ReportsToExcel
             return package;
         }
 
-        public byte[] ProfitCenters(ExcelPackage package, IEnumerable<ProfitCentersDTO> profitCenters, decimal openingBalance, DateTime startDate, DateTime endDate)
+        public byte[] ProfitCenters(ExcelPackage package, IEnumerable<ProfitCentersDTO> profitCenters, DateTime startDate, DateTime endDate)
         {
             var sheet = package.Workbook.Worksheets.Add("Profit Centers");
             sheet.Cells.Style.Font.Name = "Calibri";
@@ -201,11 +201,6 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells[2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
             sheet.Cells[4, 1, 6, 5].Style.Font.Bold = true;
-            sheet.Cells[4, 4].Value = "Остаток на начало:";
-            sheet.Cells[4, 2, 4, 4].Style.Font.Size = 12;
-            sheet.Cells[4, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            sheet.Cells[4, 5].Value = openingBalance;
-            sheet.Cells[4, 5].Style.Numberformat.Format = "### ### ### ##0.00";
 
             sheet.Cells[6, 1].Value = "Направления";
             sheet.Cells[6, 2].Value = "Поступления";
@@ -241,13 +236,6 @@ namespace Reports.Presentation.ReportsToExcel
             range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
             range.AutoFilter = true;
-
-            sheet.Cells[row + 2, 1, row + 2, 5].Style.Font.Bold = true;
-            sheet.Cells[row + 2, 4].Value = "Остаток на конец:";
-            sheet.Cells[row + 2, 2, row + 2, 4].Style.Font.Size = 12;
-            sheet.Cells[row + 2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            sheet.Cells[row + 2, 5].Formula = $"=SUBTOTAL(9,E7:E{row - 1})+E4";
-            sheet.Cells[row + 2, 5].Style.Numberformat.Format = "### ### ### ##0.00";
 
             var byteArray = package.GetAsByteArray();
             package.Dispose();

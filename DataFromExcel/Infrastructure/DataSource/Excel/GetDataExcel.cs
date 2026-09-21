@@ -176,41 +176,45 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
 
         public IEnumerable<AccountingTransaction> AccountingTransaction() // Бухгалтерские операции
         {
-            FileInfo fileInfo = new(filePath + "\\Operations.xlsx");
-            using var package = new ExcelPackage(fileInfo);
-            var sheet = package.Workbook.Worksheets[Name: "Operations"];
-            DataTable dataTable = new();
-
-            for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
+            FileInfo fileInfo = new(filePath + "\\AccountingTransaction.xlsx");
+            if (fileInfo.Exists)
             {
-                if (sheet.Cells[1, i].Value.ToString() == "Дата")
-                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(DateTime));
-                else if (sheet.Cells[1, i].Value.ToString() == "Debit")
-                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                else if (sheet.Cells[1, i].Value.ToString() == "Credit")
-                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
-                else
-                    dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
-            }
+                using var package = new ExcelPackage(fileInfo);
+                var sheet = package.Workbook.Worksheets[Name: "AccountingTransaction"];
+                DataTable dataTable = new();
 
-            for (int i = 2; i <= sheet.Dimension.End.Row; i++)
-            {
-                DataRow dataRow = dataTable.NewRow();
-                for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                for (int i = sheet.Dimension.Start.Column; i <= sheet.Dimension.End.Column; i++)
                 {
-                    dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    if (sheet.Cells[1, i].Value.ToString() == "Дата")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(DateTime));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Debit")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Credit")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
                 }
-                dataTable.Rows.Add(dataRow);
-            }
 
-            return dataTable.AsEnumerable().Select(row => new AccountingTransaction
-            {
-                Id = row.Field<string>("Код из 1С"),
-                Date = row.Field<DateTime>("Дата"),
-                Debit = row.Field<decimal>("Debit"),
-                Credit = row.Field<decimal>("Credit"),
-                ContractId = row.Field<string>("ContractId")
-            });
+                for (int i = 2; i <= sheet.Dimension.End.Row; i++)
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int j = 1; j <= sheet.Dimension.End.Column; j++)
+                    {
+                        dataRow[j - 1] = sheet.Cells[i, j].Value;
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                return dataTable.AsEnumerable().Select(row => new AccountingTransaction
+                {
+                    Id = row.Field<string>("Код из 1С"),
+                    Date = row.Field<DateTime>("Дата"),
+                    Debit = row.Field<decimal>("Debit"),
+                    Credit = row.Field<decimal>("Credit"),
+                    ContractId = row.Field<string>("ContractId")
+                });
+            }
+            else return null;
         }
     }
 }

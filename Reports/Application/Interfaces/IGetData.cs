@@ -9,7 +9,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<CostPerSquareMeter>> CostPerSquareMeterAsync();
         Task<IEnumerable<NonProductionCosts>> NonProductionCostsAsync();
         Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate);
-        Task<decimal> OpeningBalanceAsync(DateTime startDate);
         Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate);
     }
 }

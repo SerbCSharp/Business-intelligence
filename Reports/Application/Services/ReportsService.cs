@@ -58,11 +58,6 @@ namespace Reports.Application.Services
             return profitCenters;
         }
 
-        public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
-        {
-            return await _getData.OpeningBalanceAsync(startDate);
-        }
-
         public ConstructionCostDTO EstimatingLogic(ConstructionCost item)
         {
             var contractAmount = item.ContractAmount - item.ContractAmount * item.GeneralContractorMarkup;

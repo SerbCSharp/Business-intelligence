@@ -37,11 +37,6 @@ namespace Reports.Infrastructure.Repositories.MSSql
             return await _dbConnection.QueryAsync<ProfitCentersSource>("ProfitCenters", new { StartDate = startDate, EndDate = endDate });
         }
 
-        public async Task<decimal> OpeningBalanceAsync(DateTime startDate)
-        {
-            return await _dbConnection.ExecuteScalarAsync<decimal>("OpeningBalance", new { StartDate = startDate });
-        }
-
         public async Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate)
         {
             return await _dbConnection.QueryAsync<ReconciliationStatement>("ReconciliationStatement", new { EndDate = endDate });
