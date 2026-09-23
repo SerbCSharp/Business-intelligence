@@ -5,7 +5,7 @@ namespace DataFrom1C.Domain
     public class PurchaseGoodAndService
     {
         [Key]
-        public Guid RowId { get; set; }
+        public Guid Id { get; set; }
         public string DocumentId { get; set; }
         public string ProductAndServiceId { get; set; }
         public string UnitId { get; set; }

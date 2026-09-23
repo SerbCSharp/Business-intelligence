@@ -5,7 +5,7 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.SaleGoodsServices
     public class GoodAndService
     {
         [JsonPropertyName("ИдентификаторСтроки")]
-        public string RowId { get; set; }
+        public string Id { get; set; }
 
         [JsonPropertyName("Ref_Key")]
         public string DocumentId { get; set; }

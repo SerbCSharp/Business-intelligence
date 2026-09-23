@@ -5,7 +5,7 @@ namespace DataFrom1C.Domain
     public class PaymentDetails
     {
         [Key]
-        public Guid RowId { get; set; }
+        public Guid Id { get; set; }
         public string DocumentId { get; set; }
         public string ContractId { get; set; }
         public decimal Amount { get; set; }

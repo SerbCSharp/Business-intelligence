@@ -10,5 +10,6 @@ namespace DataFromExcel.Infrastructure.Repositories
         public DbSet<TotalFloorArea> TotalFloorAreas { get; set; }
         public DbSet<AreaOfActivityPayment> AreaOfActivityPayments { get; set; }
         public DbSet<AccountingTransaction> AccountingTransactions { get; set; }
+        public DbSet<CashBalance> CashBalances { get; set; }
     }
 }
