@@ -8,5 +8,6 @@ namespace DataFromExcel.Domain
         public string Id { get; set; }
         public string Company { get; set; }
         public decimal Amount { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

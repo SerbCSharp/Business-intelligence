@@ -36,8 +36,13 @@ namespace Reports.Application.Services
 
         public IEnumerable<ProfitCentersDTO> ProfitCenters(IEnumerable<ProfitCentersSource> profitCentersSource)
         {
+            foreach (var item in profitCentersSource)
+            {
+                item.DirectOrIndirect = item.TypeOfActivity == null || item.DirectOrIndirect;
+            }
+            
             var profitCenters = profitCentersSource
-                .Where(y => y.TypeOperation != "ПереводСДругогоСчета" && y.TypeOperation != "ПереводНаДругойСчет")
+                .Where(y => y.TypeOperation != "ПереводСДругогоСчета" && y.TypeOperation != "ПереводНаДругойСчет" && y.TypeOperation != "Депозит")
                 .Select(x => new ProfitCentersDTO
                 {
                     TypeOfActivity = x.TypeOfActivity,
@@ -86,6 +91,11 @@ namespace Reports.Application.Services
         public async Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate)
         {
             return await _getData.ReconciliationStatementAsync(endDate);
+        }
+
+        public async Task<CashBalance> CashBalanceAsync(DateTime startDate)
+        {
+            return await _getData.CashBalanceAsync(startDate);
         }
     }
 }

@@ -62,8 +62,9 @@ namespace Reports.Presentation.Controllers
             var profitCentersSource = await _reportsService.ProfitCentersSourceAsync(startDate, endDate);
             var package = _exportingReportsToExcel.ProfitCentersSource(profitCentersSource);
 
+            var cashBalance = await _reportsService.CashBalanceAsync(startDate);
             var profitCenters = _reportsService.ProfitCenters(profitCentersSource);
-            var fileBytes = _exportingReportsToExcel.ProfitCenters(package, profitCenters, startDate, endDate);
+            var fileBytes = _exportingReportsToExcel.ProfitCenters(package, profitCenters, cashBalance, startDate, endDate);
 
             string fileName = "ProfitCenters.xlsx";
             string contentType = "application/octet-stream";

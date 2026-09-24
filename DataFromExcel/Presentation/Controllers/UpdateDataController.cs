@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataFromExcel.Presentation.Controllers
 {
     [ApiController]
-    public class UpdateDataController(UpdateDataService updateDataService, IConfiguration configuration) : ControllerBase
+    public class UpdateDataController(UpdateDataService updateDataService) : ControllerBase
     {
         private readonly UpdateDataService _updateDataService = updateDataService;
-        private readonly IConfiguration _configuration = configuration;
 
         [HttpGet("Update")]
         public async Task<IActionResult> UpdateAsync()
@@ -17,14 +16,8 @@ namespace DataFromExcel.Presentation.Controllers
             await _updateDataService.TotalFloorAreaAsync();
             await _updateDataService.AreaOfActivityAsync();
             await _updateDataService.AccountingTransactionAsync();
+            await _updateDataService.SelectedCompanyAsync();
             return NoContent();
-        }
-
-        [HttpGet("Company")]
-        public IActionResult Company()
-        {
-            string company = _configuration["FileSettings:FilePath"];
-            return Ok(company[(company.LastIndexOf('\\') + 1)..]);
         }
     }
 }

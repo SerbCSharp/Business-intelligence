@@ -41,5 +41,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryAsync<ReconciliationStatement>("ReconciliationStatement", new { EndDate = endDate });
         }
+
+        public async Task<CashBalance> CashBalanceAsync(DateTime startDate)
+        {
+            return await _dbConnection.QueryFirstOrDefaultAsync<CashBalance>("CashBalance", new { StartDate = startDate });
+        }
     }
 }

@@ -2,10 +2,11 @@
 
 namespace DataFromExcel.Application.Services
 {
-    public class UpdateDataService(IGetData getData, ISaveData saveData)
+    public class UpdateDataService(IGetData getData, ISaveData saveData, IConfiguration configuration)
     {
         private readonly IGetData _getData = getData;
         private readonly ISaveData _saveData = saveData;
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task ObjectOfSaleInPurchasePaymentAsync()
         {
@@ -35,6 +36,13 @@ namespace DataFromExcel.Application.Services
         {
             var getAccountingTransaction = _getData.AccountingTransaction();
             await _saveData.AccountingTransactionAsync(getAccountingTransaction);
+        }
+
+        public async Task SelectedCompanyAsync()
+        {
+            string company = _configuration["FileSettings:FilePath"];
+            var getSelectedCompany = company[(company.LastIndexOf('\\') + 1)..];
+            await _saveData.SelectedCompanyAsync(getSelectedCompany);
         }
     }
 }

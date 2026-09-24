@@ -9,5 +9,6 @@ namespace DataFromExcel.Application.Interfaces
         Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorArea);
         Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity);
         Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransaction);
+        Task SelectedCompanyAsync(string selectedCompany);
     }
 }

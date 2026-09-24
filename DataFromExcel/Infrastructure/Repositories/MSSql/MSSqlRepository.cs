@@ -47,5 +47,14 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql
                 await _dataContext.AccountingTransactions.AddRangeAsync(accountingTransaction);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task SelectedCompanyAsync(string selectedCompany)
+        {
+            if (selectedCompany != null)
+            {
+                await _dataContext.CashBalances.Where(x => x.Company != selectedCompany).ExecuteUpdateAsync(y => y.SetProperty(u => u.IsSelected, false));
+                await _dataContext.CashBalances.Where(x => x.Company == selectedCompany).ExecuteUpdateAsync(y => y.SetProperty(u => u.IsSelected, true));
+            }
+        }
     }
 }
