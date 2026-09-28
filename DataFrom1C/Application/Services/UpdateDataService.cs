@@ -101,5 +101,11 @@ namespace DataFrom1C.Application.Services
             var getDebtAdjustment = await _getData.DebtAdjustmentAsync();
             await _saveData.DebtAdjustmentAsync(getDebtAdjustment);
         }
+
+        public async Task CommercialLeaseAsync()
+        {
+            var getCommercialLease = await _getData.CommercialLeaseAsync();
+            await _saveData.CommercialLeaseAsync(getCommercialLease);
+        }
     }
 }

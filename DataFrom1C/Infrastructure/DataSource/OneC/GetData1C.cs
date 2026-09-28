@@ -14,6 +14,7 @@ using DataFrom1C.Infrastructure.DataSource.Models.Nomenclature;
 using DataFrom1C.Infrastructure.DataSource.Models.NomenclatureGroup;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptGoodsServices;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptProcessing;
+using DataFrom1C.Infrastructure.DataSource.Models.RentalObject;
 using DataFrom1C.Infrastructure.DataSource.Models.SaleGoodsServices;
 using DataFrom1C.Infrastructure.DataSource.Models.Storage;
 using DataFrom1C.Infrastructure.DataSource.Models.UnitOfMeasure;
@@ -437,6 +438,22 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var allReceivable = multipleReceivable.Concat(singleReceivable);
 
             return allPayable.Concat(allReceivable);
+        }
+
+        public async Task<IEnumerable<CommercialLease>> CommercialLeaseAsync() // Объекты аренды
+        {
+            var rentalObjectUrl = ApiUrl + "Catalog_АР_ОбъектыАренды?$format=json"
+                + "&$select=Ref_Key,Description,Parent_Key,ТипОбъекта_Key"
+                + "&$filter=DeletionMark eq false";
+            using HttpResponseMessage rentalObjectResponse = await httpClient.GetAsync(rentalObjectUrl);
+            var rentalObject = await rentalObjectResponse.Content.ReadFromJsonAsync<RentalObject> ();
+            return rentalObject.Value?.Select(x => new CommercialLease
+            {
+                Id = x.Ref_Key,
+                Name = x.Description,
+                ParentId = x.ParentId,
+                PropertyTypeId = x.PropertyTypeId
+            });
         }
     }
 }

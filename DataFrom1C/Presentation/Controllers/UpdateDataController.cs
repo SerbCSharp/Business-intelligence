@@ -29,6 +29,7 @@ namespace DataFrom1C.Presentation.Controllers
             await _updateDataService.ProductGroupAsync();
             await _updateDataService.ConstructionCompletionCertificateAsync();
             await _updateDataService.DebtAdjustmentAsync();
+            await _updateDataService.CommercialLeaseAsync();
 
             return NoContent();
         }

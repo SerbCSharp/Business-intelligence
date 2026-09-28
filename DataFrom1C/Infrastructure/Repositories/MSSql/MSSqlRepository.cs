@@ -119,5 +119,12 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.DebtAdjustments.AddRangeAsync(debtAdjustment);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task CommercialLeaseAsync(IEnumerable<CommercialLease> commercialLease)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE CommercialLeases");
+            await _dataContext.CommercialLeases.AddRangeAsync(commercialLease);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }
