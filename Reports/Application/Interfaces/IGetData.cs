@@ -1,5 +1,4 @@
-﻿using Reports.Application.DTO;
-using Reports.Domain;
+﻿using Reports.Domain;
 
 namespace Reports.Application.Interfaces
 {
@@ -12,5 +11,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<ProfitCentersSource>> ProfitCentersSourceAsync(DateTime startDate, DateTime endDate);
         Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate);
         Task<CashBalance> CashBalanceAsync(DateTime startDate);
+        Task<IEnumerable<CashFlowFromRentalOperations>> CashFlowFromRentalOperationsAsync();
     }
 }

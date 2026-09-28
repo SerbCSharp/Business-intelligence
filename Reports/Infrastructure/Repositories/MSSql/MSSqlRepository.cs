@@ -46,5 +46,10 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryFirstOrDefaultAsync<CashBalance>("CashBalance", new { StartDate = startDate });
         }
+
+        public async Task<IEnumerable<CashFlowFromRentalOperations>> CashFlowFromRentalOperationsAsync()
+        {
+            return await _dbConnection.QueryAsync<CashFlowFromRentalOperations>("CashFlowFromRentalOperations");
+        }
     }
 }

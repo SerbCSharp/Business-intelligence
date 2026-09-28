@@ -97,5 +97,10 @@ namespace Reports.Application.Services
         {
             return await _getData.CashBalanceAsync(startDate);
         }
+
+        public async Task<IEnumerable<CashFlowFromRentalOperations>> CashFlowFromRentalOperationsAsync()
+        {
+            return await _getData.CashFlowFromRentalOperationsAsync();
+        }
     }
 }

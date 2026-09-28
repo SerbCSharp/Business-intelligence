@@ -82,5 +82,16 @@ namespace Reports.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("CashFlowFromRentalOperations")]
+        public async Task<IActionResult> CashFlowFromRentalOperationsAsync()
+        {
+            var cashFlowFromRentalOperations = await _reportsService.CashFlowFromRentalOperationsAsync();
+            var fileBytes = _exportingReportsToExcel.ProjectCostingData(cashFlowFromRentalOperations.OrderBy(x => x.Date));
+            string fileName = "CashFlowFromRentalOperations.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }

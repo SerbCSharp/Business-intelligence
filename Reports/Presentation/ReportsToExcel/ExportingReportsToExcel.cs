@@ -402,15 +402,15 @@ namespace Reports.Presentation.ReportsToExcel
             return package.GetAsByteArray();
         }
 
-        public byte[] ProjectCostingData<T>(IEnumerable<T> reconciliationStatement)
+        public byte[] ProjectCostingData<T>(IEnumerable<T> projectCostingData)
         {
             using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("ReconciliationStatement");
+            var sheet = package.Workbook.Worksheets.Add("ProjectCostingData");
             sheet.Cells.Style.Font.Name = "Calibri";
             sheet.Cells.Style.Font.Size = 11;
             sheet.View.FreezePanes(2, 1);
 
-            sheet.Cells["A1"].LoadFromCollection(reconciliationStatement, c => { c.PrintHeaders = true; });
+            sheet.Cells["A1"].LoadFromCollection(projectCostingData, c => { c.PrintHeaders = true; });
 
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.Font.Bold = true;
             sheet.Cells[1, 1, 1, sheet.Dimension.End.Column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
