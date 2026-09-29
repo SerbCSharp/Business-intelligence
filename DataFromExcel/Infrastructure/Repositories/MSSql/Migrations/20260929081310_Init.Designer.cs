@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(ObjectOfSaleContext))]
-    [Migration("20260918165833_RedidOperations")]
-    partial class RedidOperations
+    [Migration("20260929081310_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,9 +25,31 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DataFromExcel.Domain.AccountingTransaction", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountingTransactions");
+                });
+
             modelBuilder.Entity("DataFromExcel.Domain.AreaOfActivityPayment", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -46,9 +68,28 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("TypeOfActivity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("AreaOfActivityPayments");
+                });
+
+            modelBuilder.Entity("DataFromExcel.Domain.CashBalance", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CashBalances");
                 });
 
             modelBuilder.Entity("DataFromExcel.Domain.ObjectOfSaleInContract", b =>
@@ -98,31 +139,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("ObjectOfSaleInPurchasePayments");
                 });
 
-            modelBuilder.Entity("DataFromExcel.Domain.Operation", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Credit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Debit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Operations");
-                });
-
             modelBuilder.Entity("DataFromExcel.Domain.TotalFloorArea", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -135,7 +154,7 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<decimal>("TotalArea")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("TotalFloorAreas");
                 });

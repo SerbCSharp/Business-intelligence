@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260918161025_CombinedInvoices")]
-    partial class CombinedInvoices
+    [Migration("20260929081148_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,71 +24,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DataFrom1C.Domain.Account", b =>
-                {
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AccountId");
-
-                    b.ToTable("PlanOfAccounts");
-                });
-
-            modelBuilder.Entity("DataFrom1C.Domain.AccountingEntry", b =>
-                {
-                    b.Property<Guid>("RowId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AccountCreditId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccountDebitId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RowId");
-
-                    b.ToTable("AccountingEntries");
-                });
-
-            modelBuilder.Entity("DataFrom1C.Domain.AccountingTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Credit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Debit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountingTransactions");
-                });
 
             modelBuilder.Entity("DataFrom1C.Domain.CashFlowItem", b =>
                 {
@@ -103,9 +38,60 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("CashFlowItems");
                 });
 
+            modelBuilder.Entity("DataFrom1C.Domain.CommercialLease", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertyTypeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommercialLeases");
+                });
+
+            modelBuilder.Entity("DataFrom1C.Domain.CommercialLeaseStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommercialLeaseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CommercialLeaseStatusId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommercialLeaseStatuses");
+                });
+
             modelBuilder.Entity("DataFrom1C.Domain.ConstructionCompletionCertificate", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -118,7 +104,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("ConstructionCompletionCertificates");
                 });
@@ -177,6 +163,29 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("CostItems");
                 });
 
+            modelBuilder.Entity("DataFrom1C.Domain.DebtAdjustment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DebtAdjustments");
+                });
+
             modelBuilder.Entity("DataFrom1C.Domain.Invoice", b =>
                 {
                     b.Property<string>("Id")
@@ -204,7 +213,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 
             modelBuilder.Entity("DataFrom1C.Domain.MoreInformation", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -217,7 +226,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("ValueType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("MoreInformations");
                 });
@@ -255,7 +264,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 
             modelBuilder.Entity("DataFrom1C.Domain.PaymentDetails", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -274,7 +283,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("InvoiceId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("PaymentsDetails");
                 });
@@ -307,7 +316,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 
             modelBuilder.Entity("DataFrom1C.Domain.PurchaseGoodAndService", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -329,14 +338,14 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("UnitId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("PurchaseGoodsAndServices");
                 });
 
             modelBuilder.Entity("DataFrom1C.Domain.SalesGoodAndService", b =>
                 {
-                    b.Property<Guid>("RowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -358,7 +367,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("UnitId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RowId");
+                    b.HasKey("Id");
 
                     b.ToTable("SalesGoodsAndServices");
                 });

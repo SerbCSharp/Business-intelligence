@@ -15,6 +15,7 @@ using DataFrom1C.Infrastructure.DataSource.Models.NomenclatureGroup;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptGoodsServices;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptProcessing;
 using DataFrom1C.Infrastructure.DataSource.Models.RentalObject;
+using DataFrom1C.Infrastructure.DataSource.Models.RentalObjectStatus;
 using DataFrom1C.Infrastructure.DataSource.Models.SaleGoodsServices;
 using DataFrom1C.Infrastructure.DataSource.Models.Storage;
 using DataFrom1C.Infrastructure.DataSource.Models.UnitOfMeasure;
@@ -453,6 +454,26 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Name = x.Description,
                 ParentId = x.ParentId,
                 PropertyTypeId = x.PropertyTypeId
+            });
+        }
+
+        public async Task<IEnumerable<CommercialLeaseStatus>> CommercialLeaseStatusAsync() // Статусы объектов аренды
+        {
+            var rentalObjectStatusUrl = ApiUrl + "InformationRegister_АР_СтатусыОбъектовАренды?$format=json"
+                + "&$select=Recorder,Recorder_Type,RecordSet";
+            using HttpResponseMessage rentalObjectStatusResponse = await httpClient.GetAsync(rentalObjectStatusUrl);
+            var rentalObjectStatus = await rentalObjectStatusResponse.Content.ReadFromJsonAsync<RentalObjectStatus>();
+            return rentalObjectStatus.Value?
+                .SelectMany(x => x.RecordSet, (x, y) => new { rentalObjectStatusValue = x, recordSet = y })
+                .Select(z => new CommercialLeaseStatus
+            {
+                CommercialLeaseStatusId = z.rentalObjectStatusValue.Recorder,
+                CommercialLeaseId = z.recordSet.RentalObjectId,
+                ContractId = z.recordSet.ContractId,
+                ServiceId = z.recordSet.ServiceId,
+                StartDate = z.recordSet.StartDate,
+                EndDate = z.recordSet.EndDate,
+                Status = z.recordSet.Status
             });
         }
     }

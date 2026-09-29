@@ -126,5 +126,12 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
             await _dataContext.CommercialLeases.AddRangeAsync(commercialLease);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task CommercialLeaseStatusAsync(IEnumerable<CommercialLeaseStatus> commercialLeaseStatus)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE CommercialLeaseStatuses");
+            await _dataContext.CommercialLeaseStatuses.AddRangeAsync(commercialLeaseStatus);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

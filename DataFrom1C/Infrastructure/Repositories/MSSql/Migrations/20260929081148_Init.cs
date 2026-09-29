@@ -12,37 +12,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AccountingEntries",
-                columns: table => new
-                {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccountDebitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccountCreditId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountingEntries", x => x.RowId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountingTransactions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountingTransactions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CashFlowItems",
                 columns: table => new
                 {
@@ -55,17 +24,49 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommercialLeases",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PropertyTypeId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommercialLeases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommercialLeaseStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommercialLeaseStatusId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommercialLeaseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommercialLeaseStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ConstructionCompletionCertificates",
                 columns: table => new
                 {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConstructionCompletionCertificates", x => x.RowId);
+                    table.PrimaryKey("PK_ConstructionCompletionCertificates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,17 +111,48 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DebtAdjustments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DebtAdjustments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MoreInformations",
                 columns: table => new
                 {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ObjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ObjectValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ValueType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MoreInformations", x => x.RowId);
+                    table.PrimaryKey("PK_MoreInformations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,7 +177,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "PaymentsDetails",
                 columns: table => new
                 {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DocumentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -154,20 +186,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentsDetails", x => x.RowId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanOfAccounts",
-                columns: table => new
-                {
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanOfAccounts", x => x.AccountId);
+                    table.PrimaryKey("PK_PaymentsDetails", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +217,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "PurchaseGoodsAndServices",
                 columns: table => new
                 {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DocumentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductAndServiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -208,29 +227,14 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PurchaseGoodsAndServices", x => x.RowId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PurchaseInvoices",
-                columns: table => new
-                {
-                    DocumentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PurchaseInvoices", x => x.DocumentId);
+                    table.PrimaryKey("PK_PurchaseGoodsAndServices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SalesGoodsAndServices",
                 columns: table => new
                 {
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DocumentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductAndServiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -240,22 +244,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesGoodsAndServices", x => x.RowId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SalesInvoices",
-                columns: table => new
-                {
-                    DocumentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SalesInvoices", x => x.DocumentId);
+                    table.PrimaryKey("PK_SalesGoodsAndServices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,13 +276,13 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountingEntries");
-
-            migrationBuilder.DropTable(
-                name: "AccountingTransactions");
-
-            migrationBuilder.DropTable(
                 name: "CashFlowItems");
+
+            migrationBuilder.DropTable(
+                name: "CommercialLeases");
+
+            migrationBuilder.DropTable(
+                name: "CommercialLeaseStatuses");
 
             migrationBuilder.DropTable(
                 name: "ConstructionCompletionCertificates");
@@ -308,6 +297,12 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "CostItems");
 
             migrationBuilder.DropTable(
+                name: "DebtAdjustments");
+
+            migrationBuilder.DropTable(
+                name: "Invoices");
+
+            migrationBuilder.DropTable(
                 name: "MoreInformations");
 
             migrationBuilder.DropTable(
@@ -315,9 +310,6 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 
             migrationBuilder.DropTable(
                 name: "PaymentsDetails");
-
-            migrationBuilder.DropTable(
-                name: "PlanOfAccounts");
 
             migrationBuilder.DropTable(
                 name: "ProductGroups");
@@ -329,13 +321,7 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "PurchaseGoodsAndServices");
 
             migrationBuilder.DropTable(
-                name: "PurchaseInvoices");
-
-            migrationBuilder.DropTable(
                 name: "SalesGoodsAndServices");
-
-            migrationBuilder.DropTable(
-                name: "SalesInvoices");
 
             migrationBuilder.DropTable(
                 name: "Units");

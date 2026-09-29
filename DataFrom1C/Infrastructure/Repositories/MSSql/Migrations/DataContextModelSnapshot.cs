@@ -54,6 +54,38 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     b.ToTable("CommercialLeases");
                 });
 
+            modelBuilder.Entity("DataFrom1C.Domain.CommercialLeaseStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommercialLeaseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CommercialLeaseStatusId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommercialLeaseStatuses");
+                });
+
             modelBuilder.Entity("DataFrom1C.Domain.ConstructionCompletionCertificate", b =>
                 {
                     b.Property<Guid>("Id")
