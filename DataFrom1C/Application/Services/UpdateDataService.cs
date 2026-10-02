@@ -113,5 +113,11 @@ namespace DataFrom1C.Application.Services
             var getCommercialLeaseStatus = await _getData.CommercialLeaseStatusAsync();
             await _saveData.CommercialLeaseStatusAsync(getCommercialLeaseStatus);
         }
+
+        public async Task CompanyAsync()
+        {
+            var getCompany = await _getData.CompanyAsync();
+            await _saveData.CompanyAsync(getCompany);
+        }
     }
 }

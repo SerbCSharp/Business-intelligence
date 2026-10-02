@@ -22,5 +22,6 @@ namespace DataFrom1C.Application.Interfaces
         Task DebtAdjustmentAsync(IEnumerable<DebtAdjustment> debtAdjustment);
         Task CommercialLeaseAsync(IEnumerable<CommercialLease> commercialLease);
         Task CommercialLeaseStatusAsync(IEnumerable<CommercialLeaseStatus> commercialLeaseStatus);
+        Task CompanyAsync(IEnumerable<Company> company);
     }
 }

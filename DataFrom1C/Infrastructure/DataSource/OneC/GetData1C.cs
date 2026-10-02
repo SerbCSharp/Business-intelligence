@@ -12,6 +12,7 @@ using DataFrom1C.Infrastructure.DataSource.Models.ExpenseItem;
 using DataFrom1C.Infrastructure.DataSource.Models.ImplementationConstructionWorks;
 using DataFrom1C.Infrastructure.DataSource.Models.Nomenclature;
 using DataFrom1C.Infrastructure.DataSource.Models.NomenclatureGroup;
+using DataFrom1C.Infrastructure.DataSource.Models.Organization;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptGoodsServices;
 using DataFrom1C.Infrastructure.DataSource.Models.ReceiptProcessing;
 using DataFrom1C.Infrastructure.DataSource.Models.RentalObject;
@@ -344,7 +345,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     ContractId = z.ContractId,
                     InvoiceId = z.InvoiceId,
                     Amount = z.Amount,
-                    AmountVAT = z.AmountVAT
+                    AmountVAT = z.AmountVAT,
+                    CommercialLeaseId = z.RentalObjectId
                 });
         }
 
@@ -474,6 +476,20 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 StartDate = z.recordSet.StartDate,
                 EndDate = z.recordSet.EndDate,
                 Status = z.recordSet.Status
+            });
+        }
+
+        public async Task<IEnumerable<Company>> CompanyAsync() // Организации
+        {
+            var organizationUrl = ApiUrl + "Catalog_Организации?$format=json"
+                + "&$select=Ref_Key,Description"
+                + "&$filter=DeletionMark eq false";
+            using HttpResponseMessage organizationResponse = await httpClient.GetAsync(organizationUrl);
+            var organization = await organizationResponse.Content.ReadFromJsonAsync<Organization>();
+            return organization.Value.Select(x => new Company
+            {
+                Id = x.Ref_Key,
+                Name = x.Description
             });
         }
     }

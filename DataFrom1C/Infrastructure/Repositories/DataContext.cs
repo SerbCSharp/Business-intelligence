@@ -23,5 +23,6 @@ namespace DataFrom1C.Infrastructure.Repositories
         public DbSet<DebtAdjustment> DebtAdjustments { get; set; }
         public DbSet<CommercialLease> CommercialLeases { get; set; }
         public DbSet<CommercialLeaseStatus> CommercialLeaseStatuses { get; set; }
+        public DbSet<Company> Companies { get; set; }
     }
 }

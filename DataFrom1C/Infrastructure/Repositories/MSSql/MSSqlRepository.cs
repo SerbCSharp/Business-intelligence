@@ -123,14 +123,21 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql
         public async Task CommercialLeaseAsync(IEnumerable<CommercialLease> commercialLease)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE CommercialLeases");
-            await _dataContext.CommercialLeases.AddRangeAsync(commercialLease);
+            if (commercialLease != null) await _dataContext.CommercialLeases.AddRangeAsync(commercialLease);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task CommercialLeaseStatusAsync(IEnumerable<CommercialLeaseStatus> commercialLeaseStatus)
         {
             await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE CommercialLeaseStatuses");
-            await _dataContext.CommercialLeaseStatuses.AddRangeAsync(commercialLeaseStatus);
+            if (commercialLeaseStatus != null) await _dataContext.CommercialLeaseStatuses.AddRangeAsync(commercialLeaseStatus);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task CompanyAsync(IEnumerable<Company> company)
+        {
+            await _dataContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Companies");
+            await _dataContext.Companies.AddRangeAsync(company);
             await _dataContext.SaveChangesAsync();
         }
     }
