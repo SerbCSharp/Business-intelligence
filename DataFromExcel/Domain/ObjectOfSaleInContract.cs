@@ -11,5 +11,6 @@ namespace DataFromExcel.Domain
         public decimal Amount { get; set; }
         public string ComplexProperty { get; set; }
         public decimal GeneralContractorMarkup { get; set; }
+        public string AreaOfActivity { get; set; }
     }
 }

@@ -90,7 +90,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     CostItem = row.Field<string>("CostItem"),
                     Amount = row.Field<decimal>("Amount"),
                     ComplexProperty = row.Field<string>("ComplexProperty"),
-                    GeneralContractorMarkup = row.Field<decimal>("GeneralContractorMarkup")
+                    GeneralContractorMarkup = row.Field<decimal>("GeneralContractorMarkup"),
+                    AreaOfActivity = row.Field<string>("AreaOfActivity"),
                 });
             }
             else return null;
