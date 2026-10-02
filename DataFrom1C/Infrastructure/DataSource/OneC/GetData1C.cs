@@ -184,7 +184,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         public async Task<IEnumerable<Contract>> ContractAsync() // Договоры контрагентов
         {
             var contractCounterpartiesUrl = ApiUrl + "Catalog_ДоговорыКонтрагентов?$format=json"
-                + "&$select=Ref_Key,Номер,Description,Дата,Сумма,Owner_Key,Code"
+                + "&$select=Ref_Key,Номер,Description,Дата,Сумма,Owner_Key,Code,Комментарий"
                 + "&$filter=DeletionMark eq false";
             using HttpResponseMessage contractCounterpartiesResponse = await httpClient.GetAsync(contractCounterpartiesUrl);
             var contractCounterparties = await contractCounterpartiesResponse.Content.ReadFromJsonAsync<ContractCounterparties>();
@@ -196,7 +196,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Number = x.Number,
                 Name = x.Name,
                 ContractorId = x.ContractorId,
-                CodeContract = x.Code
+                CodeContract = x.Code,
+                Comment = x.Comment                 
             });
         }
 

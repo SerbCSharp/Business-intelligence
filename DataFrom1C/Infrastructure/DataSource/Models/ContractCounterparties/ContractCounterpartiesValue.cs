@@ -22,6 +22,8 @@ namespace DataFrom1C.Infrastructure.DataSource.Models.ContractCounterparties
         [JsonPropertyName("Owner_Key")]
         public string ContractorId { get; set; } // Подрядчик
 
+        [JsonPropertyName("Комментарий")]
+        public string Comment { get; set; }
         public string Code { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace DataFrom1C.Domain
         public decimal Amount { get; set; }
         public string ContractorId { get; set; }
         public string CodeContract { get; set; }
+        public string Comment { get; set; }
     }
 }
