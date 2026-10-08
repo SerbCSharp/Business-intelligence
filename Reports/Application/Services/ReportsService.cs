@@ -60,7 +60,7 @@ namespace Reports.Application.Services
                     Credit = z.Sum(s => s.Credit),
                     IndirectCost = z.Sum(s => s.IndirectCost)
                 });
-            return profitCenters;
+            return profitCenters.OrderBy(x => x.TypeOfActivity);
         }
 
         public ConstructionCostDTO EstimatingLogic(ConstructionCost item)
