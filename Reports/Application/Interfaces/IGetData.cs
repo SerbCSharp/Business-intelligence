@@ -12,5 +12,6 @@ namespace Reports.Application.Interfaces
         Task<IEnumerable<ReconciliationStatement>> ReconciliationStatementAsync(DateTime endDate);
         Task<CashBalance> CashBalanceAsync(DateTime startDate);
         Task<IEnumerable<CashFlowFromRentalOperations>> CashFlowFromRentalOperationsAsync();
+        Task<IEnumerable<CostSurface>> CostSurfaceAsync();
     }
 }

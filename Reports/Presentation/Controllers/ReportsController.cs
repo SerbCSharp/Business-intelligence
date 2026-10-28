@@ -93,5 +93,16 @@ namespace Reports.Presentation.Controllers
 
             return File(fileBytes, contentType, fileName);
         }
+
+        [HttpGet("CostSurface")]
+        public async Task<IActionResult> CostSurfaceAsync()
+        {
+            var costSurface = await _reportsService.CostSurfaceAsync();
+            var fileBytes = _exportingReportsToExcel.CostSurface(costSurface);
+            string fileName = "CostSurface.xlsx";
+            string contentType = "application/octet-stream";
+
+            return File(fileBytes, contentType, fileName);
+        }
     }
 }

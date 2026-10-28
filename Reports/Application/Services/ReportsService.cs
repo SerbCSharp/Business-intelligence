@@ -102,5 +102,10 @@ namespace Reports.Application.Services
         {
             return await _getData.CashFlowFromRentalOperationsAsync();
         }
+
+        public async Task<IEnumerable<CostSurface>> CostSurfaceAsync()
+        {
+            return await _getData.CostSurfaceAsync();
+        }
     }
 }

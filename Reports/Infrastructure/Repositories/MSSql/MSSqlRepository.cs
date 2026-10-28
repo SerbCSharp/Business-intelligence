@@ -51,5 +51,9 @@ namespace Reports.Infrastructure.Repositories.MSSql
         {
             return await _dbConnection.QueryAsync<CashFlowFromRentalOperations>("CashFlowFromRentalOperations");
         }
+        public async Task<IEnumerable<CostSurface>> CostSurfaceAsync()
+        {
+            return await _dbConnection.QueryAsync<CostSurface>("CostSurface");
+        }
     }
 }
