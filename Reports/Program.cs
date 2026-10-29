@@ -13,6 +13,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGetData, MSSqlRepository>();
 builder.Services.AddScoped<ReportsService>();
 builder.Services.AddScoped<ExportingReportsToExcel>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 var app = builder.Build();
 
 app.UseSwagger();
@@ -20,4 +30,5 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors();
 app.Run();

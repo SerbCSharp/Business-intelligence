@@ -102,7 +102,8 @@ namespace Reports.Presentation.Controllers
             string fileName = "CostSurface.xlsx";
             string contentType = "application/octet-stream";
 
-            return File(fileBytes, contentType, fileName);
+            return Ok(costSurface);
+            //return File(fileBytes, contentType, fileName);
         }
     }
 }
