@@ -14,6 +14,7 @@
         public string CostItem { get; set; }
         public decimal VATRate { get; set; }
         public decimal GeneralContractorMarkup { get; set; }
+        public decimal Retainage { get; set; }
         public string ContractorOrSupplier { get; set; }
     }
 }

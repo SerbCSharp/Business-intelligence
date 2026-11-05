@@ -69,6 +69,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else if (sheet.Cells[1, i].Value.ToString() == "GeneralContractorMarkup")
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
+                    else if (sheet.Cells[1, i].Value.ToString() == "Retainage")
+                        dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString(), typeof(decimal));
                     else
                         dataTable.Columns.Add(sheet.Cells[1, i].Value.ToString());
                 }
@@ -91,6 +93,7 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     Amount = row.Field<decimal>("Amount"),
                     ComplexProperty = row.Field<string>("ComplexProperty"),
                     GeneralContractorMarkup = row.Field<decimal>("GeneralContractorMarkup"),
+                    Retainage = row.Field<decimal>("Retainage"),
                     AreaOfActivity = row.Field<string>("AreaOfActivity"),
                 });
             }

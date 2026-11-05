@@ -112,6 +112,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("Property")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Retainage")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("ContractId");
 
                     b.ToTable("ObjectOfSaleInContracts");

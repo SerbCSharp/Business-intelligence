@@ -82,6 +82,7 @@ namespace Reports.Application.Services
                 Property = item.Property,
                 CostItem = item.CostItem,
                 GeneralContractorMarkup = item.GeneralContractorMarkup,
+                Retainage = item.Retainage,
                 ContractorOrSupplier = item.ContractorOrSupplier,
                 VATRate = item.VATRate,
                 ContractId = item.ContractId
