@@ -19,7 +19,8 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,7 +36,8 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     Percent = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TypeOfActivity = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AreaOfActivity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DirectOrIndirect = table.Column<bool>(type: "bit", nullable: false)
+                    DirectOrIndirect = table.Column<bool>(type: "bit", nullable: false),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -47,7 +49,7 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsSelected = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -65,7 +67,10 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     CostItem = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ComplexProperty = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GeneralContractorMarkup = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    GeneralContractorMarkup = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Retainage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AreaOfActivity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,7 +85,8 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Property = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CostItem = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ComplexProperty = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ComplexProperty = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,7 +100,8 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TotalArea = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ApartmentArea = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Property = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Property = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

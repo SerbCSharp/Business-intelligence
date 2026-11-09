@@ -32,6 +32,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Base1CConfiguration _base1CConfiguration;
         private readonly string ApiUrl;
+        private readonly string company;
 
         public GetData1C(IOptions<Base1CConfiguration> base1CConfiguration, IHttpClientFactory httpClientFactory)
         {
@@ -39,6 +40,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var username = _base1CConfiguration.Username;
             var password = _base1CConfiguration.Password;
             ApiUrl = _base1CConfiguration.ApiUrl;
+            company = _base1CConfiguration.CompanyId;
             var credentials = $"{username}:{password}";
             var byteArray = Encoding.ASCII.GetBytes(credentials);
             var base64Credentials = Convert.ToBase64String(byteArray);
@@ -56,13 +58,14 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var debitToCurrentAccount = await debitToCurrentAccountResponse.Content.ReadFromJsonAsync<DebitToCurrentAccount>();
             var paymentDedit =  debitToCurrentAccount.Value.Select(x => new Payment
             {
-                Id = x.DocumentId,
+                PaymentId = x.DocumentId,
                 Date = x.Date,
                 Debit = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
                 CashFlowItemId = x.CashFlowItemId,
-                TypeOperation = x.TypeOperation
+                TypeOperation = x.TypeOperation,
+                CompanyId = company
             });
 
             var creditToCurrentAccountUrl = ApiUrl + "Document_ПоступлениеНаРасчетныйСчет?$format=json"
@@ -72,13 +75,14 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var creditToCurrentAccount = await creditToCurrentAccountResponse.Content.ReadFromJsonAsync<CreditToCurrentAccount>();
             var paymentCredit = creditToCurrentAccount.Value.Select(x => new Payment
             {
-                Id = x.DocumentId,
+                PaymentId = x.DocumentId,
                 Date = x.Date,
                 Credit = x.Amount,
                 ContractId = x.ContractId,
                 PaymentPurpose = x.PaymentPurpose,
                 CashFlowItemId = x.CashFlowItemId,
-                TypeOperation = x.TypeOperation
+                TypeOperation = x.TypeOperation,
+                CompanyId = company
             });
 
             return paymentDedit.Concat(paymentCredit);
@@ -93,11 +97,12 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var receiptGoodsServices = await receiptGoodsServicesResponse.Content.ReadFromJsonAsync<ReceiptGoodsServices>();
             var purchaseGoodsServices = receiptGoodsServices.Value.Select(x => new Invoice
             {
-                Id = x.DocumentId,
+                InvoiceId = x.DocumentId,
                 Date = x.Date,
                 Credit = x.Amount,
                 ContractId = x.ContractId,
-                WarehouseId = x.WarehouseId
+                WarehouseId = x.WarehouseId,
+                CompanyId = company
             });
 
             var receiptProcessingUrl = ApiUrl + "Document_ПоступлениеИзПереработки?$format=json"
@@ -107,11 +112,12 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var receiptProcessing = await receiptProcessingResponse.Content.ReadFromJsonAsync<ReceiptProcessing>();
             var purchaseProcessing = receiptProcessing.Value.Select(x => new Invoice
             {
-                Id = x.DocumentId,
+                InvoiceId = x.DocumentId,
                 Date = x.Date,
                 Credit = x.Amount,
                 ContractId = x.ContractId,
-                WarehouseId = x.WarehouseId
+                WarehouseId = x.WarehouseId,
+                CompanyId = company
             });
 
             var purchase = purchaseGoodsServices.Concat(purchaseProcessing);
@@ -123,11 +129,12 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var saleGoodsServices = await saleGoodsServicesResponse.Content.ReadFromJsonAsync<SaleGoodsServices>();
             var SalesGoodsServices = saleGoodsServices.Value.Select(x => new Invoice
             {
-                Id = x.DocumentId,
+                InvoiceId = x.DocumentId,
                 Date = x.Date,
                 Debit = x.Amount,
                 ContractId = x.ContractId,
-                WarehouseId = x.WarehouseId
+                WarehouseId = x.WarehouseId,
+                CompanyId = company
             });
 
             var implementationConstructionWorksUrl = ApiUrl + "Document_ИмпРеализацияСтроительныхРаботУслуг?$format=json"
@@ -137,10 +144,11 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var implementationConstructionWorks = await implementationConstructionWorksResponse.Content.ReadFromJsonAsync<ImplementationConstructionWorks>();
             var SalesImplementationConstructionWorks = implementationConstructionWorks.Value?.Select(x => new Invoice
             {
-                Id = x.DocumentId,
+                InvoiceId = x.DocumentId,
                 Date = x.Date,
                 Debit = x.Amount,
-                ContractId = x.ContractId
+                ContractId = x.ContractId,
+                CompanyId = company
             });
 
             var sales = SalesImplementationConstructionWorks != null ? SalesGoodsServices.Concat(SalesImplementationConstructionWorks)
@@ -165,6 +173,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     Quantity = z.Quantity,
                     Price = z.Price,
                     Amount = z.Amount,
+                    CompanyId = company
                 });
 
             var purchaseServices = receiptGoodsServices.Value.Where(x => x.Services.Length > 0).SelectMany(y => y.Services)
@@ -176,6 +185,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     Quantity = z.Quantity,
                     Price = z.Price,
                     Amount = z.Amount,
+                    CompanyId = company
                 });
 
             return purchaseGood.Concat(purchaseServices);
@@ -197,7 +207,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 Name = x.Name,
                 ContractorId = x.ContractorId,
                 CodeContract = x.Code,
-                Comment = x.Comment                 
+                Comment = x.Comment,
+                CompanyId = company
             });
         }
 
@@ -210,7 +221,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return counterparty.Value.Select(x => new Contractor
             {
                 ContractorId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -231,6 +243,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     Quantity = z.Quantity,
                     Price = z.Price,
                     Amount = z.Amount,
+                    CompanyId = company
                 });
 
             var salesServices = saleGoodsServices.Value.Where(x => x.Services.Length > 0).SelectMany(y => y.Services)
@@ -242,6 +255,7 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     Quantity = z.Quantity,
                     Price = z.Price,
                     Amount = z.Amount,
+                    CompanyId = company
                 });
 
             return salesGood.Concat(salesServices);
@@ -257,7 +271,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return unitOfMeasure.Value.Select(x => new Unit
             {
                 UnitId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -271,7 +286,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return nomenclature.Value.Select(x => new ProductAndService
             {
                 ProductAndServiceId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -285,7 +301,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return storage.Value.Select(x => new Warehouse
             {
                 WarehouseId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -299,7 +316,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return cashFlowArticles.Value.Select(x => new CashFlowItem
             {
                 CashFlowItemId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -313,7 +331,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return nomenclatureGroups.Value.Select(x => new ProductGroup
             {
                 ProductGroupId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -327,7 +346,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             {
                 ObjectId = x.ObjectId,
                 ObjectValue = x.ObjectValue,
-                ValueType = x.ValueType
+                ValueType = x.ValueType,
+                CompanyId = company
             });
         }
 
@@ -347,7 +367,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                     InvoiceId = z.InvoiceId,
                     Amount = z.Amount,
                     AmountVAT = z.AmountVAT,
-                    CommercialLeaseId = z.RentalObjectId
+                    CommercialLeaseId = z.RentalObjectId,
+                    CompanyId = company
                 });
         }
 
@@ -361,7 +382,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             return expenseItem.Value.Select(x => new CostItem
             {
                 CostItemId = x.Ref_Key,
-                Name = x.Description
+                Name = x.Description,
+                CompanyId = company
             });
         }
 
@@ -376,7 +398,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             {
                 ContractId = x.ContractId,
                 StartDate = x.StartDate,
-                EndDate = x.EndDate
+                EndDate = x.EndDate,
+                CompanyId = company
             });
         }
 
@@ -412,7 +435,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.ContractId,
-                    Debit = z.accountsPayable.Amount
+                    Debit = z.accountsPayable.Amount,
+                    CompanyId = company
                 });
             var singlePayable = debtCorrection.Where(x => x.AccountsPayable.Length == 0)
                 .SelectMany(x => x.AccountsReceivable, (x, y) => new { debtAdjustment = x, accountsReceivable = y })
@@ -420,7 +444,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.CorContractId,
-                    Debit = z.accountsReceivable.Amount
+                    Debit = z.accountsReceivable.Amount,
+                    CompanyId = company
                 });
             var allPayable = multiplePayable.Concat(singlePayable);
 
@@ -429,7 +454,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsReceivable.ContractId,
-                    Credit = z.accountsReceivable.Amount
+                    Credit = z.accountsReceivable.Amount,
+                    CompanyId = company
                 });
             var singleReceivable = debtCorrection.Where(x => x.AccountsReceivable.Length == 0)
                 .SelectMany(x => x.AccountsPayable, (x, y) => new { debtAdjustment = x, accountsPayable = y })
@@ -437,7 +463,8 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 {
                     Date = z.debtAdjustment.Date,
                     ContractId = z.accountsPayable.CorContractId,
-                    Credit = z.accountsPayable.Amount
+                    Credit = z.accountsPayable.Amount,
+                    CompanyId = company
                 });
             var allReceivable = multipleReceivable.Concat(singleReceivable);
 
@@ -453,10 +480,11 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var rentalObject = await rentalObjectResponse.Content.ReadFromJsonAsync<RentalObject> ();
             return rentalObject.Value?.Select(x => new CommercialLease
             {
-                Id = x.Ref_Key,
+                CommercialLeaseId = x.Ref_Key,
                 Name = x.Description,
                 ParentId = x.ParentId,
-                PropertyTypeId = x.PropertyTypeId
+                PropertyTypeId = x.PropertyTypeId,
+                CompanyId = company
             });
         }
 
@@ -476,8 +504,9 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
                 ServiceId = z.recordSet.ServiceId,
                 StartDate = z.recordSet.StartDate,
                 EndDate = z.recordSet.EndDate,
-                Status = z.recordSet.Status
-            });
+                Status = z.recordSet.Status,
+                CompanyId = company
+                });
         }
 
         public async Task<IEnumerable<Company>> CompanyAsync() // Организации
@@ -489,8 +518,9 @@ namespace DataFrom1C.Infrastructure.DataSource.OneC
             var organization = await organizationResponse.Content.ReadFromJsonAsync<Organization>();
             return organization.Value.Select(x => new Company
             {
-                Id = x.Ref_Key,
-                Name = x.Description
+                OrganizationId = x.Ref_Key,
+                Name = x.Description,
+                CompanyId = company
             });
         }
     }

@@ -15,22 +15,26 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "CashFlowItems",
                 columns: table => new
                 {
-                    CashFlowItemId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CashFlowItemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CashFlowItems", x => x.CashFlowItemId);
+                    table.PrimaryKey("PK_CashFlowItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CommercialLeases",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommercialLeaseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PropertyTypeId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PropertyTypeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,11 +52,26 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     CommercialLeaseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CommercialLeaseStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrganizationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +81,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,41 +93,48 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "Contractors",
                 columns: table => new
                 {
-                    ContractorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContractorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contractors", x => x.ContractorId);
+                    table.PrimaryKey("PK_Contractors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Contracts",
                 columns: table => new
                 {
-                    ContractId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ContractorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeContract = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CodeContract = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contracts", x => x.ContractId);
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CostItems",
                 columns: table => new
                 {
-                    CostItemId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CostItemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CostItems", x => x.CostItemId);
+                    table.PrimaryKey("PK_CostItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,7 +145,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,12 +157,14 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvoiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -148,7 +178,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ObjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ObjectValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ValueType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ValueType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -159,14 +190,16 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentPurpose = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeOperation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CashFlowItemId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CashFlowItemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,7 +215,9 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     ContractId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InvoiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AmountVAT = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AmountVAT = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CommercialLeaseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,24 +228,28 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "ProductGroups",
                 columns: table => new
                 {
-                    ProductGroupId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductGroupId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductGroups", x => x.ProductGroupId);
+                    table.PrimaryKey("PK_ProductGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductsAndServices",
                 columns: table => new
                 {
-                    ProductAndServiceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductAndServiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductsAndServices", x => x.ProductAndServiceId);
+                    table.PrimaryKey("PK_ProductsAndServices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -223,7 +262,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -240,7 +280,8 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                     UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -251,24 +292,28 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
                 name: "Units",
                 columns: table => new
                 {
-                    UnitId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Units", x => x.UnitId);
+                    table.PrimaryKey("PK_Units", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Warehouses",
                 columns: table => new
                 {
-                    WarehouseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Warehouses", x => x.WarehouseId);
+                    table.PrimaryKey("PK_Warehouses", x => x.Id);
                 });
         }
 
@@ -283,6 +328,9 @@ namespace DataFrom1C.Infrastructure.Repositories.MSSql.Migrations
 
             migrationBuilder.DropTable(
                 name: "CommercialLeaseStatuses");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "ConstructionCompletionCertificates");

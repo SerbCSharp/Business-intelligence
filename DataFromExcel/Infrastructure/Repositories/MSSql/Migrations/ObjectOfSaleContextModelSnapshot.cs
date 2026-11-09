@@ -27,6 +27,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CompanyId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ContractId")
                         .HasColumnType("nvarchar(max)");
 
@@ -51,6 +54,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AreaOfActivity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("DirectOrIndirect")
@@ -78,7 +84,7 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Company")
+                    b.Property<string>("CompanyId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsSelected")
@@ -98,6 +104,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AreaOfActivity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ComplexProperty")
@@ -125,6 +134,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
                     b.Property<string>("DocumentId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CompanyId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ComplexProperty")
                         .HasColumnType("nvarchar(max)");
 
@@ -150,6 +162,9 @@ namespace DataFromExcel.Infrastructure.Repositories.MSSql.Migrations
 
                     b.Property<decimal>("ApartmentArea")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CompanyId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Property")
                         .HasColumnType("nvarchar(max)");

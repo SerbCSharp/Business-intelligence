@@ -9,5 +9,6 @@ namespace DataFromExcel.Domain
         public decimal TotalArea { get; set; }
         public decimal ApartmentArea { get; set; }
         public string Property { get; set; }
+        public string CompanyId { get; set; }
     }
 }

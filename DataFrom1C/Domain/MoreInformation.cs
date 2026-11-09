@@ -9,5 +9,6 @@ namespace DataFrom1C.Domain
         public string ObjectId { get; set; }
         public string ObjectValue { get; set; }
         public string ValueType { get; set; }
+        public string CompanyId { get; set; }
     }
 }

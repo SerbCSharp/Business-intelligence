@@ -2,7 +2,7 @@
 {
     public class AddAreaOfActivity
     {
-        public string Id { get; set; }
+        public string PaymentId { get; set; }
         public decimal Percent { get; set; }
         public string TypeOfActivity { get; set; }
         public string AreaOfActivity { get; set; }

@@ -10,11 +10,13 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
     {
         private readonly FilePathConfiguration _filePathConfiguration;
         private readonly string filePath;
+        private readonly string companyId;
 
         public GetDataExcel(IOptions<FilePathConfiguration> filePathConfiguration)
         {
             _filePathConfiguration = filePathConfiguration.Value;
             filePath = _filePathConfiguration.FilePath;
+            companyId = _filePathConfiguration.CompanyId;
             ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
         }
 
@@ -48,8 +50,9 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     ContractId = row.Field<string>("ContractId"),
                     Property = row.Field<string>("Property"),
                     CostItem = row.Field<string>("CostItem"),
-                    ComplexProperty = row.Field<string>("ComplexProperty")
-                });
+                    ComplexProperty = row.Field<string>("ComplexProperty"),
+                    CompanyId = row.Field<string>("CompanyId")
+                }).Where(x => x.CompanyId == companyId);
             }
             else return null;
         }
@@ -95,7 +98,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     GeneralContractorMarkup = row.Field<decimal>("GeneralContractorMarkup"),
                     Retainage = row.Field<decimal>("Retainage"),
                     AreaOfActivity = row.Field<string>("AreaOfActivity"),
-                });
+                    CompanyId = row.Field<string>("CompanyId")
+                }).Where(x => x.CompanyId == companyId);
             }
             else return null;
         }
@@ -132,7 +136,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     TotalArea = row.Field<decimal>("TotalArea"),
                     ApartmentArea = row.Field<decimal>("ApartmentArea"),
                     Property = row.Field<string>("Property"),
-                });
+                    CompanyId = row.Field<string>("CompanyId")
+                }).Where(x => x.CompanyId == companyId);
             }
             else return null;
         }
@@ -173,7 +178,8 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     TypeOfActivity = row.Field<string>("TypeOfActivity"),
                     AreaOfActivity = row.Field<string>("AreaOfActivity"),
                     DirectOrIndirect = row.Field<bool>("DirectOrIndirect"),
-                });
+                    CompanyId = row.Field<string>("CompanyId")
+                }).Where(x => x.CompanyId == companyId);
             }
             else return null;
         }
@@ -215,8 +221,9 @@ namespace DataFromExcel.Infrastructure.DataSource.Excel
                     Date = row.Field<DateTime>("Дата"),
                     Debit = row.Field<decimal>("Debit"),
                     Credit = row.Field<decimal>("Credit"),
-                    ContractId = row.Field<string>("ContractId")
-                });
+                    ContractId = row.Field<string>("ContractId"),
+                    CompanyId = row.Field<string>("CompanyId")
+                }).Where(x => x.CompanyId == companyId);
             }
             else return null;
         }

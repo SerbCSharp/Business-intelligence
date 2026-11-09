@@ -4,11 +4,11 @@ namespace DataFromExcel.Application.Interfaces
 {
     public interface ISaveData
     {
-        Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment);
-        Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract);
-        Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorArea);
-        Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity);
-        Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransaction);
-        Task SelectedCompanyAsync(string selectedCompany);
+        Task ObjectOfSaleInPurchasePaymentAsync(IEnumerable<ObjectOfSaleInPurchasePayment> objectOfSaleInPurchasePayment, string companyId);
+        Task ObjectOfSaleInContractAsync(IEnumerable<ObjectOfSaleInContract> objectOfSaleInContract, string companyId);
+        Task TotalFloorAreaAsync(IEnumerable<TotalFloorArea> totalFloorArea, string companyId);
+        Task AreaOfActivityAsync(IEnumerable<AreaOfActivityPayment> areaOfActivity, string companyId);
+        Task AccountingTransactionAsync(IEnumerable<AccountingTransaction> accountingTransaction, string companyId);
+        Task SelectedCompanyAsync(string companyId);
     }
 }

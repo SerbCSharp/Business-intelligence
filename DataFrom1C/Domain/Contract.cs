@@ -5,6 +5,7 @@ namespace DataFrom1C.Domain
     public class Contract
     {
         [Key]
+        public Guid Id { get; set; }
         public string ContractId { get; set; }
         public string Number { get; set; }
         public string Name { get; set; }
@@ -13,5 +14,6 @@ namespace DataFrom1C.Domain
         public string ContractorId { get; set; }
         public string CodeContract { get; set; }
         public string Comment { get; set; }
+        public string CompanyId { get; set; }
     }
 }

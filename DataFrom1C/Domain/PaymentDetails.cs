@@ -12,5 +12,6 @@ namespace DataFrom1C.Domain
         public string InvoiceId { get; set; }
         public decimal AmountVAT { get; set; }
         public string CommercialLeaseId { get; set; }
+        public string CompanyId { get; set; }
     }
 }

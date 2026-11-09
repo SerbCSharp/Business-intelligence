@@ -13,5 +13,6 @@ namespace DataFromExcel.Domain
         public decimal GeneralContractorMarkup { get; set; }
         public decimal Retainage { get; set; }
         public string AreaOfActivity { get; set; }
+        public string CompanyId { get; set; }
     }
 }

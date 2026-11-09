@@ -10,5 +10,6 @@ namespace DataFromExcel.Domain
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public string ContractId { get; set; }
+        public string CompanyId { get; set; }
     }
 }

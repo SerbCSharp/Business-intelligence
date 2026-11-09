@@ -11,5 +11,6 @@ namespace DataFromExcel.Domain
         public string TypeOfActivity { get; set; }
         public string AreaOfActivity { get; set; }
         public bool DirectOrIndirect { get; set; }
+        public string CompanyId { get; set; }
     }
 }

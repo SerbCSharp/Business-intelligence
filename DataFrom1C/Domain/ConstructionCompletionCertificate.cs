@@ -9,5 +9,6 @@ namespace DataFrom1C.Domain
         public string ContractId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string CompanyId { get; set; }
     }
 }
