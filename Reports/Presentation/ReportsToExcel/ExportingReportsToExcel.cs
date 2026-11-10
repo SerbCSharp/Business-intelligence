@@ -191,7 +191,7 @@ namespace Reports.Presentation.ReportsToExcel
             sheet.Cells.Style.Font.Size = 11;
 
             sheet.Cells[1, 1, 1, 5].Merge = true;
-            sheet.Cells[1, 1].Value = $"ДДС по направлениям({cashBalance.Company})";
+            sheet.Cells[1, 1].Value = $"ДДС по направлениям({cashBalance.CompanyId})";
             sheet.Cells[1, 1].Style.Font.Size = 20;
             sheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
@@ -255,7 +255,7 @@ namespace Reports.Presentation.ReportsToExcel
             sheetFinal.Cells.Style.Font.Size = 11;
 
             sheetFinal.Cells[1, 1, 1, 2].Merge = true;
-            sheetFinal.Cells[1, 1].Value = $"Отчет о движении денежных средств ({cashBalance.Company})";
+            sheetFinal.Cells[1, 1].Value = $"Отчет о движении денежных средств ({cashBalance.CompanyId})";
             sheetFinal.Cells[1, 1].Style.Font.Size = 20;
             sheetFinal.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
